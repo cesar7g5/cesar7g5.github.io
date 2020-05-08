@@ -1,8 +1,3 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 html{
   font-size: 8px;
 }
@@ -124,6 +119,9 @@ a span{
   body{
     color: white;
     background: black;
+  }
+  .social a{
+    color: white;
   }
   .social img, .products img {
     -webkit-filter: invert(100%); /* Safari/Chrome */
