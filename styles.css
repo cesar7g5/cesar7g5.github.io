@@ -120,3 +120,9 @@ a span{
     display: none;
   }
 }
+@media (prefers-color-scheme: dark) {
+  .social img, .products img {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+  }
+}
