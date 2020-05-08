@@ -121,6 +121,10 @@ a span{
   }
 }
 @media (prefers-color-scheme: dark) {
+  body{
+    color: white;
+    background: black;
+  }
   .social img, .products img {
     -webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);
