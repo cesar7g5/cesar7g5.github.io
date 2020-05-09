@@ -49,6 +49,7 @@ a span{
   max-width: auto;
   height: 27rem;
   margin-right: 5rem;
+  border-radius: 2rem;
 }
 .container{
   display: flex;
