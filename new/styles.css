@@ -5,7 +5,7 @@ body{
   align-items: center;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  height: 100vh;
+  background: #1F1F24;
 }
 h1{
   font-size: 6.5rem;
@@ -86,7 +86,13 @@ header{
 }
 .hero{
   background: #1F1F24;
-  color: white;
+  color: #FFF;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: -1;
+
 }
 .logo{
   color: #FFF;
@@ -111,6 +117,10 @@ nav{
   margin: 0;
   padding: 4rem;
   background: #0E0E12;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -38rem;
 }
 .mobileNav a{
   text-decoration: none;
@@ -122,7 +132,7 @@ nav{
   height: 15rem;
   clip-path: polygon(100% 30%, 0 100%, 100% 100%);
   box-shadow: 0px -6px 5px 0px rgba(0,0,0,0.5);
-  margin-top: -2rem;
+  margin-top: 100rem;
 }
 
 .mouse{
@@ -150,7 +160,153 @@ nav{
   50% {top: 4rem;}
   100% {top: 1rem;}
 }
+.recentWork{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white !important;
+  z-index: 4;
+}
+.subTitle{
+  font-size: 6.5rem;
+  font-weight: 800;
+  line-height: 9rem;
+  margin: 1rem 0 3rem 0;
+  color: #000;
+  text-transform: capitalize;
+}
+.projects{
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4rem;
+}
+.project{
+  position: relative;
+  overflow: hidden;
+  max-width: 64rem;
+  min-width: 40rem;
+  height: 40rem;
+  border-radius: 2rem;
+  padding: 5rem 7rem;
+  box-sizing: border-box;
+  margin-bottom: 8rem;
+  text-decoration: none;
+}
+.project img{
+  position: absolute;
+  transition: all 0.5s;
+}
+.project h3{
+  align-self: start;
+  font-weight: 800;
+  font-size: 4.5rem;
+  color: #FFF;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  transition: all 0.5s;
+  line-height: 5rem;
+}
+.bus{
+  background: transparent linear-gradient(313deg, #37F0F0 0%, #0BC7FF 100%) 0% 0% no-repeat padding-box;
+box-shadow: 0px 3px 6px #00000029;
+}
+.busCellphone{
+  left: 50%;
+  margin-left: -150px;
+  top: 5.5rem;
+  transform: rotate(67deg);
+}
+.busBubble{
+  left: 3rem;
+  top: 15rem;
+  transform: scale(0.9);
+  z-index: 2;
+}
+.edoo{
+  background: #009FA0;
+}
+.edooCellphone{
+  top: 12rem;
+  transform: rotate(12deg);
+  right: 2rem;
+
+}
+.edooBubble{
+  top: 14rem;
+  right: 7rem;
+  z-index: 2;
+}
+.distefano{
+  background: #A619AA;
+}
+.distefanoCellphone{
+  top: 7rem;
+  right: -12rem;
+}
+
 @media (min-width: 980px) {
+  .projects{
+    flex-direction: row;
+    justify-content: space-around;
+    max-width: 1200px;
+  }
+  .project{
+    display: block;
+    position: relative;
+    overflow: hidden;
+    max-width: 35rem;
+    min-width: 28rem;
+    height: 60rem;
+    border-radius: 2rem;
+    padding: 5rem;
+    box-sizing: border-box;
+    margin-bottom: 8rem;
+    margin: 2rem;
+  }
+  .project img{
+    position: absolute;
+  }
+  .project h3{
+    font-weight: 800;
+    font-size: 4.5rem;
+    color: #FFF;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    opacity: 0%;
+  }
+  .busCellphone{
+    top: 10.5rem;
+    transform: rotate(51deg);
+  }
+  .busBubble{
+    left: -2rem;
+    top: 1rem;
+    transform: scale(0.9) rotate(9deg);
+    z-index: 2;
+  }
+  .bus:hover .busCellphone{
+    top: 23rem;
+    left: 45%;
+    transform: rotate(60deg);
+  }
+  .bus:hover .busBubble{
+    left: -2rem;
+    top: 21rem;
+    transform: scale(0.9);
+  }
+  .project:hover h3{
+    opacity: 100%;
+    visibility: visible;
+  }
+
   .container{
     padding: 8rem;
   }
@@ -172,6 +328,12 @@ nav{
   .navIcon{
     display: none;
   }
+  .social{
+    flex-direction: row;
+  }
+  .social a{
+    margin-right: 6rem;
+  }
   h1{
     font-size: 8rem;
     line-height: 7rem;
@@ -182,20 +344,49 @@ nav{
   h3{
     margin: 4rem 0 3rem 0;
   }
-  br{
-    display: none;
+  .edooCellphone{
+    top: 3rem;
+    transform: rotate(-3deg) scale(0.9);
+    right: -5.5rem;
+  }
+  .edooBubble{
+    top: 19rem;
+    right: -8rem;
+    z-index: 2;
+    transform: scale(0.87);
+  }
+  .edoo:hover .edooCellphone{
+    top: 20rem;
+    right: -5rem;
+    transform: scale(0.95);
+    right: -3.5rem;
+  }
+  .edoo:hover .edooBubble{
+    top: 36rem;
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  .distefanoCellphone{
+    top: -8rem;
+    transform: rotate(-3deg) scale(0.9);
+    right: -25.5rem;
+  }
+  .distefano:hover .distefanoCellphone{
+    top: 16rem;
+    transform: scale(1);
   }
 }
-@media (prefers-color-scheme: dark) {
-  body{
-    background: black;
-    color: white;
+@media (min-width: 1380px) {
+  .container{
+    max-width: 170rem;
+    padding: 8rem 12rem 8rem 12rem;
   }
-  .social a{
-    color: white;
+  h1{
+    font-size: 12rem;
+    line-height: 14rem;
   }
-  .social img, .products img {
-    -webkit-filter: invert(100%); /* Safari/Chrome */
-    filter: invert(100%);
+  h2{
+    font-size: 4rem;
+    margin-top: 18rem;
   }
 }
