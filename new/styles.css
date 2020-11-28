@@ -246,8 +246,9 @@ box-shadow: 0px 3px 6px #00000029;
   background: #A619AA;
 }
 .distefanoCellphone{
-  top: 7rem;
-  right: -12rem;
+  top: 11rem;
+  left: 50%;
+  margin-left: -58rem;
 }
 
 @media (min-width: 980px) {
