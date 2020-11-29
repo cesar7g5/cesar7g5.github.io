@@ -3,9 +3,9 @@ html{
 }
 body{
   align-items: center;
+  background: #1F1F24;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  background: #1F1F24;
 }
 h1{
   font-size: 6rem;
@@ -39,8 +39,8 @@ a span{
   margin-left: 3rem;
 }
 .social a img{
-  width: 3rem;
   height: auto;
+  width: 3rem;
 }
 .social{
   display: flex;
@@ -49,8 +49,8 @@ a span{
 }
 .social a{
   font-size: 2.5rem;
-  margin-bottom: 3rem;
   font-weight: 800;
+  margin-bottom: 3rem;
 }
 .photo{
   border-radius: 2rem;
@@ -81,85 +81,86 @@ a span{
   width: 100%;
 }
 .hero{
+  align-items: center;
   background: #1F1F24;
   color: #FFF;
-  position: fixed;
+  display: flex;
+  height: calc(100vh - 22rem);
+  justify-content: center;
   left: 0;
+  padding-top: 10rem;
+  position: fixed;
   right: 0;
   top: 0;
   z-index: -1;
-  padding-top: 10rem;
-  height: calc(100vh - 22rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
 }
 .logo{
   color: #FFF;
+  font-size: 4rem;
   font-weight: 800;
   text-decoration: none;
-  font-size: 4rem;
 }
 nav{
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  left: 0;
   padding: 4rem;
   position: fixed;
-  top: 0;
-  left: 0;
   right: 0;
+  top: 0;
+  z-index: 1;
 }
 .desktopNav{
   display: none;
 }
 .mobileNav{
+  align-items: center;
+  background: red;
+  background: #0E0E12;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  left: 0;
   list-style: none;
-  background: red;
   margin: 0;
   padding: 4rem;
-  background: #0E0E12;
   position: fixed;
-  left: 0;
   right: 0;
   top: -38rem;
 }
 .mobileNav a{
-  text-decoration: none;
-  text-align: center;
   margin: 2rem 0 2rem 0;
+  text-align: center;
+  text-decoration: none;
 }
 .whiteTriangle{
   background: #FFF;
-  height: 8rem;
-  clip-path: polygon(100% 0%, 0 100%, 100% 100%);
   box-shadow: 0px -6px 5px 0px rgba(0,0,0,0.5);
+  clip-path: polygon(100% 0%, 0 100%, 100% 100%);
+  height: 8rem;
   margin-top: calc(100vh - 8rem);
 }
 
 .mouse{
-  border: 2px solid #FFF;
-  width: 4rem;
-  height: 6rem;
-  margin: 4rem auto 0 auto;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  border: 2px solid #FFF;
   border-radius: 3rem;
+  display: flex;
+  height: 6rem;
+  justify-content: center;
+  margin: 4rem auto 0 auto;
+  position: relative;
+  width: 4rem;
 }
 .circle{
-  height: 1rem;
-  width: 1rem;
-  border-radius: 100%;
+  animation: move 4s infinite;
   background: #FFF;
+  border-radius: 100%;
+  height: 1rem;
   position: absolute;
   top: 1rem;
-  animation: move 4s infinite;
+  width: 1rem;
 }
 @keyframes move {
   0%   {top: 1rem;}
@@ -167,40 +168,48 @@ nav{
   100% {top: 1rem;}
 }
 .recentWork{
-  text-align: center;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   background: white !important;
+  display: flex;
+  flex-direction: column;
+  padding: 11rem 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
   z-index: 4;
 }
+.recentWork p {
+  padding: 0 8rem;
+  color: #797979;
+}
 .subTitle{
+  color: #000;
   font-size: 6.5rem;
   font-weight: 800;
   line-height: 9rem;
   margin: 1rem 0 3rem 0;
-  color: #000;
   text-transform: capitalize;
 }
 .projects{
+  align-items: center;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  align-items: center;
   justify-content: center;
-  width: 100%;
   padding: 4rem;
+  width: 100%;
 }
 .project{
-  position: relative;
-  overflow: hidden;
-  max-width: 64rem;
-  min-width: 40rem;
-  height: 40rem;
   border-radius: 2rem;
-  padding: 5rem 7rem;
-  box-sizing: border-box;
+  box-shadow: 0px 3px 6px #00000029;
+  height: 40rem;
   margin-bottom: 8rem;
+  max-width: 45rem;
+  min-width: 40rem;
+  overflow: hidden;
+  padding: 5rem 7rem 5rem 5rem;
+  position: relative;
   text-decoration: none;
 }
 .project img{
@@ -209,27 +218,27 @@ nav{
 }
 .project h3{
   align-self: start;
-  font-weight: 800;
-  font-size: 4.5rem;
   color: #FFF;
-  text-align: left;
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 5rem;
   margin: 0;
   padding: 0;
+  text-align: left;
   transition: all 0.5s;
-  line-height: 5rem;
 }
 .bus{
   background: transparent linear-gradient(313deg, #37F0F0 0%, #0BC7FF 100%) 0% 0% no-repeat padding-box;
-box-shadow: 0px 3px 6px #00000029;
 }
 .busCellphone{
   left: 50%;
-  margin-left: -150px;
+  margin-left: -140px;
   top: 5.5rem;
   transform: rotate(67deg);
 }
 .busBubble{
-  left: 3rem;
+  left: 50%;
+  margin-left: -20rem;
   top: 15rem;
   transform: scale(0.9);
   z-index: 2;
@@ -238,23 +247,24 @@ box-shadow: 0px 3px 6px #00000029;
   background: #009FA0;
 }
 .edooCellphone{
+  right: 2rem;
   top: 12rem;
   transform: rotate(12deg);
-  right: 2rem;
 
 }
 .edooBubble{
-  top: 14rem;
-  right: 7rem;
+  left: 50%;
+  margin-left: -25rem;
+  top: 18rem;
   z-index: 2;
 }
 .distefano{
   background: #A619AA;
 }
 .distefanoCellphone{
-  top: 14rem;
   left: 50%;
   margin-left: -58rem;
+  top: 14rem;
 }
 
 @media (min-width: 980px) {
@@ -262,8 +272,8 @@ box-shadow: 0px 3px 6px #00000029;
     padding-top: 14rem;
   }
   .social a img{
-    width: 4rem;
     height: auto;
+    width: 4rem;
   }
   .social{
     display: flex;
@@ -272,8 +282,8 @@ box-shadow: 0px 3px 6px #00000029;
   }
   .social a{
     font-size: 3.25rem;
-    margin-bottom: 3rem;
     font-weight: 800;
+    margin-bottom: 3rem;
   }
   p{
     font-size: 2.75rem;
@@ -287,48 +297,47 @@ box-shadow: 0px 3px 6px #00000029;
     max-width: 1200px;
   }
   .project{
+    border-radius: 2rem;
+    box-sizing: border-box;
     display: block;
-    position: relative;
-    overflow: hidden;
+    height: 60rem;
+    margin: 2rem;
+    margin-bottom: 8rem;
     max-width: 35rem;
     min-width: 28rem;
-    height: 60rem;
-    border-radius: 2rem;
+    overflow: hidden;
     padding: 5rem;
-    box-sizing: border-box;
-    margin-bottom: 8rem;
-    margin: 2rem;
+    position: relative;
   }
   .project img{
     position: absolute;
   }
   .project h3{
-    font-weight: 800;
-    font-size: 4.5rem;
     color: #FFF;
-    text-align: left;
+    font-size: 4.5rem;
+    font-weight: 800;
     margin: 0;
-    padding: 0;
-    visibility: hidden;
     opacity: 0%;
+    padding: 0;
+    text-align: left;
+    visibility: hidden;
   }
   .busCellphone{
     top: 10.5rem;
     transform: rotate(51deg);
   }
   .busBubble{
-    left: -2rem;
+    left: 18rem;
     top: 1rem;
     transform: scale(0.9) rotate(9deg);
     z-index: 2;
   }
   .bus:hover .busCellphone{
-    top: 23rem;
     left: 45%;
+    top: 23rem;
     transform: rotate(60deg);
   }
   .bus:hover .busBubble{
-    left: -2rem;
     top: 21rem;
     transform: scale(0.9);
   }
@@ -347,9 +356,9 @@ box-shadow: 0px 3px 6px #00000029;
     list-style: none;
   }
   .desktopNav a{
-    padding: 1.5rem;
-    margin-left: 2rem;
     font-size: 2.5rem;
+    margin-left: 2rem;
+    padding: 1.5rem;
     text-decoration: none;
   }
   .mobileNav{
@@ -375,31 +384,31 @@ box-shadow: 0px 3px 6px #00000029;
     margin: 0rem 2rem 1rem 2rem;
   }
   .edooCellphone{
+    right: -5.5rem;
     top: 3rem;
     transform: rotate(-3deg) scale(0.9);
-    right: -5.5rem;
   }
   .edooBubble{
-    top: 19rem;
     right: -8rem;
-    z-index: 2;
+    top: 19rem;
     transform: scale(0.87);
+    z-index: 2;
   }
   .edoo:hover .edooCellphone{
-    top: 20rem;
     right: -5rem;
-    transform: scale(0.95);
     right: -3.5rem;
+    top: 20rem;
+    transform: scale(0.95);
   }
   .edoo:hover .edooBubble{
+    opacity: 0;
     top: 36rem;
     transform: scale(0.85);
-    opacity: 0;
   }
   .distefanoCellphone{
+    right: -25.5rem;
     top: -8rem;
     transform: rotate(-3deg) scale(0.9);
-    right: -25.5rem;
   }
   .distefano:hover .distefanoCellphone{
     top: 16rem;
