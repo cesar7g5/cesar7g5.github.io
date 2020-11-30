@@ -118,20 +118,26 @@ nav{
 }
 .mobileNav{
   align-items: center;
-  background: red;
   background: #0E0E12;
   display: flex;
   flex-direction: column;
-  left: 0;
   list-style: none;
   margin: 0;
-  padding: 4rem;
+  padding: 4rem 9rem;
   position: fixed;
   right: 0;
   top: -38rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s all;
+  border-radius: 2rem;
+  margin: 5rem 3rem 5rem 5rem;
+  right: 0;
+  box-shadow: 0px 3px 6px rgba(0,0,0, 0.2);
 }
 .mobileNav a{
   margin: 2rem 0 2rem 0;
+  padding: 1rem 0;
   text-align: center;
   text-decoration: none;
 }
@@ -421,6 +427,20 @@ footer .social a{
 footer .social span{
   font-size: 3rem;
 }
+.visible{
+  top: 6rem;
+  opacity: 100%;
+  visibility: visible;
+}
+a.navIcon{
+ background: url("img/nav_icon.svg") no-repeat center center;
+ width: 3.5rem;
+ height: 3.5rem;
+ cursor: pointer;
+}
+.navIcon.opened{
+  background: url("img/close.svg") no-repeat center center;
+}
 @media (min-width: 980px) {
 
   .products{
@@ -534,6 +554,7 @@ footer .social span{
   .navIcon{
     display: none;
   }
+
   .social{
     flex-direction: row;
   }
