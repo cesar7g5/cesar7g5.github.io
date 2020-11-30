@@ -183,6 +183,13 @@ nav{
   text-align: center;
   z-index: 4;
 }
+.section{
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
 .section p {
   padding: 0 4rem;
   color: #797979;
@@ -297,7 +304,6 @@ h4{
   filter: drop-shadow(0 -4px 12px #D6D6D6);
 }
 .about{
-  height: 500rem;
   background: #F5F5F5;
   position: relative;
   z-index: 3;
@@ -306,8 +312,9 @@ h4{
   flex-direction: column;
   text-align: center;
 }
-.about .content{
-  padding: 6rem;
+.content{
+  padding: 6rem 6rem 12rem 6rem;
+  max-width: 130rem;
 }
 .about p{
   font-size: 2rem;
@@ -338,9 +345,84 @@ h4{
 .diplomas strong{
   margin-right: 1rem;
   text-decoration: underline;
+}
+.triangleTopWhite{
+  clip-path: polygon(100% 100%, 100% 0, 0 100%);
+  background: #FFF;
+  height: 12rem;
+}
+.triangleTopWhiteContainer{
+  width: 100%;
+  filter: drop-shadow(0 -4px 12px #D6D6D6);
+}
+.message{
+  background: white;
+  z-index: 4;
+  position: relative;
+}
+.message textarea{
+  background: #FFFFFF ;
+  border: 1px solid #707070;
+  border-radius: 4rem;
+  width: 100%;
+  outline: none;
+  padding: 4rem;
+  box-sizing: border-box;
+  font-size: 3rem;
+  resize: none;
+  margin-top: 8rem;
+}
 
+::placeholder{
+  color: #8B8B8B;
+}
+button{
+  padding: 3rem 7rem;
+  max-width: 40rem;
+  color: #FFF;
+  background: #1F1F24;
+  font-size: 3rem;
+  outline: none;
+  border-radius: 5rem;
+  border: none;
+  float: right;
+  margin-top: 5rem;
+  transition: all 1s;
+}
+button:hover{
+  box-shadow: 0px 3px 6px #00000029;
+}
+footer{
+  background: #1F1F24;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+footer p{
+  color: #FFF;
+}
+footer .content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+footer .social{
+  justify-content: space-between;
+  width: 100%;
+}
+footer .social img{
+  height: 3rem;
+  width: auto;
+}
+footer .social a{
+  margin-right: 0;
+}
+footer .social span{
+  font-size: 3rem;
 }
 @media (min-width: 980px) {
+
   .products{
     flex-direction: row;
     justify-content: center;
@@ -355,6 +437,10 @@ h4{
   .social a img{
     height: auto;
     width: 4rem;
+  }
+  footer .social img{
+    height: 3rem;
+    width: auto;
   }
   .social{
     display: flex;
