@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:500,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="js/fullpage/fullpage.css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
@@ -26,25 +27,31 @@
   integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
   crossorigin="anonymous"></script>
 
+  <script src="js/sweet-scroll.min.js"></script>
+"></script>
+
   <meta name="msapplication-TileColor" content="#1d1d1d">
   <meta name="theme-color" content="#ffffff">
 
   <title>Cesar Chavez | Product Leader</title>
 </head>
+
+
 <body>
+<div id="fullpage">
   <ul class="mobileNav">
-    <li><a href="news.asp">work</a></li>
-    <li><a href="contact.asp">about me</a></li>
-    <li><a href="about.asp">drop a message</a></li>
-    <li><a href="about.asp">hi@cesarchavez.io</a></li>
+    <li><a data-scroll href="#recentWork">work</a></li>
+    <li><a data-scroll href="#about">about</a></li>
+    <li><a data-scroll href="#contact">contact</a></li>
+    <li><a data-scroll class="underlined" href="mailto:hi@cesarchavez.io?subject=Hi Cesar, I wanted to say hi!">hi@cesarchavez.io</a></li>
   </ul>
   <nav>
     <a class="logo" href="#">cesarchavez.io</a>
-    <ul class="desktopNav">
-      <li><a href="news.asp">work</a></li>
-      <li><a href="contact.asp">about</a></li>
-      <li><a href="about.asp">contact</a></li>
-      <li><a href="about.asp">hi@cesarchavez.io</a></li>
+    <ul id="menu" class="desktopNav">
+      <li><a data-scroll href="#recentWork">work</a></li>
+      <li><a data-scroll href="#about">about</a></li>
+      <li><a data-scroll href="#contact">contact</a></li>
+      <li><a class="underlined" href="mailto:hi@cesarchavez.io?subject=Hi Cesar, I wanted to say hi!">hi@cesarchavez.io</a></li>
     </ul>
 
     <a class="navIcon" href="#"></a>
@@ -86,9 +93,9 @@
     </div>
   </div>
 
-  <div class="recentWork section">
+  <div id="recentWork" class="recentWork section">
     <h2 class="subTitle">Recent Work</h2>
-    <p>A glimpse of my recent work, including work as a Founder, Product Manager and Product Designer</p>
+    <p>A glimpse of my recent work, including work as Founder, Product Manager and Product Designer</p>
     <div class="projects">
       <div>
         <a href="#" class="project edoo">
@@ -97,7 +104,7 @@
           <img class="edooCellphone" src="img/edoo_cellphone.png" srcset="img/edoo_cellphone@2x.png 2x" alt="">
         </a>
         <h4>School Management Ecosystem</h4>
-        <h5>Founder / Product Management / Product design</h5>
+        <h5>Founder / Product Management </h5>
       </div>
       <div>
         <a class="project bus">
@@ -113,14 +120,14 @@
           <h3>Distefano Loyalty app</h3>
           <img class="distefanoCellphone" src="img/cellphone_distefano.png" srcset="img/cellphone_distefano@2x.png 2x" alt="">
         </a>
-        <h4>Loyalty App for Clothing store</h4>
-        <h5>Founder / Product Management / Product design</h5>
+        <h4>Loyalty App for Clothing Store</h4>
+        <h5>Product design</h5>
       </div>
 
     </div>
   </div>
 
-  <div class="about section">
+  <div id="about" class="about section">
     <div class="triangleBottomWhiteContainer">
       <div class="triangleBottomWhite">
 
@@ -140,9 +147,9 @@
       </div>
       <h4>Certifications and courses:</h4>
       <ul class="diplomas">
-        <li><a href=""><strong>Product Manager Certification</strong> by Udacity</a></li>
-        <li> <a href=""><strong>Professional Scrum Product Owner I</strong> (PSPO I)</a></li>
-        <li><a href=""><strong>Data Science Professional Certification</strong> by IBM</a></li>
+        <li><a href="https://confirm.udacity.com/ZQA6VXK9"><strong>Product Manager Certification</strong> by Udacity</a></li>
+        <li> <a href="https://www.scrum.org/certificates/562277"><strong>Professional Scrum Product Owner I</strong> (PSPO I)</a></li>
+        <li><a href="https://www.coursera.org/account/accomplishments/specialization/certificate/REUS39Z4HAHX"><strong>Data Science Professional Certification</strong> by IBM</a></li>
       </ul>
       <h4>SOME OF THE THINGS I LIKE:</h4>
       <p class="emojis">🎬 🏓 🎲 📉 🦊</p>
@@ -153,7 +160,7 @@
       </div>
     </div>
   </div>
-  <div class="message section">
+  <div id="contact" class="message section">
     <div class="content">
       <h2 class="subtitle">Drop me a message</h2>
       <p>A glimpseof our recent work, if you want to know a little bit more about our expertise please contact us at hey@monad-labs.com</p>
@@ -178,7 +185,7 @@
           <img src="img/envelope_icon.svg" alt="in">
           <span>hi@cesarchavez.io</span>
         </a>
-        <a href="mailto:hi@cesarchavez.io?subject=Hi Cesar, I wanted to say hi!" target="_blank">
+        <a href="files/CesarChavez_Resume_Website.pdf" target="_blank">
           <img src="img/resume.svg" alt="in">
           <span>Resume</span>
         </a>
@@ -187,6 +194,20 @@
 
 
   </footer>
+  </div>
+
+  <script>
+    document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+      const scroller = new SweetScroll({
+        /* some options */
+      });
+    },
+    false,
+    );
+  </script>
+
   <script type="text/javascript">
     $('.navIcon').on('click', function (e) {
       var el = $(".mobileNav");

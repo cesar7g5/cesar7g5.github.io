@@ -35,6 +35,9 @@ a{
   display: flex;
   font-size: 3rem;
 }
+.underlined{
+  text-decoration: underline !important;
+}
 a span{
   margin-left: 3rem;
 }
