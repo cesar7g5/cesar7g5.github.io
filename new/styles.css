@@ -467,6 +467,7 @@ a.navIcon{
 .thanks .button{
   text-align: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .thanks .social a img{
   fill: #1F1F24;
