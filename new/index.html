@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:500,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="js/fullpage/fullpage.css">
+  <link rel="stylesheet" href="loader.css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
@@ -28,7 +28,6 @@
   crossorigin="anonymous"></script>
 
   <script src="js/sweet-scroll.min.js"></script>
-"></script>
 
   <meta name="msapplication-TileColor" content="#1d1d1d">
   <meta name="theme-color" content="#ffffff">
@@ -166,8 +165,8 @@
       <h2 class="subtitle">Drop me a message</h2>
       <p>A glimpseof our recent work, if you want to know a little bit more about our expertise please contact us at hey@monad-labs.com</p>
       <form action="https://formspree.io/f/mdoplwrj" method="POST">
-        <textarea placeholder="Want to know more about us or tell us about your project? Start writing!" name="message" rows="10" cols="80"></textarea>
-        <input class="button" type="submit" value="Send Message">
+        <textarea placeholder="Want to know more about us or tell us about your project? Start writing!" name="message" rows="10" cols="80" required></textarea>
+        <button class="button send" type="submit" value="Send Message"><div class="loader"></div><span>Send Message</span></button>
       </form>
     </div>
   </div>
@@ -217,6 +216,13 @@
       bt.toggleClass('opened');
     });
     </script>
+    <script type="text/javascript">
+      $('.send').on('click', function (e) {
+        var ld = $(".send");
+
+        ld.toggleClass('show');
+      });
+      </script>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRHKS57"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
