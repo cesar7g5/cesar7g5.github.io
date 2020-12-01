@@ -459,6 +459,7 @@ a.navIcon{
   background: #FFF;
   height: 100vh;
   max-width: 100% !important;
+  box-sizing: border-box;
 }
 .thanks .social a{
   color: #000000;
