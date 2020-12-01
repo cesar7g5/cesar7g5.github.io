@@ -1,0 +1,132 @@
+html{
+  font-size: 8px;
+}
+body{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  height: 100vh;
+  align-items: center;
+}
+h1{
+  font-size: 12rem;
+  line-height: 11rem;
+  margin: 1rem 0 3rem 0;
+  font-weight: 800;
+}
+h2{
+  font-size: 3rem;
+  margin: 1rem 0 0 0;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+h3{
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 4rem 0 3rem 0;
+}
+p{
+  font-size: 3rem;
+  margin: 1rem 0 1rem 0;
+}
+a{
+  font-size: 3rem;
+  color: black;
+  display: flex;
+  align-items: center;
+  margin: 1rem 3rem 3rem 0;
+}
+a span{
+  margin-left: 1rem;
+}
+.social a img{
+  height: 4rem;
+  width: auto;
+}
+.social{
+  display: flex;
+}
+.photo{
+  max-width: auto;
+  height: 27rem;
+  margin-right: 5rem;
+  border-radius: 2rem; 
+}
+.container{
+  display: flex;
+  justify-content: space-around;
+  max-width: 136rem;
+  margin: auto;
+  padding: 4rem;
+}
+.products{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.products a{
+  display: flex;
+  align-items: center;
+  width: auto;
+  margin-right: 5rem;
+  height: 40px;
+}
+.products a img{
+  width: 100%;
+}
+.center{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
+}
+@media (max-width: 980px) {
+  .center{
+    width: inherit;
+  }
+  .container{
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+  .social{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .social a{
+    margin: 0 0 3rem 0;
+  }
+  .photo{
+    max-width: 40rem;
+    height: auto;
+    align-self: center;
+    margin: 0 0 6rem 0;
+  }
+  h1{
+    font-size: 8rem;
+    line-height: 7rem;
+  }
+  .products a{
+    margin: 0rem 2rem 1rem 2rem;
+  }
+  h3{
+    margin: 4rem 0 3rem 0;
+  }
+  br{
+    display: none;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body{
+    color: white;
+    background: black;
+  }
+  .social a{
+    color: white;
+  }
+  .social img, .products img {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+  }
+}
