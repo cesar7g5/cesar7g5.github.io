@@ -573,7 +573,6 @@ a.navIcon{
     opacity: 0%;
     padding: 0;
     text-align: left;
-    visibility: hidden;
   }
   .busCellphone{
     top: 10.5rem;
@@ -596,7 +595,6 @@ a.navIcon{
   }
   .project:hover h3{
     opacity: 100%;
-    visibility: visible;
   }
 
   .container{
@@ -687,10 +685,7 @@ a.navIcon{
     padding: 8rem 12rem 8rem 12rem;
   }
   h1{
-    font-size: 12rem;
-    line-height: 14rem;
-  }
-  h2{
-    font-size: 4rem;
+    font-size: 10rem;
+    line-height: 11rem;
   }
 }
