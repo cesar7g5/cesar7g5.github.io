@@ -279,13 +279,18 @@ nav{
   top: 20rem;
   z-index: 2;
 }
-.distefano{
-  background: #A619AA;
+.exeboard{
+  background: linear-gradient(331deg, #055993 0%, #1F90DB 100%) 0% 0%;
 }
-.distefanoCellphone{
+.exeboardScreen{
   left: 50%;
   margin-left: -58rem;
   top: 14rem;
+  transform: scale(0.6) rotate(16deg);
+}
+.exeboardBubble{
+  visibility: hidden;
+  opacity: 0;
 }
 .projects > div{
   max-width: 40rem;
@@ -444,6 +449,26 @@ a.navIcon{
 }
 .navIcon.opened{
   background: url("img/close.svg") no-repeat center center;
+}
+.thanks{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background: #FFF;
+  height: 100vh;
+  max-width: 100% !important;
+}
+.thanks .social a{
+  color: #000000;
+}
+.thanks .button{
+  text-align: center;
+  justify-content: center;
+}
+.thanks .social a img{
+  fill: #1F1F24;
 }
 @media (min-width: 980px) {
   .button{
@@ -605,17 +630,29 @@ a.navIcon{
     top: 36rem;
     transform: scale(0.85);
   }
-  .distefanoCellphone{
-    right: -25.5rem;
-    top: -8rem;
-    transform: rotate(-3deg) scale(0.9);
+  .exeboard:hover .exeboardScreen{
+    top: 7rem;
+    transform: scale(0.65) rotate(0deg);
+    left: 32rem;
   }
-  .distefano:hover .distefanoCellphone{
-    top: 16rem;
-    transform: scale(1);
+  .exeboard:hover .exeboardBubble{
+    transform: rotate(0deg);
+    top: 41rem;
+    right: -3rem;
   }
   nav{
     padding: 8rem 10rem;
+  }
+  .exeboardScreen{
+    top: 10rem;
+    transform: scale(0.6) rotate(20deg);
+  }
+  .exeboardBubble{
+    visibility: visible;
+    opacity: 100%;
+    transform: rotate(20deg);
+    top: 8rem;
+    right: -15rem;
   }
 }
 @media (min-width: 1380px) {
