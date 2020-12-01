@@ -524,6 +524,9 @@ a.navIcon{
     padding: 6rem 6rem 12rem 6rem;
     max-width: 130rem;
   }
+  .hero .content{
+    padding: 0 6rem;
+  }
   .products{
     flex-direction: row;
     justify-content: center;
