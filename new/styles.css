@@ -468,6 +468,7 @@ a.navIcon{
   text-align: center;
   justify-content: center;
   box-sizing: border-box;
+  max-width: 52rem;
 }
 .thanks .social a img{
   fill: #1F1F24;
