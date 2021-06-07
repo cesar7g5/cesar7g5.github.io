@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,600|Open+Sans:400");
+
+@font-face {
+  font-family: "Font Awesome 5 Free-Solid";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://anima-uploads.s3.amazonaws.com/5aa4ed775d7c3d000ce877fc/Font Awesome 5 Free-Solid-900.otf")
+    format("opentype");
+}
+
+:root {
+  --blue-marguerite: #725ee1;
+  --cararra: #ebebeb;
+  --concrete: #f3f3f3;
+  --dove-gray: #6e6e6e;
+  --onyx: #373737;
+  --white: #ffffff;
+
+  --font-size-l: 16px;
+  --font-size-m: 15px;
+  --font-size-s: 14px;
+  --font-size-xl: 20px;
+  --font-size-xs: 13px;
+  --font-size-xxl: 22px;
+  --font-size-xxxl: 28px;
+  --font-size-xxxxl: 34px;
+
+  --font-family-font_awesome_5_free-solid: "Font Awesome 5 Free-Solid", Helvetica;
+  --font-family-open_sans: "Open Sans", Helvetica;
+  --font-family-poppins: "Poppins", Helvetica;
+}
+
+body {
+  font-family: var(--font-family-open_sans);
+  color: var(--onyx);
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.navbar {
+  height: 4rem;
+  width: 100%;
+  display: flex;
+  background: white;
+  box-shadow: 0px 4px 15px #0000001a;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 1000;
+}
+
+.navbar__left {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.navbar__right {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.navbar__left__item, .navbar__right__item {
+  margin: 0 1rem;
+  font-family: var(--font-family-poppins);
+  font-weight: 600;
+}
+
+.navbar__left__item:hover, .navbar__right__item:hover {
+  cursor: default !important;
+}
+
+.navbar__left__item:nth-child(1) {
+  margin: 0 1rem;
+  font-family: var(--font-family-poppins);
+  font-size: var(--font-size-xxl);
+}
+
+.mock1 {
+  height: 60vh;
+  margin: 0 1rem;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mock2 {
+  height: 40vh;
+  width: 30%;
+  margin: 1rem;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+}
+
+.action {
+  height: 40vh;
+  width: 30%;
+  margin: 1rem;
+  background: rgb(223, 223, 223);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  padding: .8rem 2rem;
+  background: var(--blue-marguerite);
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  font-family: var(--font-family-poppins);
+  font-size: var(--font-size-s);
+  font-style: normal;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mock3 {
+  height: 40vh;
+  width: 30%;
+  margin: 1rem;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+}
+
+
+
+

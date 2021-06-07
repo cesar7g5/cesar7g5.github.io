@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
+    <meta name="author" content="Cartful Test A" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="https://animaproject.s3.amazonaws.com/home/favicon.png"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="reset.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="styles.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+
+    <div class="navbar">
+      <div class="navbar__left">
+        <a class="navbar__left__item">
+          Sneaker Shop
+        </a>
+        <a class="navbar__left__item">
+          Men
+        </a>
+        <a class="navbar__left__item">
+          Women
+        </a>
+      </div>
+      <div class="navbar__right">
+        <a class="navbar__right__item">
+          Our story
+        </a>
+        <a class="navbar__right__item">
+          My account
+        </a>
+        <a class="navbar__right__item">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+        <a class="navbar__right__item">
+          <i class="fas fa-search"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="mock1" style="background-image: url('img/mock1.png')"></div>
+    <div class="container">
+      <div class="mock2" style="background-image: url('img/mock2.png')"></div>
+      <div class="action">
+        <a class="button" href="./test_a/test_a.html">
+          Find your style (a)
+        </a>
+      </div>
+      <div class="mock3" style="background-image: url('img/mock3.png')"></div>
+    </div>
+    <div class="container">
+      <div class="action">
+        <a class="button" href="./test_b/test_b.html">
+          Find your style (b)
+        </a>
+      </div>
+      <div class="mock3" style="background-image: url('img/mock3.png')"></div>
+      <div class="action">
+        <a class="button" href="./test_c/test_c.html">
+          Find your style (c)
+        </a>
+      </div>
+    </div>
+    <div class="mock1" style="background-image: url('img/mock1.png')"></div>
+
+    <script>
+      
+    </script>
+    
+
+    <!-- V df4144a112c6980f63988965c63d51f8ba3a2efc Thu May 27 08:19:09 UTC 2021 -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script>
+
+    lazy_loading_count = 8;
+
+    const check_scroll = () => {
+       $(window).on("scroll", function() {
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            set_products(lazy_loading_count, lazy_loading_count+=8);
+            set_actions();
+          }
+        });
+    }
+
+    const get_product = (index, name, collection, photo) =>
+      `
+        <div id="${index}" class="app_products__container__product">
+          <div class="app_products__container__product__photo" style="background-image: url('${photo}')"></div>
+          <div class="app_products__container__product__metadata">
+            <div>${collection}</div>
+            <div>${name}</div>
+          </div>
+          <div class="app_products__container__product__actions">
+            <div name="dislike">
+              <i class="fas fa-thumbs-down"></i>
+            </div>
+            <div name="star">
+              <i class="fas fa-star"></i>
+            </div>
+            <div name="like">
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      `
+
+    const set_products = () => {
+      product = $('div[name="product"]')
+      product_container = $('div[name="product_container"]')
+
+      data.slice(0, lazy_loading_count).forEach((p, index) => {
+        product_container.append(get_product(
+          index,
+          p.name,
+          p.collection,
+          p.photo
+        ))
+      })
+    }
+
+    const set_actions = () => {
+      $('div[name="dislike"]').unbind();
+      $('div[name="like"]').unbind();
+      $('div[name="star"]').unbind();
+
+      $('div[name="like"]').on('click', (e) => {
+        console.log('LIKED');
+        currentTarget = $(e.currentTarget);
+        product = currentTarget.parent().parent();
+
+        product.find('div[name="dislike"]').removeClass('clicked');
+        product.find('div[name="star"]').removeClass('clicked');
+
+        console.log(currentTarget);
+
+        currentTarget.toggleClass('clicked');
+        product.removeClass('app_products__container__product__loved');
+        product.toggleClass('app_products__container__product__liked');
+      })
+
+      $('div[name="star"]').on('click', (e) => {
+        console.log('STAR');
+        currentTarget = $(e.currentTarget);
+        product = currentTarget.parent().parent();
+
+        product.find('div[name="dislike"]').removeClass('clicked');
+        product.find('div[name="like"]').removeClass('clicked');
+
+        currentTarget.toggleClass('clicked');
+        product.removeClass('app_products__container__product__liked');
+        product.toggleClass('app_products__container__product__loved');
+        
+        
+      })
+
+      $('div[name="dislike"]').on('click', (e) => {
+        currentTarget = $(e.currentTarget);
+        currentTarget.toggleClass('clicked');
+        const product = currentTarget.parent().parent();
+        // product = $(`#${currentTarget.attr('for')}`);
+
+        product.find('div[name="like"]').removeClass('clicked');
+        product.find('div[name="star"]').removeClass('clicked');
+
+
+        product.removeClass('app_products__container__product__loved');
+        product.removeClass('app_products__container__product__liked');
+        product.toggleClass('app_products__container__product__loading');
+
+        randomInt = Math.floor(Math.random() * data.length)
+        newRandomProduct = data[randomInt]
+        console.log('RNDM', randomInt)
+
+        setTimeout(() => {
+          product.replaceWith(get_product(
+            randomInt,
+            newRandomProduct.name,
+            newRandomProduct.collection,
+            newRandomProduct.photo
+          ))
+          set_actions();
+        }, 800);
+      });
+    }
+
+    const sidepanel = () => {
+      $('.sidepanel__close').on('click', () => {
+        $('.sidepanel').toggleClass('show');
+      })
+
+      $('.check_your_style').on('click', () => {
+        console.log('show')
+        $('.sidepanel').toggleClass('show');
+      })
+    }
+
+    set_products();
+    set_actions();
+    check_scroll();
+    sidepanel();
+    </script>
+  </body>
+</html>

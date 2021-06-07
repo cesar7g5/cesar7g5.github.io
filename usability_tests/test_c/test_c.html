@@ -1,0 +1,318 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
+    <meta name="author" content="Cartful Test A" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="https://animaproject.s3.amazonaws.com/home/favicon.png"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../reset.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="test_c.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+
+    <div class="topbar">
+      <div class="topbar__left">
+        <a class="topbar__left__item" href="./../index.html">
+          Sneaker Shop
+        </a>
+        <a class="topbar__left__item">
+          Men
+        </a>
+        <a class="topbar__left__item">
+          Women
+        </a>
+      </div>
+      <div class="topbar__right">
+        <a class="topbar__right__item">
+          Our story
+        </a>
+        <a class="topbar__right__item">
+          My account
+        </a>
+        <a class="topbar__right__item">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+        <a class="topbar__right__item">
+          <i class="fas fa-search"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="app_header">
+      <a class="app_header__go_back" href="./../index.html">
+        <i class="fas fa-arrow-left"></i>
+        Go back
+      </a>
+      <div class="app_header__container">
+        <div class="app_header__title">
+          <h1>
+            Find your style
+          </h1>
+          <p>
+            Tell us how much you like each sneaker. As you rate them, we’ll show you more sneakers we think you’ll love.
+          </p>
+        </div>
+        <div class="app_header__actions">
+          <button class="check_your_style">
+            <i class="fas fa-user-check"></i>
+             My style
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="app_filters">
+      <div class="app_filters__container">
+        <div class="app_filters__item">
+          Color
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="app_filters__item">
+          Price
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="app_filters__item">
+          Collection
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidepanel">
+      <div class="sidepanel__close">
+        <i class="fas fa-times"></i>
+      </div>
+      <div class="sidepanel__title">
+        Check out your style
+      </div>
+      <div class="placeholder"></div>
+      <div class="placeholder"></div>
+      <div class="placeholder"></div>
+    </div>
+
+    <div class="app_products">
+      <div name="product_container" class="app_products__container">
+
+      </div>
+    </div>
+
+    <script>
+      
+    </script>
+    
+
+    <!-- V df4144a112c6980f63988965c63d51f8ba3a2efc Thu May 27 08:19:09 UTC 2021 -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./../data.js"></script>
+    <script>
+
+    lazy_loading_count = 8;
+
+    const check_scroll = () => {
+       $(window).on("scroll", function() {
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            set_products(lazy_loading_count, lazy_loading_count+=8);
+            set_actions();
+          }
+        });
+    }
+
+    const get_product = (index, name, collection, photo) =>
+      `
+        <div id="${index}" class="app_products__container__product">
+          <div class="app_products__container__product__photo" style="background-image: url('${photo}')"></div>
+          <div class="app_products__container__product__metadata">
+            <div>${collection}</div>
+            <div>${name}</div>
+            <div class="app_products__container__product__options">
+                <span  type="button" id="menu1" data-toggle="dropdown" >
+                    <i class="fas fa-ellipsis-v"></i>
+                </span>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" class="remove_product">
+                            <i class="fas fa-eye-slash"></i>
+                            Hide this product
+                        </a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          <div class="app_products__container__product__actions">
+            <div name="like" class="button">
+              <i class="fas fa-heart"></i>
+              Like
+            </div>
+          </div>
+        </div>
+      `
+
+    const set_products = () => {
+      product = $('div[name="product"]')
+      product_container = $('div[name="product_container"]')
+      
+      for (var i = 0; i < 8; i++) {
+        randomInt = Math.floor(Math.random() * data.length)
+        newRandomProduct = data[randomInt]
+        product_container.append(get_product(
+          randomInt,
+          newRandomProduct.name,
+          newRandomProduct.collection,
+          newRandomProduct.photo
+        ))
+      }
+
+      /* data.slice(0, 8).forEach((p, index) => {
+        product_container.append(get_product(
+          index,
+          p.name,
+          p.collection,
+          p.photo
+        ))
+      })*/
+    }
+
+    const set_actions = () => {
+      $('div[name="dislike"]').unbind();
+      $('div[name="like"]').unbind();
+      $('div[name="love"]').unbind();
+
+      $('div[name="like"]').on('click', (e) => {
+        console.log('LIKED');
+        currentTarget = $(e.currentTarget);
+        product = currentTarget.parent().parent();
+
+        product.find('div[name="dislike"]').removeClass('clicked');
+        product.find('div[name="love"]').removeClass('clicked');
+
+        console.log(currentTarget);
+
+        currentTarget.toggleClass('clicked');
+        product.removeClass('app_products__container__product__loved');
+        product.toggleClass('app_products__container__product__liked');
+      })
+
+      $('div[name="love"]').on('click', (e) => {
+        console.log('love');
+        currentTarget = $(e.currentTarget);
+        product = currentTarget.parent().parent();
+
+        product.find('div[name="dislike"]').removeClass('clicked');
+        product.find('div[name="like"]').removeClass('clicked');
+
+        currentTarget.toggleClass('clicked');
+        product.removeClass('app_products__container__product__liked');
+        product.toggleClass('app_products__container__product__loved');
+        
+        
+      })
+
+      $('div[name="dislike"]').on('click', (e) => {
+        currentTarget = $(e.currentTarget);
+        currentTarget.toggleClass('clicked');
+        const product = currentTarget.parent().parent();
+        // product = $(`#${currentTarget.attr('for')}`);
+
+        product.find('div[name="like"]').removeClass('clicked');
+        product.find('div[name="love"]').removeClass('clicked');
+
+
+        product.removeClass('app_products__container__product__loved');
+        product.removeClass('app_products__container__product__liked');
+        product.toggleClass('app_products__container__product__loading');
+
+        randomInt = Math.floor(Math.random() * data.length)
+        newRandomProduct = data[randomInt]
+        console.log('RNDM', data)
+
+        setTimeout(() => {
+          product.replaceWith(get_product(
+            randomInt,
+            newRandomProduct.name,
+            newRandomProduct.collection,
+            newRandomProduct.photo
+          ))
+          set_actions();
+        }, 800);
+      });
+    }
+
+    const sidepanel = () => {
+      $('.sidepanel__close').on('click', () => {
+        $('.sidepanel').toggleClass('show');
+      })
+
+      $('.check_your_style').on('click', () => {
+        console.log('show')
+        $('.sidepanel').toggleClass('show');
+      })
+    }
+
+    const remove_product = () => {
+
+        console.log($('.remove_product'));
+      $('.remove_product').on('click', (e) => {
+        currentTarget = $(e.currentTarget);
+        const product = currentTarget.parent().parent().parent().parent().parent();
+
+        product.toggleClass('app_products__container__product__removed');
+
+        if (product.hasClass('app_products__container__product__removed')) {
+          currentTarget.empty().append(`
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" class="remove_product">
+                    <i class="fas fa-eye"></i>
+                     Volver a ver este producto
+                </a>
+            </li>
+          `);
+        } else {
+          currentTarget.empty().append(`
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" class="remove_product">
+                    <i class="fas fa-eye-slash"></i>
+                    Hide this product
+                </a>
+            </li>
+          `);
+        }
+
+      })
+    }
+
+    set_products();
+    set_actions();
+    check_scroll();
+    sidepanel();
+    remove_product();
+    </script>
+    
+  </body>
+</html>
