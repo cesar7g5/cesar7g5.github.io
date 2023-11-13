@@ -6,7 +6,7 @@ function BlocksSketch(p) {
   const BASE_HUE_RANGE = 300;
   const HUE_RANGE = 180;
   const MIN_BLOCKS_PER_ROW = 6;
-  const MAX_BLOCKS_PER_ROW = 25;
+  const MAX_BLOCKS_PER_ROW = 22;
 
   const MIN_BLOCK_SIZE = CANVAS_WIDTH / MAX_BLOCKS_PER_ROW;
   const MAX_BLOCK_SIZE = CANVAS_WIDTH / MIN_BLOCKS_PER_ROW;
