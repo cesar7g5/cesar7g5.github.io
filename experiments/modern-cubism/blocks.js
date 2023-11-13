@@ -1,5 +1,5 @@
 function BlocksSketch(p) {
-  const CANVAS_WIDTH = 450;
+  const CANVAS_WIDTH = 600;
   const CANVAS_HEIGHT = 600;
   const COLOR_SATURATION = 54;
   const COLOR_BRIGHTNESS = 90;
