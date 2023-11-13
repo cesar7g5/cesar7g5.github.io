@@ -4,7 +4,7 @@ function BlocksSketch(p) {
   const COLOR_SATURATION = 54;
   const COLOR_BRIGHTNESS = 90;
   const BASE_HUE_RANGE = 300;
-  const HUE_RANGE = 140;
+  const HUE_RANGE = 180;
   const MIN_BLOCKS_PER_ROW = 6;
   const MAX_BLOCKS_PER_ROW = 25;
 
