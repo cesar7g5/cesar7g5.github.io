@@ -7,6 +7,7 @@ function BlocksSketch(p) {
   const HUE_RANGE = 180;
   const MIN_BLOCKS_PER_ROW = 6;
   const MAX_BLOCKS_PER_ROW = 22;
+  const STROKE_WEIGHT = 1.5;
 
   const MIN_BLOCK_SIZE = CANVAS_WIDTH / MAX_BLOCKS_PER_ROW;
   const MAX_BLOCK_SIZE = CANVAS_WIDTH / MIN_BLOCKS_PER_ROW;
@@ -103,7 +104,7 @@ function findValidBlockSizes(w, h, minBlocks, maxBlocks) {
           for (let y = 0; y < grid[x].length; y++) {
               let currentColor = grid[x][y];
               p.stroke(0);
-              p.strokeWeight(1);
+              p.strokeWeight(STROKE_WEIGHT);
 
               if (x === 0 || grid[x - 1][y] !== currentColor) {
                   p.line(x * blockSize, y * blockSize, x * blockSize, (y + 1) * blockSize);
