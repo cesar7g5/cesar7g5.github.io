@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="blocks.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="p5Canvas"></div> <!-- Container for the p5.js canvas -->
+    <div class="fixed">
+        <input type="text" id="hashInput" placeholder="Enter Hash Here">
+        <button id="reloadSketch">Reload Sketch</button>
+        <button class="rose" id="randomSketch">Random</button>
+    </div>
+    
+    
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let input = document.getElementById('hashInput');
+        let reloadButton = document.getElementById('reloadSketch');
+        let randomButton = document.getElementById('randomSketch');
+
+        reloadButton.addEventListener('click', function() {
+            let hash = input.value;
+            if (hash) {
+                // Update the sketch with the new hash
+                myp5.updateHash(hash);
+            } else {
+                alert("Please enter a hash value.");
+            }
+        });
+
+        randomButton.addEventListener('click', function() {
+            // Generate a random 64-character hexadecimal string
+            let randomHash = generateRandomHash(64);
+            input.value = randomHash;
+            // Trigger the click event on the reload button
+            reloadButton.click();
+        });
+    });
+
+    function generateRandomHash(length) {
+        let result = '';
+        let characters = 'abcdefx0123456789';
+        let charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+</script>
+
+</html>
