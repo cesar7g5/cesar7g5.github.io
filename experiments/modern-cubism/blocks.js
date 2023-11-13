@@ -4,17 +4,17 @@ function BlocksSketch(p) {
   const COLOR_SATURATION = 54;
   const COLOR_BRIGHTNESS = 90;
   const BASE_HUE_RANGE = 300;
-  const HUE_RANGE = 180;
-  const MIN_BLOCKS_PER_ROW = 6;
-  const MAX_BLOCKS_PER_ROW = 22;
-  const STROKE_WEIGHT = 1.1;
+  const HUE_RANGE = 170;
+  const MIN_BLOCKS_PER_ROW = 8;
+  const MAX_BLOCKS_PER_ROW = 24;
+
 
   const MIN_BLOCK_SIZE = CANVAS_WIDTH / MAX_BLOCKS_PER_ROW;
   const MAX_BLOCK_SIZE = CANVAS_WIDTH / MIN_BLOCKS_PER_ROW;
 
 
-  const PROBABILITY_ADJACENT_X = 0.7;
-  const PROBABILITY_ADJACENT_Y = 0.6;
+  const PROBABILITY_ADJACENT_X = 0.8;
+  const PROBABILITY_ADJACENT_Y = 0.7;
 
   let colorPalette = [];
   let grid = [];
@@ -104,7 +104,7 @@ function findValidBlockSizes(w, h, minBlocks, maxBlocks) {
           for (let y = 0; y < grid[x].length; y++) {
               let currentColor = grid[x][y];
               p.stroke(0);
-              p.strokeWeight(STROKE_WEIGHT);
+              p.strokeWeight(0.35);
 
               if (x === 0 || grid[x - 1][y] !== currentColor) {
                   p.line(x * blockSize, y * blockSize, x * blockSize, (y + 1) * blockSize);
@@ -141,8 +141,9 @@ function findCommonDivisors(w, h, minBlockSize, maxBlockSize) {
   function drawGradientOverlay() {
       p.noFill();
       for (let i = 0; i <= p.height; i++) {
-          let inter = p.map(i, 0, p.height, 0, 1);
+          let inter = p.map(i, 0, p.height, 0.25, 1);
           let c = p.lerpColor(gradientStartColor, gradientEndColor, inter);
+          p.strokeWeight(1);
           p.stroke(c);
           p.line(0, i, p.width, i);
       }
