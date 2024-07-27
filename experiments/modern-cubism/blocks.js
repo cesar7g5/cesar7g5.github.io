@@ -24,17 +24,21 @@ function BlocksSketch(p) {
   let gradientEndColor;
 
   p.setup = function () {
+
       p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).parent('p5Canvas');
       p.colorMode(p.HSB, 360, 100, 100);
 
       // Initial setup with a default hash
       initializeSketch("0x95e793baa934c29a5f841d55fdab51b52c46d15b6bd604018e854fde3925ef7b");
-  };
+         
+    };
+
+
 
   function initializeSketch(transactionHash) {
     seedNum = convertHashToSeed(transactionHash);
     p.randomSeed(seedNum);
-
+    
     let baseHue = p.floor(p.random() * BASE_HUE_RANGE);
     colorPalette = generateColorPalette(baseHue, HUE_RANGE, 10);
 
@@ -47,6 +51,15 @@ function BlocksSketch(p) {
     gradientStartColor = p.color(50, 60, 100, 1);
     gradientEndColor = p.color(50, 60, 100, 0);
     applyGradientOverlay();
+}
+
+function stringToSeed(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
 }
 
 function findValidBlockSizes(w, h, minBlocks, maxBlocks) {
@@ -70,6 +83,7 @@ function findValidBlockSizes(w, h, minBlocks, maxBlocks) {
       }
       return palette;
   }
+  
 
   function generateGrid() {
       let numBlocksX = p.width / blockSize;
@@ -117,11 +131,6 @@ function findValidBlockSizes(w, h, minBlocks, maxBlocks) {
       }
   }
 
-  function randomCommonDivisor(minBlockSize, maxBlockSize) {
-    let divisors = findCommonDivisors(CANVAS_WIDTH, CANVAS_HEIGHT, minBlockSize, maxBlockSize);
-    return divisors[Math.floor(p.random() * divisors.length)];
-}
-
 function findCommonDivisors(w, h, minBlockSize, maxBlockSize) {
     let divisors = [];
     for (let i = minBlockSize; i <= maxBlockSize; i++) {
@@ -145,7 +154,7 @@ function findCommonDivisors(w, h, minBlockSize, maxBlockSize) {
           let c = p.lerpColor(gradientStartColor, gradientEndColor, inter);
           p.strokeWeight(1);
           p.stroke(c);
-          p.line(0, i, p.width, i);
+          p.line(0, i, p.width, i);          
       }
   }
 
@@ -153,21 +162,6 @@ function findCommonDivisors(w, h, minBlockSize, maxBlockSize) {
       let hashed = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Hex);
       return parseInt(hashed.slice(0, 16), 16);
   }
-  function randomCommonDivisor(minDivisor, maxDivisor) {
-    let divisors = findCommonDivisors(p.width, p.height, minDivisor, maxDivisor);
-    return divisors[Math.floor(p.random() * divisors.length)];
-  }
-
-  function findCommonDivisors(w, h, minDivisor, maxDivisor) {
-    let divisors = [];
-    for (let i = w / maxDivisor; i <= w / minDivisor; i++) {
-      if (w % i === 0 && h % i === 0) {
-        divisors.push(i);
-      }
-    }
-    return divisors;
-  }
-
   p.updateHash = function (newHash) {
       initializeSketch(newHash);
   };

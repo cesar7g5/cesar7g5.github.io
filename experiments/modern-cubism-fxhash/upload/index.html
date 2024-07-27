@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="./fxhash.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./p5.min.js"></script>
+  </head>
+  <body>
+    <script src="./index.js"></script>
+    <script src="blocks.js"></script>
+    <div id="p5Canvas"></div> <!-- Container for the p5.js canvas -->
+    <script>
+      function setCanvasSize() {
+      // Get the canvas element
+      const canvas = document.getElementById('defaultCanvas0');
+
+      // Calculate the smaller dimension of the window
+      const size = Math.min(window.innerWidth, window.innerHeight);
+
+      // Set both the width and height of the canvas
+      canvas.style.width = size  - 40 + 'px';
+      canvas.style.height = size - 40  + 'px';
+      }
+
+      // Set the canvas size when the window loads
+      window.onload = setCanvasSize;
+
+      // Also set the canvas size when the window is resized
+      window.onresize = setCanvasSize;
+
+    </script>
+  </body>
+</html>
