@@ -33,7 +33,7 @@
 </head>
 <div id="trigger"
      hx-get="https://nowcesar-445ca9e1a40e.herokuapp.com/current_track_partial"
-     hx-trigger="load, every 7s"
+     hx-trigger="load delay:1500ms, every 7s"
      hx-swap="innerHTML"
      hx-target="#current-track">
 </div>
@@ -47,12 +47,12 @@
 <body class="body gradient">
   <div class="div-block-5">
     <div data-w-id="4e9635f7-b812-c37d-b117-c298ac60530a" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="div-block-6">
-      <div class="div-block-7"><img src="images/spotify-brands-solid-1.svg" loading="lazy" alt="" class="image">
+      <div class="div-block-7"><img src="images/headphones.svg" loading="lazy" alt="" class="image">
         <div 
           class="listening-to song"
           id="current-track"
           hx-classes="fade-out:htmx-swapping, fade-in:htmx-added">
-          
+          Listening right now...
         </div>
       </div>
       <div class="div-block-7">
