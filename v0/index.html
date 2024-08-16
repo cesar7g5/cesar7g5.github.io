@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Fri Aug 16 2024 07:26:16 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Wed Aug 14 2024 14:51:04 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="66bbb2746662bc2abe90c68d" data-wf-site="66bbb2746662bc2abe90c664">
 <head>
   <meta charset="utf-8">
@@ -30,13 +30,6 @@
   <script>
     htmx.config.globalViewTransitions = true;
   </script>
-  <style>
-.listening-to{
-	text-overflow: ellipsis;
-  white-space: nowrap;
-}
-</style>
-
 </head>
 
 <div id="trigger"
@@ -45,30 +38,14 @@
      hx-swap="innerHTML"
      hx-target="#current-track">
 </div>
-<div
-    hx-get="https://nowcesar-445ca9e1a40e.herokuapp.com/cesar_time_partial"
-    hx-trigger="load"
-    hx-swap="innerHTML"
-    hx-target="#cesar-time">
+
+<div id="current-track"
+     hx-classes="fade-out:htmx-swapping, fade-in:htmx-added">
 </div>
+
 
 <body class="body gradient">
   <div class="div-block-5">
-    <div data-w-id="4e9635f7-b812-c37d-b117-c298ac60530a" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="div-block-6">
-      <div class="div-block-7"><img src="images/spotify-brands-solid-1.svg" loading="lazy" alt="" class="image">
-        <div 
-          class="listening-to song"
-          id="current-track"
-          hx-classes="fade-out:htmx-swapping, fade-in:htmx-added">
-          
-        </div>
-      </div>
-      <div class="div-block-7">
-        <img src="images/plane-solid.svg" loading="lazy" alt="" class="image">
-        <div id="cesar-time" class="listening-to" hx-classes="fade-out:htmx-swapping, fade-in:htmx-added">          
-        </div>
-      </div>
-    </div>
     <div data-w-id="c1c48090-8f20-f38f-575b-f092fe5017ed" class="frame-1">
       <div data-w-id="c1c48090-8f20-f38f-575b-f092fe5017ee" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;filter:blur(15px)" class="h2">Hey, I am</div>
       <div data-w-id="c1c48090-8f20-f38f-575b-f092fe5017f0" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;filter:blur(15px)" class="h1">Cesar Chavez</div>
@@ -116,11 +93,11 @@
         <div data-w-id="8da131c1-aaf9-72d6-4be5-839610cd2419" class="gradient-block"></div>
       </div>
       <div data-w-id="76bc307e-2c23-bdd7-edf4-a83b2140b132" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;filter:blur(15px)" class="div-block-3">
-        <div class="h5">I’ve advised and work alongside companies like <a href="https://www.swell.is/" target="_blank" class="link-small">Swell</a>, <a href="https://www.cartfulsolutions.com/" target="_blank" class="link-small">Cartful</a>, <a href="https://www.recurrente.com/" target="_blank" class="link-small">Recurrente</a>, and <a href="https://www.actonacademy.org/" target="_blank" class="link-small">Acton Academy</a>, and have thought a variety of University Courses such as User Centered Design, Innovative Technologies and Web Design.</div>
+        <div class="h5">I’ve advised and work alongside companies like <a href="https://www.swell.is/" target="_blank" class="link-small">Swell</a>, <a href="https://www.cartfulsolutions.com/" target="_blank" class="link-small">Cartful</a>, <a href="https://www.recurrente.com/" target="_blank" class="link-small">Recurrente</a>, and <a href="https://www.actonacademy.org/" target="_blank" class="link-small">Acton Academy</a>, and have thought a variety of University Courses such as User Centered Design, Entrepreneurship and Web Design.</div>
         <div class="h5">In my spare time, I create <a href="https://www.fxhash.xyz/generative/29587" target="_blank" class="link-small">NFTs</a>,  design <span class="link-small">Board Games</span> and write <a href="https://open.spotify.com/artist/332PVjnp01LXPnO19a88oq?si=1oWoK4bdS5iAmvr06G_TNA" target="_blank" class="link-small">Music</a> for fun.</div>
       </div>
       <div data-w-id="534d95e7-56a0-fb42-3190-9a1dff5ca247" style="-webkit-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 10px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;filter:blur(15px)" class="div-block-4">
-        <div class="h5 margin-bottom-0">If you want to reach out, my email is <a href="mailto:hi@cesarchavez.io" class="link-small">hi@cesarchavez.io</a>, I try to answer all non-spam emails.</div>
+        <div class="h5">If you want to reach out, my email is <a href="mailto:hi@cesarchavez.io" class="link-small">hi@cesarchavez.io</a>, I try to answer all non-spam emails.</div>
       </div>
     </div>
   </div>
