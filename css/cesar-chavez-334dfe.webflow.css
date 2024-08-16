@@ -678,4 +678,18 @@
   }
 
   .div-block-6 {
-  
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+  }
+
+  .image {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+
