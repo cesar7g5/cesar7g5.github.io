@@ -736,3 +736,33 @@
 ::-webkit-scrollbar-corner {
   background: #0a0a0a;
 }
+
+/* ─── Grid fix: center orphaned items in last row ─── */
+.frame-4 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.company-2 {
+  flex: 0 0 calc(33.33% - 30px);
+}
+
+@media screen and (max-width: 767px) {
+  .company-2 {
+    flex: 0 0 calc(50% - 25px);
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .company-2 {
+    flex: 0 0 calc(50% - 20px);
+  }
+}
+
+/* ─── Logo hover: subtle glow ─── */
+.company-2:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.07));
+}
