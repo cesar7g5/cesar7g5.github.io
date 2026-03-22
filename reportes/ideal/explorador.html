@@ -750,6 +750,10 @@
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="search-input" placeholder="Buscar dirección o descripción…">
     </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <a href="mapa.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;transition:all 0.15s;">🗺️ Mapa</a>
+      <a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;transition:all 0.15s;">📊 Reporte</a>
+    </div>
     <button class="mobile-filter-btn" onclick="openSidebar()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
       Filtros
@@ -978,6 +982,48 @@
       <div class="checkbox-list" id="estado-list"></div>
     </div>
 
+    <!-- Estrategia -->
+    <div class="filter-group">
+      <span class="filter-label">💎 Estrategia sugerida</span>
+      <div class="toggle-group" id="strategy-toggles" style="flex-wrap:wrap;">
+        <button class="toggle-btn active" data-val="">Todas</button>
+        <button class="toggle-btn" data-val="A">A Mudarse</button>
+        <button class="toggle-btn" data-val="B">B Inversión</button>
+        <button class="toggle-btn" data-val="C">C Dual</button>
+        <button class="toggle-btn" data-val="D">D Turístico</button>
+        <button class="toggle-btn" data-val="E">E Pueblo</button>
+        <button class="toggle-btn" data-val="F">F Rural</button>
+      </div>
+    </div>
+
+    <!-- Veredicto -->
+    <div class="filter-group">
+      <span class="filter-label">📊 Veredicto</span>
+      <div class="toggle-group" id="verdict-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="BUY" style="color:#065f46">BUY</button>
+        <button class="toggle-btn" data-val="CONSIDER" style="color:#92400e">CONSIDER</button>
+        <button class="toggle-btn" data-val="SKIP" style="color:#991b1b">SKIP</button>
+      </div>
+    </div>
+
+    <!-- Rentabilidad range -->
+    <div class="filter-group">
+      <span class="filter-label">📈 Rentabilidad bruta (%)</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="rentab-min-display"></span>
+          <span id="rentab-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="rentab-fill"></div>
+          <input type="range" id="rentab-min" step="0.5">
+          <input type="range" id="rentab-max" step="0.5">
+        </div>
+      </div>
+    </div>
+
     <h4 style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--gray-400); margin:16px 0 8px; padding-top:8px; border-top:2px solid var(--gray-100);">🚗 Tiempos al centro</h4>
 
     <!-- Coche lunes -->
@@ -1177,6 +1223,9 @@ const state = {
   certs: new Set(),
   tipos: new Set(),
   estados: new Set(),
+  strategyFilter: '',
+  verdictFilter: '',
+  rentabMin: 0, rentabMax: Infinity,
   cocheMin: 0, cocheMax: Infinity,
   busMin: 0, busMax: Infinity,
   pieMin: 0, pieMax: Infinity,
@@ -1436,6 +1485,29 @@ function buildFiltersUI() {
   setupToggleGroup('garaje-toggle', v => { state.garaje = v; applyFilters(); });
   setupToggleGroup('terraza-toggle', v => { state.terraza = v; applyFilters(); });
   setupToggleGroup('piscina-toggle', v => { state.piscina = v; applyFilters(); });
+  // Strategy filter (multi-select style but single for simplicity)
+  document.getElementById('strategy-toggles').querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#strategy-toggles .toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.strategyFilter = btn.dataset.val;
+      applyFilters();
+    });
+  });
+  setupToggleGroup('verdict-toggle', v => { state.verdictFilter = v; applyFilters(); });
+
+  // Rentabilidad range - compute from yields data
+  const rentabs = Object.values(state.yields).map(y => y.rentab).filter(v => v > 0 && v < 100);
+  if (rentabs.length) {
+    const rMin = Math.floor(Math.min(...rentabs));
+    const rMax = Math.ceil(Math.max(...rentabs));
+    state.dataRanges.rentabMin = rMin;
+    state.dataRanges.rentabMax = Math.min(rMax, 60);
+    state.rentabMin = rMin;
+    state.rentabMax = Math.min(rMax, 60);
+    setupRangeSlider('rentab', rMin, Math.min(rMax, 60), v => v + '%');
+  }
+
   setupToggleGroup('jardin-toggle', v => { state.jardin = v; applyFilters(); });
   setupToggleGroup('trastero-toggle', v => { state.trastero = v; applyFilters(); });
   setupToggleGroup('ac-toggle', v => { state.ac = v; applyFilters(); });
@@ -1613,6 +1685,25 @@ function applyFilters() {
   }
   if (s.showSuggestedOnly) {
     data = data.filter(r => r.link in suggestedMap);
+  }
+  if (s.strategyFilter) {
+    data = data.filter(r => {
+      const tags = suggestedMap[r.link];
+      return tags && tags.includes(s.strategyFilter);
+    });
+  }
+  if (s.verdictFilter) {
+    data = data.filter(r => {
+      const y = state.yields[r.link];
+      return y && y.veredicto === s.verdictFilter;
+    });
+  }
+  if (s.rentabMin > s.dataRanges.rentabMin || s.rentabMax < s.dataRanges.rentabMax) {
+    data = data.filter(r => {
+      const y = state.yields[r.link];
+      if (!y || !y.rentab) return false;
+      return y.rentab >= s.rentabMin && y.rentab <= s.rentabMax;
+    });
   }
 
   if (s.search) {
@@ -1839,6 +1930,10 @@ function clearAllFilters() {
   state.pieMax = state.dataRanges.pieMax;
   state.distkmMin = state.dataRanges.distkmMin;
   state.distkmMax = state.dataRanges.distkmMax;
+  state.strategyFilter = '';
+  state.verdictFilter = '';
+  state.rentabMin = state.dataRanges.rentabMin || 0;
+  state.rentabMax = state.dataRanges.rentabMax || 100;
   state.habMin = 0;
   state.banoMin = 0;
   state.search = '';
@@ -1884,9 +1979,10 @@ function clearAllFilters() {
   });
 
   // Reset toggles
-  ['orient-toggle','ascensor-toggle','garaje-toggle','terraza-toggle','piscina-toggle','jardin-toggle','trastero-toggle','ac-toggle'].forEach(id => {
+  ['orient-toggle','ascensor-toggle','garaje-toggle','terraza-toggle','piscina-toggle','jardin-toggle','trastero-toggle','ac-toggle','verdict-toggle'].forEach(id => {
     document.querySelectorAll(`#${id} .toggle-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === ''));
   });
+  document.querySelectorAll('#strategy-toggles .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === ''));
 
   // Reset min selectors
   ['hab-selector','bano-selector'].forEach(id => {

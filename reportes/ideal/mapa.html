@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗺️ Mapa de Propiedades — Valladolid & Madrid</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+.header {
+  background: #1a2332;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+  z-index: 1000;
+}
+.header h1 { font-size: 1.2rem; }
+.header-links { display: flex; gap: 10px; align-items: center; }
+.header-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.header-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+.header-links a.active { background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.4); }
+
+.controls {
+  background: white;
+  padding: 10px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 999;
+  position: relative;
+}
+.controls label { font-size: 0.8rem; color: #6b7280; font-weight: 600; }
+.controls select, .controls input {
+  padding: 5px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: white;
+}
+.filter-btn {
+  padding: 5px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.filter-btn:hover { border-color: #3b82f6; color: #3b82f6; }
+.filter-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+.strat-btn { padding: 4px 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; background: white; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.15s; }
+.strat-btn:hover { border-color: #7c3aed; color: #7c3aed; }
+.strat-btn.active { background: #7c3aed; color: white; border-color: #7c3aed; }
+
+#map { height: calc(100vh - 95px); width: 100%; }
+
+.marker-buy { background: #16a34a; border: 2px solid white; border-radius: 50%; width: 12px; height: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.marker-consider { background: #d97706; border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.marker-skip { background: #9ca3af; border: 2px solid white; border-radius: 50%; width: 8px; height: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.marker-suggested { background: #7c3aed; border: 2px solid #fde68a; border-radius: 50%; width: 14px; height: 14px; box-shadow: 0 1px 4px rgba(124,58,237,0.4); }
+
+.popup-card { min-width: 260px; max-width: 320px; font-family: -apple-system, sans-serif; }
+.popup-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
+.popup-card .price { font-size: 1.2rem; font-weight: 800; color: #1a2332; }
+.popup-card .ppm2 { font-size: 0.8rem; color: #9ca3af; }
+.popup-card .stats { display: flex; gap: 10px; margin: 6px 0; font-size: 0.85rem; color: #4b5563; }
+.popup-card .badges { display: flex; gap: 4px; flex-wrap: wrap; margin: 6px 0; }
+.popup-card .badge { font-size: 0.65rem; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+.popup-card .badge-buy { background: #dcfce7; color: #166534; }
+.popup-card .badge-consider { background: #fef3c7; color: #92400e; }
+.popup-card .badge-skip { background: #fee2e2; color: #991b1b; }
+.popup-card .badge-strat { background: #ede9fe; color: #6d28d9; }
+.popup-card .badge-yield { background: #ecfdf5; color: #065f46; }
+.popup-card .badge-alq { background: #eff6ff; color: #1e40af; }
+.popup-card .addr { font-size: 0.78rem; color: #6b7280; margin: 4px 0; }
+.popup-card .btn-row { display: flex; gap: 6px; margin-top: 8px; }
+.popup-card .btn-link {
+  flex: 1; text-align: center; padding: 6px; border-radius: 6px;
+  font-size: 0.8rem; font-weight: 600; text-decoration: none;
+  background: #3b82f6; color: white; transition: background 0.15s;
+}
+.popup-card .btn-link:hover { background: #2563eb; }
+.popup-card .btn-fav {
+  padding: 6px 10px; border: 1px solid #e5e7eb; border-radius: 6px;
+  background: white; cursor: pointer; font-size: 1rem;
+}
+.popup-card .btn-fav.faved { background: #fef3c7; border-color: #f59e0b; }
+
+.legend {
+  position: absolute; bottom: 20px; left: 20px; z-index: 1000;
+  background: white; padding: 12px 16px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 0.78rem;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+
+.counter {
+  position: absolute; top: 10px; right: 10px; z-index: 1000;
+  background: white; padding: 8px 14px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 0.85rem;
+  font-weight: 700; color: #1a2332;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🗺️ Mapa de Propiedades</h1>
+  <div class="header-links">
+    <a href="explorador.html">📋 Explorador</a>
+    <a href="mapa.html" class="active">🗺️ Mapa</a>
+    <a href="index.html">📊 Reporte</a>
+  </div>
+</div>
+
+<div class="controls">
+  <label>Veredicto:</label>
+  <button class="filter-btn active" data-verdict="" onclick="setVerdict(this)">Todos</button>
+  <button class="filter-btn" data-verdict="BUY" onclick="setVerdict(this)">🟢 BUY</button>
+  <button class="filter-btn" data-verdict="CONSIDER" onclick="setVerdict(this)">🟡 CONSIDER</button>
+  <button class="filter-btn" data-verdict="SKIP" onclick="setVerdict(this)">⚪ SKIP</button>
+  <span style="width:1px;height:24px;background:#e5e7eb;margin:0 4px;"></span>
+  <label>Estrategia:</label>
+  <button class="strat-btn active" data-strat="" onclick="setStrat(this)">Todas</button>
+  <button class="strat-btn" data-strat="A" onclick="setStrat(this)">A</button>
+  <button class="strat-btn" data-strat="B" onclick="setStrat(this)">B</button>
+  <button class="strat-btn" data-strat="C" onclick="setStrat(this)">C</button>
+  <button class="strat-btn" data-strat="D" onclick="setStrat(this)">D</button>
+  <button class="strat-btn" data-strat="E" onclick="setStrat(this)">E</button>
+  <button class="strat-btn" data-strat="F" onclick="setStrat(this)">F</button>
+  <span style="width:1px;height:24px;background:#e5e7eb;margin:0 4px;"></span>
+  <label>Precio máx:</label>
+  <input type="number" id="maxPrice" placeholder="300000" step="10000" style="width:100px;" oninput="updateMap()">
+  <label>💎 Solo sugeridas:</label>
+  <button class="filter-btn" id="sugOnly" onclick="toggleSuggested(this)">Off</button>
+</div>
+
+<div id="map"></div>
+<div class="counter" id="counter">Cargando...</div>
+<div class="legend">
+  <strong style="font-size:0.82rem;">Leyenda</strong>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;border-color:#fde68a;"></div> 💎 Sugerida</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#16a34a;"></div> BUY</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div> CONSIDER</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af;"></div> SKIP / Sin análisis</div>
+</div>
+
+<script>
+const FAVS_KEY = 'cthae_property_favs';
+function loadFavs() { try { return new Set(JSON.parse(localStorage.getItem(FAVS_KEY)||'[]')); } catch { return new Set(); } }
+function saveFavs() { localStorage.setItem(FAVS_KEY, JSON.stringify([...favs])); }
+const favs = loadFavs();
+
+let map, markers, allProps = [], coords = {}, yields = {}, suggested = {}, thumbs = {};
+let filterVerdict = '', filterStrat = '', filterSugOnly = false;
+
+// Init map
+map = L.map('map').setView([41.6520, -4.7286], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 18,
+}).addTo(map);
+markers = L.markerClusterGroup({ maxClusterRadius: 40, spiderfyOnMaxZoom: true });
+map.addLayer(markers);
+
+function fmt(n) { return Math.round(n).toLocaleString('es-ES'); }
+
+function markerIcon(link) {
+  const isSug = link in suggested;
+  const y = yields[link];
+  const verdict = y ? y.veredicto : '';
+  
+  let cls = 'marker-skip';
+  if (isSug) cls = 'marker-suggested';
+  else if (verdict === 'BUY') cls = 'marker-buy';
+  else if (verdict === 'CONSIDER') cls = 'marker-consider';
+  
+  return L.divIcon({ className: cls, iconSize: isSug ? [14,14] : verdict === 'BUY' ? [12,12] : [10,10] });
+}
+
+function popupHTML(r) {
+  const y = yields[r.link] || {};
+  const sug = suggested[r.link];
+  const thumb = thumbs[r.link];
+  const precio = parseInt(r['Precio (€)']) || 0;
+  const m2 = parseInt(r['m² construidos']) || 0;
+  const ppm2 = m2 ? Math.round(precio/m2) : 0;
+  const isFav = favs.has(r.link);
+  const stratNames = {A:'Mudarse',B:'Inversión',C:'Dual',D:'Turístico',E:'Pueblo',F:'Rural'};
+  
+  let badges = '';
+  if (sug) badges += sug.map(s => `<span class="badge badge-strat">💎 ${stratNames[s]||s}</span>`).join('');
+  if (y.veredicto === 'BUY') badges += '<span class="badge badge-buy">BUY</span>';
+  else if (y.veredicto === 'CONSIDER') badges += '<span class="badge badge-consider">CONSIDER</span>';
+  else if (y.veredicto === 'SKIP') badges += '<span class="badge badge-skip">SKIP</span>';
+  if (y.rentab) badges += `<span class="badge badge-yield">📈 ${y.rentab.toFixed(1)}%</span>`;
+  if (y.alqEst) badges += `<span class="badge badge-alq">🏷️ ${Math.round(y.alqEst)}€/mes</span>`;
+  
+  return `<div class="popup-card">
+    ${thumb ? `<img src="${thumb}" onerror="this.style.display='none'" loading="lazy">` : ''}
+    <div class="price">${precio ? fmt(precio)+' €' : 'Consultar'}</div>
+    <div class="ppm2">${ppm2 ? fmt(ppm2)+' €/m²' : ''}</div>
+    <div class="stats">
+      ${m2 ? `<span>📐 ${m2}m²</span>` : ''}
+      ${r['Habitaciones'] ? `<span>🛏 ${r['Habitaciones']}</span>` : ''}
+      ${r['Baños'] ? `<span>🚿 ${r['Baños']}</span>` : ''}
+    </div>
+    <div class="badges">${badges}</div>
+    <div class="addr">${r['Dirección']||''}</div>
+    <div class="btn-row">
+      <a class="btn-link" href="${r.link}" target="_blank">Ver en idealista ↗</a>
+      <button class="btn-fav ${isFav?'faved':''}" onclick="toggleFav('${r.link}',this)">${isFav?'★':'☆'}</button>
+    </div>
+  </div>`;
+}
+
+function toggleFav(link, btn) {
+  if (favs.has(link)) favs.delete(link); else favs.add(link);
+  saveFavs();
+  if (btn) { btn.classList.toggle('faved'); btn.textContent = favs.has(link)?'★':'☆'; }
+}
+
+function updateMap() {
+  markers.clearLayers();
+  const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+  let count = 0;
+  
+  allProps.forEach(r => {
+    const c = coords[r.link];
+    if (!c) return;
+    const precio = parseInt(r['Precio (€)']) || 0;
+    const y = yields[r.link];
+    const verdict = y ? y.veredicto : '';
+    const sug = suggested[r.link];
+    
+    // Filters
+    if (precio > maxPrice) return;
+    if (filterVerdict && verdict !== filterVerdict) return;
+    if (filterStrat && (!sug || !sug.includes(filterStrat))) return;
+    if (filterSugOnly && !sug) return;
+    
+    const m = L.marker([c[0], c[1]], { icon: markerIcon(r.link) });
+    m.bindPopup(() => popupHTML(r), { maxWidth: 340, minWidth: 260 });
+    markers.addLayer(m);
+    count++;
+  });
+  
+  document.getElementById('counter').textContent = `${count.toLocaleString('es-ES')} propiedades`;
+}
+
+function setVerdict(btn) {
+  document.querySelectorAll('.filter-btn[data-verdict]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterVerdict = btn.dataset.verdict;
+  updateMap();
+}
+function setStrat(btn) {
+  document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterStrat = btn.dataset.strat;
+  updateMap();
+}
+function toggleSuggested(btn) {
+  filterSugOnly = !filterSugOnly;
+  btn.classList.toggle('active', filterSugOnly);
+  btn.textContent = filterSugOnly ? 'On' : 'Off';
+  updateMap();
+}
+
+// Load all data
+Promise.all([
+  fetch('data.csv').then(r => r.text()).then(t => Papa.parse(t, {header:true,delimiter:';',skipEmptyLines:true}).data),
+  fetch('coords.json').then(r => r.json()),
+  fetch('yields.json').then(r => r.json()),
+  fetch('suggested.json').then(r => r.json()),
+  fetch('thumbs.json').then(r => r.json()).catch(()=>({})),
+]).then(([csv, c, y, s, t]) => {
+  allProps = csv.map(r => { r.link = r['Link']||''; return r; });
+  coords = c; yields = y; suggested = s; thumbs = t;
+  updateMap();
+});
+</script>
+</body>
+</html>
