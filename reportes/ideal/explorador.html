@@ -375,6 +375,23 @@
   .card.entering { animation: cardIn 0.25s ease both; }
   @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+  .card-thumb {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: var(--gray-100);
+    display: block;
+  }
+  .card-thumb-placeholder {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+    font-size: 1.5rem;
+  }
   .card-header {
     padding: 10px 12px 8px;
     border-bottom: 1px solid var(--gray-100);
@@ -1092,7 +1109,8 @@ const state = {
   sortDir: 1,
   // render state
   renderPage: 0,
-  PAGE_SIZE: 30,
+  PAGE_SIZE: 60,
+  thumbs: {},
   // data ranges
   dataRanges: {}
 };
@@ -1150,6 +1168,11 @@ async function loadData() {
 // ==================== INIT ====================
 async function init() {
   try {
+    // Load thumbnails
+    try {
+      const thumbRes = await fetch('thumbs.json');
+      state.thumbs = await thumbRes.json();
+    } catch(e) { console.warn('No thumbs:', e); }
     const raw = await loadData();
     state.allData = raw.map(r => {
       const precio = parseInt(r['Precio (€)']) || 0;
@@ -1628,7 +1651,13 @@ function buildCard(r, idx) {
   const descId = 'desc-' + idx;
   const descHtml = r.desc ? `<div class="card-desc" id="${descId}">${r.desc}</div>` : '';
 
+  const thumbUrl = state.thumbs[r.link] || '';
+  const imgHtml = thumbUrl 
+    ? `<img class="card-thumb" src="${thumbUrl}" alt="${r.dir}" loading="lazy" onerror="this.outerHTML='<div class=\\'card-thumb-placeholder\\'>🏠</div>'">`
+    : `<div class="card-thumb-placeholder">🏠</div>`;
+
   card.innerHTML = `
+    ${imgHtml}
     <div class="card-header">
       <span class="zone-badge">${r.zona}${r.subzona ? ' › ' + r.subzona : ''}</span>
       ${r.estado ? `<span class="estado-badge ${estadoClass}">${estadoLabel}</span>` : ''}
