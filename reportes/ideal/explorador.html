@@ -583,6 +583,30 @@
     box-shadow: 0 2px 4px rgba(124,58,237,0.3);
   }
   .card-img-wrap { position: relative; }
+  .card-yield {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    padding: 2px 0;
+  }
+  .yield-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .yield-rentab { background: #ecfdf5; color: #065f46; }
+  .yield-rentab.high { background: #d1fae5; }
+  .yield-rentab.low { background: #fef2f2; color: #991b1b; }
+  .yield-alq { background: #eff6ff; color: #1e40af; }
+  .yield-verdict { font-weight: 700; font-size: 0.65rem; padding: 2px 5px; border-radius: 3px; }
+  .verdict-buy { background: #d1fae5; color: #065f46; }
+  .verdict-consider { background: #fef3c7; color: #92400e; }
+  .verdict-skip { background: #fee2e2; color: #991b1b; }
+  .yield-score { background: var(--gray-100); color: var(--gray-700); }
   .suggested-filter-btn {
     padding: 6px 14px;
     border: 1.5px solid var(--gray-200);
@@ -1067,6 +1091,8 @@
         <option value="hab">Habitaciones</option>
         <option value="anyo">Año construcción</option>
         <option value="pie">Tiempo a pie</option>
+        <option value="rentab">Rentabilidad %</option>
+        <option value="alqEst">Alquiler estimado</option>
       </select>
       <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
       <button class="suggested-filter-btn" id="suggested-filter-btn" onclick="toggleSuggestedFilter()">
@@ -1164,6 +1190,7 @@ const state = {
   renderPage: 0,
   PAGE_SIZE: 60,
   thumbs: {},
+  yields: {},
   // data ranges
   dataRanges: {}
 };
@@ -1231,6 +1258,10 @@ async function init() {
       suggestedMap = await sugRes.json();
       document.getElementById('suggested-count-badge').textContent = Object.keys(suggestedMap).length;
     } catch(e) { console.warn('No suggested:', e); }
+    try {
+      const yieldRes = await fetch('yields.json');
+      state.yields = await yieldRes.json();
+    } catch(e) { console.warn('No yields:', e); }
     const raw = await loadData();
     state.allData = raw.map(r => {
       const precio = parseInt(r['Precio (€)']) || 0;
@@ -1599,6 +1630,14 @@ function applyFilters() {
       case 'hab': va = a.hab; vb = b.hab; break;
       case 'anyo': va = a.anyo; vb = b.anyo; break;
       case 'pie': va = a.pie; vb = b.pie; break;
+      case 'rentab': {
+        const ya = state.yields[a.link]; const yb = state.yields[b.link];
+        va = ya ? ya.rentab || 0 : 0; vb = yb ? yb.rentab || 0 : 0; break;
+      }
+      case 'alqEst': {
+        const ya2 = state.yields[a.link]; const yb2 = state.yields[b.link];
+        va = ya2 ? ya2.alqEst || 0 : 0; vb = yb2 ? yb2.alqEst || 0 : 0; break;
+      }
       default: va = a.precio; vb = b.precio;
     }
     return (va - vb) * s.sortDir;
@@ -1702,6 +1741,20 @@ function buildCard(r, idx) {
   if (r.trastero === 'Sí') badges.push('<span class="badge">📦 Trastero</span>');
   if (r.jardin === 'Sí') badges.push('<span class="badge badge-yes">🌳 Jardín</span>');
 
+  // Yield data
+  const yld = state.yields[r.link];
+  let yieldHtml = '';
+  if (yld) {
+    const rentabClass = yld.rentab >= 6 ? 'high' : yld.rentab < 4 ? 'low' : '';
+    const verdictClass = yld.veredicto === 'BUY' ? 'verdict-buy' : yld.veredicto === 'CONSIDER' ? 'verdict-consider' : 'verdict-skip';
+    yieldHtml = `<div class="card-yield">`;
+    if (yld.rentab) yieldHtml += `<span class="yield-chip yield-rentab ${rentabClass}">📈 ${yld.rentab.toFixed(1)}%</span>`;
+    if (yld.alqEst) yieldHtml += `<span class="yield-chip yield-alq">🏷️ ${Math.round(yld.alqEst)}€/mes</span>`;
+    if (yld.calidad) yieldHtml += `<span class="yield-chip yield-score">⭐ ${yld.calidad}/5</span>`;
+    if (yld.veredicto) yieldHtml += `<span class="yield-verdict ${verdictClass}">${yld.veredicto}</span>`;
+    yieldHtml += `</div>`;
+  }
+
   const travelHtml = (r.cocheL || r.busL || r.pie) ? `
     <div class="card-travel">
       ${r.cocheL ? `<div class="travel-item">🚗 ${r.cocheL} min</div>` : ''}
@@ -1742,6 +1795,7 @@ function buildCard(r, idx) {
       </div>
       ${r.dir ? `<div class="card-address" title="${r.dir}">${dirTrunc}</div>` : ''}
       ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
+      ${yieldHtml}
       ${travelHtml}
       ${descHtml}
     </div>
