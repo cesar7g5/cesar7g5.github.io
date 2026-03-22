@@ -848,10 +848,128 @@
       </div>
     </div>
 
+    <!-- Jardín -->
+    <div class="filter-group">
+      <span class="filter-label">Jardín</span>
+      <div class="toggle-group" id="jardin-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Trastero -->
+    <div class="filter-group">
+      <span class="filter-label">Trastero</span>
+      <div class="toggle-group" id="trastero-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Aire acondicionado -->
+    <div class="filter-group">
+      <span class="filter-label">Aire acondicionado</span>
+      <div class="toggle-group" id="ac-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Calefacción -->
+    <div class="filter-group">
+      <span class="filter-label">Calefacción</span>
+      <div class="checkbox-list" id="calefaccion-list"></div>
+    </div>
+
+    <!-- Certificación energética -->
+    <div class="filter-group">
+      <span class="filter-label">Certificación energética</span>
+      <div class="checkbox-list" id="cert-list"></div>
+    </div>
+
+    <!-- Tipo -->
+    <div class="filter-group">
+      <span class="filter-label">Tipo de inmueble</span>
+      <div class="checkbox-list" id="tipo-list"></div>
+    </div>
+
     <!-- Estado -->
     <div class="filter-group">
       <span class="filter-label">Estado</span>
       <div class="checkbox-list" id="estado-list"></div>
+    </div>
+
+    <h4 style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--gray-400); margin:16px 0 8px; padding-top:8px; border-top:2px solid var(--gray-100);">🚗 Tiempos al centro</h4>
+
+    <!-- Coche lunes -->
+    <div class="filter-group">
+      <span class="filter-label">🚗 Coche (lunes 8am) — máx min</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="coche-min-display"></span>
+          <span id="coche-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="coche-fill"></div>
+          <input type="range" id="coche-min" step="1">
+          <input type="range" id="coche-max" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- Bus lunes -->
+    <div class="filter-group">
+      <span class="filter-label">🚌 Bus (lunes 8am) — máx min</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="bus-min-display"></span>
+          <span id="bus-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="bus-fill"></div>
+          <input type="range" id="bus-min" step="1">
+          <input type="range" id="bus-max" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- A pie -->
+    <div class="filter-group">
+      <span class="filter-label">🚶 A pie — máx min</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="pie-min-display"></span>
+          <span id="pie-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="pie-fill"></div>
+          <input type="range" id="pie-min" step="1">
+          <input type="range" id="pie-max" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- Distancia coche km -->
+    <div class="filter-group">
+      <span class="filter-label">📏 Distancia en coche (km)</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="distkm-min-display"></span>
+          <span id="distkm-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="distkm-fill"></div>
+          <input type="range" id="distkm-min" step="0.5">
+          <input type="range" id="distkm-max" step="0.5">
+        </div>
+      </div>
     </div>
 
   </aside>
@@ -957,7 +1075,17 @@ const state = {
   garaje: '',
   terraza: '',
   piscina: '',
+  jardin: '',
+  trastero: '',
+  ac: '',
+  calefacciones: new Set(),
+  certs: new Set(),
+  tipos: new Set(),
   estados: new Set(),
+  cocheMin: 0, cocheMax: Infinity,
+  busMin: 0, busMax: Infinity,
+  pieMin: 0, pieMax: Infinity,
+  distkmMin: 0, distkmMax: Infinity,
   search: '',
   sortBy: 'precio',
   showFavsOnly: false,
@@ -1080,12 +1208,20 @@ function computeRanges() {
   const m2s = d.map(r=>r.m2c).filter(v=>v>0 && v<1000);
   const ppm2s = d.map(r=>r.ppm2).filter(v=>v>0 && v<20000);
   const anyos = d.map(r=>r.anyo).filter(v=>v>1800);
+  const coches = d.map(r=>r.cocheL).filter(v=>v>0);
+  const buses = d.map(r=>r.busL).filter(v=>v>0);
+  const pies = d.map(r=>r.pie).filter(v=>v>0);
+  const distkms = d.map(r=>r.distCoche).filter(v=>v>0);
 
   state.dataRanges = {
     precioMin: Math.min(...prices), precioMax: Math.max(...prices),
     m2Min: Math.min(...m2s), m2Max: Math.max(...m2s),
     ppm2Min: Math.min(...ppm2s), ppm2Max: Math.max(...ppm2s),
-    anyoMin: Math.min(...anyos), anyoMax: Math.max(...anyos)
+    anyoMin: Math.min(...anyos), anyoMax: Math.max(...anyos),
+    cocheMin: coches.length ? Math.min(...coches) : 0, cocheMax: coches.length ? Math.max(...coches) : 120,
+    busMin: buses.length ? Math.min(...buses) : 0, busMax: buses.length ? Math.max(...buses) : 120,
+    pieMin: pies.length ? Math.min(...pies) : 0, pieMax: pies.length ? Math.max(...pies) : 300,
+    distkmMin: distkms.length ? Math.min(...distkms) : 0, distkmMax: distkms.length ? Math.max(...distkms) : 100,
   };
   // init filter values to full range
   state.precioMin = state.dataRanges.precioMin;
@@ -1096,6 +1232,14 @@ function computeRanges() {
   state.ppm2Max = state.dataRanges.ppm2Max;
   state.anyoMin = state.dataRanges.anyoMin;
   state.anyoMax = state.dataRanges.anyoMax;
+  state.cocheMin = state.dataRanges.cocheMin;
+  state.cocheMax = state.dataRanges.cocheMax;
+  state.busMin = state.dataRanges.busMin;
+  state.busMax = state.dataRanges.busMax;
+  state.pieMin = state.dataRanges.pieMin;
+  state.pieMax = state.dataRanges.pieMax;
+  state.distkmMin = state.dataRanges.distkmMin;
+  state.distkmMax = state.dataRanges.distkmMax;
 }
 
 // ==================== BUILD FILTER UI ====================
@@ -1121,6 +1265,33 @@ function buildFiltersUI() {
     <label class="checkbox-item">
       <input type="checkbox" value="${e}" onchange="onEstadoChange(this)">
       <span>${getEstadoLabel(e)}</span>
+    </label>`).join('');
+
+  // Calefacción
+  const calefs = [...new Set(d.map(r=>r.calefaccion))].filter(Boolean).sort();
+  const calefList = document.getElementById('calefaccion-list');
+  calefList.innerHTML = calefs.map(c => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${c}" onchange="onCalefChange(this)">
+      <span>${c}</span>
+    </label>`).join('');
+
+  // Certificación
+  const certs = [...new Set(d.map(r=>r.cert))].filter(Boolean).sort();
+  const certList = document.getElementById('cert-list');
+  certList.innerHTML = certs.map(c => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${c}" onchange="onCertChange(this)">
+      <span>${c}</span>
+    </label>`).join('');
+
+  // Tipo
+  const tipos = [...new Set(d.map(r=>r.tipo))].filter(Boolean).sort();
+  const tipoList = document.getElementById('tipo-list');
+  tipoList.innerHTML = tipos.map(t => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${t}" onchange="onTipoChange(this)">
+      <span>${t}</span>
     </label>`).join('');
 
   // Range sliders
@@ -1153,6 +1324,16 @@ function buildFiltersUI() {
   setupToggleGroup('garaje-toggle', v => { state.garaje = v; applyFilters(); });
   setupToggleGroup('terraza-toggle', v => { state.terraza = v; applyFilters(); });
   setupToggleGroup('piscina-toggle', v => { state.piscina = v; applyFilters(); });
+  setupToggleGroup('jardin-toggle', v => { state.jardin = v; applyFilters(); });
+  setupToggleGroup('trastero-toggle', v => { state.trastero = v; applyFilters(); });
+  setupToggleGroup('ac-toggle', v => { state.ac = v; applyFilters(); });
+
+  // Travel range sliders
+  const r = state.dataRanges;
+  setupRangeSlider('coche', r.cocheMin, r.cocheMax, v => v + ' min');
+  setupRangeSlider('bus', r.busMin, r.busMax, v => v + ' min');
+  setupRangeSlider('pie', r.pieMin, r.pieMax, v => v + ' min');
+  setupRangeSlider('distkm', r.distkmMin, r.distkmMax, v => v + ' km');
 
   // Search
   document.getElementById('search-input').addEventListener('input', debounce(e => {
@@ -1222,6 +1403,11 @@ function setupRangeSlider(id, min, max, formatter) {
     const key = id === 'precio' ? ['precioMin','precioMax'] :
                 id === 'm2'    ? ['m2Min','m2Max'] :
                 id === 'ppm2'  ? ['ppm2Min','ppm2Max'] :
+                id === 'anyo'  ? ['anyoMin','anyoMax'] :
+                id === 'coche' ? ['cocheMin','cocheMax'] :
+                id === 'bus'   ? ['busMin','busMax'] :
+                id === 'pie'   ? ['pieMin','pieMax'] :
+                id === 'distkm'? ['distkmMin','distkmMax'] :
                                  ['anyoMin','anyoMax'];
     state[key[0]] = vMin;
     state[key[1]] = vMax;
@@ -1260,6 +1446,21 @@ function onEstadoChange(cb) {
   else state.estados.delete(cb.value);
   applyFilters();
 }
+function onCalefChange(cb) {
+  if (cb.checked) state.calefacciones.add(cb.value);
+  else state.calefacciones.delete(cb.value);
+  applyFilters();
+}
+function onCertChange(cb) {
+  if (cb.checked) state.certs.add(cb.value);
+  else state.certs.delete(cb.value);
+  applyFilters();
+}
+function onTipoChange(cb) {
+  if (cb.checked) state.tipos.add(cb.value);
+  else state.tipos.delete(cb.value);
+  applyFilters();
+}
 
 // ==================== FILTER + SORT ====================
 function applyFilters() {
@@ -1274,6 +1475,12 @@ function applyFilters() {
   if (s.garaje) data = data.filter(r => r.garaje === s.garaje);
   if (s.terraza) data = data.filter(r => r.terraza === s.terraza);
   if (s.piscina) data = data.filter(r => r.piscina === s.piscina);
+  if (s.jardin) data = data.filter(r => r.jardin === s.jardin);
+  if (s.trastero) data = data.filter(r => r.trastero === s.trastero);
+  if (s.ac) data = data.filter(r => r.ac === s.ac);
+  if (s.calefacciones.size > 0) data = data.filter(r => s.calefacciones.has(r.calefaccion));
+  if (s.certs.size > 0) data = data.filter(r => s.certs.has(r.cert));
+  if (s.tipos.size > 0) data = data.filter(r => s.tipos.has(r.tipo));
   if (s.habMin > 0) data = data.filter(r => s.habMin === 5 ? r.hab >= 5 : r.hab >= s.habMin);
   if (s.banoMin > 0) data = data.filter(r => s.banoMin === 3 ? r.bano >= 3 : r.bano >= s.banoMin);
 
@@ -1282,6 +1489,10 @@ function applyFilters() {
     if (r.m2c > 0 && (r.m2c < s.m2Min || r.m2c > s.m2Max)) return false;
     if (r.ppm2 && (r.ppm2 < s.ppm2Min || r.ppm2 > s.ppm2Max)) return false;
     if (r.anyo > 0 && (r.anyo < s.anyoMin || r.anyo > s.anyoMax)) return false;
+    if (r.cocheL > 0 && (r.cocheL < s.cocheMin || r.cocheL > s.cocheMax)) return false;
+    if (r.busL > 0 && (r.busL < s.busMin || r.busL > s.busMax)) return false;
+    if (r.pie > 0 && (r.pie < s.pieMin || r.pie > s.pieMax)) return false;
+    if (r.distCoche > 0 && (r.distCoche < s.distkmMin || r.distCoche > s.distkmMax)) return false;
     return true;
   });
 
@@ -1464,6 +1675,20 @@ function clearAllFilters() {
   state.garaje = '';
   state.terraza = '';
   state.piscina = '';
+  state.jardin = '';
+  state.trastero = '';
+  state.ac = '';
+  state.calefacciones = new Set();
+  state.certs = new Set();
+  state.tipos = new Set();
+  state.cocheMin = state.dataRanges.cocheMin;
+  state.cocheMax = state.dataRanges.cocheMax;
+  state.busMin = state.dataRanges.busMin;
+  state.busMax = state.dataRanges.busMax;
+  state.pieMin = state.dataRanges.pieMin;
+  state.pieMax = state.dataRanges.pieMax;
+  state.distkmMin = state.dataRanges.distkmMin;
+  state.distkmMax = state.dataRanges.distkmMax;
   state.habMin = 0;
   state.banoMin = 0;
   state.search = '';
@@ -1481,27 +1706,35 @@ function clearAllFilters() {
   document.getElementById('search-input').value = '';
 
   // Reset sliders
-  ['precio','m2','ppm2','anyo'].forEach(id => {
+  ['precio','m2','ppm2','anyo','coche','bus','pie','distkm'].forEach(id => {
     const r = state.dataRanges;
     const [mn, mx] = id === 'precio' ? [r.precioMin, r.precioMax] :
                      id === 'm2'    ? [r.m2Min, r.m2Max] :
                      id === 'ppm2'  ? [r.ppm2Min, r.ppm2Max] :
-                                      [r.anyoMin, r.anyoMax];
+                     id === 'anyo'  ? [r.anyoMin, r.anyoMax] :
+                     id === 'coche' ? [r.cocheMin, r.cocheMax] :
+                     id === 'bus'   ? [r.busMin, r.busMax] :
+                     id === 'pie'   ? [r.pieMin, r.pieMax] :
+                                      [r.distkmMin, r.distkmMax];
     const eMin = document.getElementById(id+'-min');
     const eMax = document.getElementById(id+'-max');
-    eMin.value = mn; eMax.value = mx;
+    if (eMin && eMax) { eMin.value = mn; eMax.value = mx; }
     const fill = document.getElementById(id+'-fill');
     if (fill) { fill.style.left = '0%'; fill.style.width = '100%'; }
     const formatter = id === 'precio' ? v => fmt(v) :
                       id === 'm2'    ? v => v + ' m²' :
                       id === 'ppm2'  ? v => v + ' €/m²' :
+                      id === 'coche' || id === 'bus' || id === 'pie' ? v => v + ' min' :
+                      id === 'distkm' ? v => v + ' km' :
                                        v => v.toString();
-    document.getElementById(id+'-min-display').textContent = formatter(mn);
-    document.getElementById(id+'-max-display').textContent = formatter(mx);
+    const dMin = document.getElementById(id+'-min-display');
+    const dMax = document.getElementById(id+'-max-display');
+    if (dMin) dMin.textContent = formatter(mn);
+    if (dMax) dMax.textContent = formatter(mx);
   });
 
   // Reset toggles
-  ['orient-toggle','ascensor-toggle','garaje-toggle','terraza-toggle','piscina-toggle'].forEach(id => {
+  ['orient-toggle','ascensor-toggle','garaje-toggle','terraza-toggle','piscina-toggle','jardin-toggle','trastero-toggle','ac-toggle'].forEach(id => {
     document.querySelectorAll(`#${id} .toggle-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === ''));
   });
 
