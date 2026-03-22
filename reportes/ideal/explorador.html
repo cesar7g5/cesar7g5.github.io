@@ -3,678 +3,1563 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏠 Explorador de Propiedades — Valladolid &amp; Madrid</title>
+<title>🏠 Explorador de Propiedades — Valladolid & Madrid</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
-:root {
-  --navy: #1a2332;
-  --navy-light: #2d3748;
-  --blue: #3b82f6;
-  --green: #16a34a;
-  --red: #dc2626;
-  --amber: #d97706;
-  --purple: #7c3aed;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
-  --radius: 10px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--gray-50); color: var(--gray-800); }
+  :root {
+    --navy: #1a2332;
+    --navy-light: #243044;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --green: #10b981;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --orange: #f59e0b;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-400: #9ca3af;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+    --radius: 10px;
+    --sidebar-width: 280px;
+  }
 
-/* HEADER */
-.header { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: white; padding: 24px 32px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-lg); }
-.header h1 { font-size: 1.5rem; font-weight: 700; }
-.header .subtitle { color: #94a3b8; margin-top: 4px; font-size: 0.95rem; }
-.header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.search-box { padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; font-size: 0.95rem; width: 320px; max-width: 100%; outline: none; }
-.search-box::placeholder { color: rgba(255,255,255,0.5); }
-.search-box:focus { border-color: var(--blue); background: rgba(255,255,255,0.15); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* LAYOUT */
-.layout { display: flex; min-height: calc(100vh - 80px); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
 
-/* SIDEBAR */
-.sidebar { width: 300px; min-width: 300px; background: white; border-right: 1px solid var(--gray-200); padding: 20px; overflow-y: auto; max-height: calc(100vh - 80px); position: sticky; top: 80px; }
-.sidebar h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); margin: 16px 0 8px; }
-.sidebar h3:first-child { margin-top: 0; }
-.filter-group { margin-bottom: 12px; }
-.filter-group label { display: block; font-size: 0.85rem; color: var(--gray-600); margin-bottom: 4px; font-weight: 500; }
-.filter-group select, .filter-group input[type="number"] {
-  width: 100%; padding: 8px 10px; border: 1px solid var(--gray-200); border-radius: 6px;
-  font-size: 0.9rem; background: white; color: var(--gray-700); outline: none;
-}
-.filter-group select:focus, .filter-group input:focus { border-color: var(--blue); }
-.range-row { display: flex; gap: 8px; align-items: center; }
-.range-row input { width: 50%; }
-.range-row span { color: var(--gray-400); font-size: 0.85rem; }
-.checkbox-list { max-height: 160px; overflow-y: auto; border: 1px solid var(--gray-200); border-radius: 6px; padding: 6px; }
-.checkbox-list label { display: flex; align-items: center; gap: 6px; padding: 3px 4px; font-size: 0.85rem; cursor: pointer; border-radius: 4px; color: var(--gray-700); }
-.checkbox-list label:hover { background: var(--gray-50); }
-.checkbox-list input[type="checkbox"] { accent-color: var(--blue); }
-.tri-toggle { display: flex; gap: 0; border: 1px solid var(--gray-200); border-radius: 6px; overflow: hidden; }
-.tri-toggle button { flex: 1; padding: 6px; font-size: 0.8rem; border: none; background: white; cursor: pointer; color: var(--gray-600); transition: all 0.15s; }
-.tri-toggle button.active { background: var(--blue); color: white; }
-.tri-toggle button:not(:last-child) { border-right: 1px solid var(--gray-200); }
-.btn-clear { width: 100%; padding: 10px; border: 1px solid var(--red); background: white; color: var(--red); border-radius: 8px; font-size: 0.9rem; cursor: pointer; margin-top: 16px; font-weight: 500; transition: all 0.15s; }
-.btn-clear:hover { background: var(--red); color: white; }
+  /* HEADER */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 20px 24px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-title { flex: 1; min-width: 200px; }
+  header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; }
+  header p { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+  #count-display { color: rgba(255,255,255,0.9); font-weight: 600; }
 
-/* MAIN */
-.main { flex: 1; padding: 20px; min-width: 0; }
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    gap: 8px;
+    min-width: 240px;
+    transition: background 0.2s;
+  }
+  .search-box:focus-within {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .search-box input {
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+  .search-box input::placeholder { color: rgba(255,255,255,0.45); }
+  .search-box svg { color: rgba(255,255,255,0.5); flex-shrink: 0; }
 
-/* STATS */
-.stats-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-.stat-card { background: white; border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); flex: 1; min-width: 140px; }
-.stat-card .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-400); }
-.stat-card .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--gray-800); margin-top: 2px; }
+  .mobile-filter-btn {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .mobile-filter-btn:hover { background: rgba(255,255,255,0.2); }
 
-/* SORT BAR */
-.sort-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-.sort-bar select { padding: 8px 12px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.9rem; background: white; }
-.sort-bar button { padding: 8px 12px; border: 1px solid var(--gray-200); border-radius: 6px; background: white; cursor: pointer; font-size: 0.9rem; }
-.sort-bar button:hover { background: var(--gray-50); }
-.view-toggle { margin-left: auto; display: flex; gap: 0; }
-.view-toggle button { padding: 8px 12px; border: 1px solid var(--gray-200); background: white; cursor: pointer; font-size: 1rem; }
-.view-toggle button:first-child { border-radius: 6px 0 0 6px; }
-.view-toggle button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
-.view-toggle button.active { background: var(--navy); color: white; border-color: var(--navy); }
+  /* LAYOUT */
+  .layout {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    padding: 0;
+  }
 
-/* GRID */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
-.grid.list-view { grid-template-columns: 1fr; }
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    background: white;
+    border-right: 1px solid var(--gray-200);
+    height: calc(100vh - 69px);
+    overflow-y: auto;
+    position: sticky;
+    top: 69px;
+    padding: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-200) transparent;
+    transition: transform 0.3s ease;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
 
-/* CARD */
-.card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; }
-.card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-.list-view .card { flex-direction: row; }
-.card-top { padding: 16px 16px 0; display: flex; justify-content: space-between; align-items: flex-start; }
-.badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
-.badge-zona { background: #e0e7ff; color: #3730a3; }
-.badge-estado { font-size: 0.7rem; }
-.badge-bueno { background: #dcfce7; color: #166534; }
-.badge-reformar { background: #fee2e2; color: #991b1b; }
-.badge-reformado { background: #dbeafe; color: #1e40af; }
-.badge-nuevo { background: #fef3c7; color: #92400e; }
-.badge-default { background: var(--gray-100); color: var(--gray-600); }
-.card-body { padding: 12px 16px; flex: 1; }
-.card-price { font-size: 1.4rem; font-weight: 800; color: var(--gray-800); }
-.card-ppm2 { font-size: 0.85rem; color: var(--gray-500); margin-top: 2px; }
-.card-features { display: flex; gap: 14px; margin-top: 10px; color: var(--gray-600); font-size: 0.9rem; }
-.card-features span { display: flex; align-items: center; gap: 4px; }
-.card-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
-.card-badges .mini-badge { padding: 2px 7px; border-radius: 4px; font-size: 0.72rem; background: var(--gray-100); color: var(--gray-600); }
-.card-badges .mini-badge.yes { background: #dbeafe; color: #1e40af; }
-.card-address { margin-top: 10px; font-size: 0.85rem; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-travel { display: flex; gap: 12px; margin-top: 8px; font-size: 0.82rem; color: var(--gray-500); }
-.card-footer { padding: 12px 16px; border-top: 1px solid var(--gray-100); display: flex; gap: 8px; align-items: center; }
-.btn-idealista { flex: 1; padding: 8px; border: none; background: var(--blue); color: white; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: background 0.15s; }
-.btn-idealista:hover { background: #2563eb; }
-.btn-expand { padding: 8px 12px; border: 1px solid var(--gray-200); background: white; border-radius: 6px; font-size: 0.85rem; cursor: pointer; color: var(--gray-500); }
-.btn-expand:hover { background: var(--gray-50); }
-.card-desc { padding: 0 16px 12px; font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; display: none; max-height: 200px; overflow-y: auto; }
-.card-desc.open { display: block; animation: fadeIn 0.2s; }
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gray-100);
+  }
+  .sidebar-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-600); }
 
-/* LOADING */
-.loading { text-align: center; padding: 60px; color: var(--gray-400); font-size: 1.1rem; }
-.loading .spinner { width: 40px; height: 40px; border: 3px solid var(--gray-200); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .clear-btn {
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .clear-btn:hover { background: var(--gray-100); }
 
-/* MOBILE TOGGLE */
-.sidebar-toggle { display: none; position: fixed; bottom: 20px; left: 20px; z-index: 200; padding: 14px 18px; background: var(--navy); color: white; border: none; border-radius: 50px; font-size: 0.9rem; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-lg); }
+  .filter-group {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .filter-group:last-child { border-bottom: none; }
+  .filter-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+    display: block;
+  }
 
-/* NO RESULTS */
-.no-results { text-align: center; padding: 60px 20px; color: var(--gray-400); }
-.no-results h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--gray-500); }
+  /* Checkbox filters */
+  .checkbox-list { display: flex; flex-direction: column; gap: 4px; }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    padding: 3px 4px;
+    border-radius: 5px;
+    transition: background 0.15s;
+    font-size: 0.85rem;
+  }
+  .checkbox-item:hover { background: var(--gray-50); }
+  .checkbox-item input[type=checkbox] {
+    width: 14px; height: 14px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
 
-/* PAGINATION */
-.load-more { text-align: center; margin-top: 20px; }
-.load-more button { padding: 12px 32px; background: white; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 0.95rem; cursor: pointer; color: var(--gray-600); }
-.load-more button:hover { background: var(--gray-50); border-color: var(--gray-300); }
+  /* Range sliders */
+  .range-wrapper { padding: 2px 0; }
+  .range-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .range-slider-dual {
+    position: relative;
+    height: 24px;
+    display: flex;
+    align-items: center;
+  }
+  .range-track {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: var(--gray-200);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .range-fill {
+    position: absolute;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .range-slider-dual input[type=range] {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+  }
+  .range-slider-dual input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    cursor: pointer;
+    pointer-events: all;
+    transition: transform 0.15s;
+  }
+  .range-slider-dual input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .range-slider-dual input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    cursor: pointer;
+    pointer-events: all;
+  }
 
-@media (max-width: 768px) {
-  .sidebar { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 150; max-height: 100vh; top: 0; padding-top: 60px; }
-  .sidebar.open { display: block; }
-  .sidebar-toggle { display: block; }
-  .grid { grid-template-columns: 1fr; }
-  .header { padding: 16px; }
-  .search-box { width: 100%; }
-  .stat-card { min-width: 100px; }
-  .stat-card .stat-value { font-size: 1rem; }
-  .sidebar-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-500); }
-}
+  /* Toggle buttons */
+  .toggle-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .toggle-btn {
+    padding: 4px 10px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+    color: var(--gray-700);
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* Min selectors */
+  .min-selector {
+    display: flex;
+    gap: 4px;
+  }
+  .min-btn {
+    width: 32px; height: 28px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 600;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .min-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .min-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* MAIN CONTENT */
+  .main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 16px 20px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 1px; }
+  .stat-value { font-size: 1rem; font-weight: 700; color: var(--navy); }
+  .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-400); font-weight: 600; }
+  .stats-divider { width: 1px; height: 32px; background: var(--gray-200); }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .sort-label { font-size: 0.82rem; color: var(--gray-600); font-weight: 500; }
+  .sort-select {
+    padding: 6px 10px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    background: white;
+    cursor: pointer;
+    color: var(--gray-700);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .sort-select:focus { border-color: var(--accent); }
+  .sort-dir-btn {
+    padding: 6px 10px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+  }
+  .sort-dir-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 760px) { .cards-grid { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .card.entering { animation: cardIn 0.25s ease both; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card-header {
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .zone-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--navy);
+    background: var(--gray-100);
+    padding: 3px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .estado-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .estado-bueno { background: #d1fae5; color: #065f46; }
+  .estado-reformar { background: #fee2e2; color: #991b1b; }
+  .estado-reformado { background: #dbeafe; color: #1e40af; }
+  .estado-nuevo { background: #fef3c7; color: #92400e; }
+  .estado-default { background: var(--gray-100); color: var(--gray-600); }
+
+  .card-body { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .price-main { font-size: 1.35rem; font-weight: 800; color: var(--navy); line-height: 1; }
+  .price-sqm { font-size: 0.78rem; color: var(--gray-400); font-weight: 500; }
+
+  .card-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 0.83rem;
+    color: var(--gray-700);
+    flex-wrap: wrap;
+  }
+  .card-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .card-stat span:first-child { font-size: 1em; }
+
+  .card-address {
+    font-size: 0.8rem;
+    color: var(--gray-600);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-200);
+  }
+  .badge-yes { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+
+  .card-travel {
+    display: flex;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    flex-wrap: wrap;
+  }
+  .travel-item { display: flex; align-items: center; gap: 3px; font-weight: 500; }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    display: none;
+    margin-top: 4px;
+    border-top: 1px solid var(--gray-100);
+    padding-top: 8px;
+  }
+  .card-desc.expanded { display: block; }
+
+  .card-footer {
+    padding: 8px 12px;
+    border-top: 1px solid var(--gray-100);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .btn-idealista {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 7px;
+    transition: background 0.15s;
+  }
+  .btn-idealista:hover { background: var(--accent-hover); }
+  .btn-expand {
+    background: var(--gray-100);
+    border: none;
+    color: var(--gray-600);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .btn-expand:hover { background: var(--gray-200); }
+
+  /* EMPTY STATE */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-400);
+  }
+  .empty-state svg { margin-bottom: 12px; opacity: 0.3; }
+  .empty-state h3 { font-size: 1.1rem; margin-bottom: 6px; color: var(--gray-600); }
+  .empty-state p { font-size: 0.85rem; }
+
+  /* LOAD MORE */
+  .load-more-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+  }
+  .load-more-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .load-more-btn:hover { background: var(--accent-hover); }
+
+  /* LOADING */
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 35, 50, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: white;
+    gap: 16px;
+  }
+  .spinner {
+    width: 44px; height: 44px;
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 1rem; opacity: 0.85; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .mobile-filter-btn { display: flex; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 200;
+      transform: translateX(-100%);
+      box-shadow: var(--shadow-lg);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-close-btn { display: flex; }
+    .layout { display: block; }
+    .main-content { padding: 12px; }
+    .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+    }
+    .overlay.visible { display: block; }
+  }
+  @media (max-width: 480px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.1rem; }
+    .stats-bar { gap: 12px; }
+    .stats-divider { display: none; }
+  }
+
+  .sidebar-close-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--gray-100);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--gray-600);
+    transition: background 0.15s;
+  }
+  .sidebar-close-btn:hover { background: var(--gray-200); }
+
+  /* scrollbar for results */
+  .main-content { scrollbar-width: thin; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-row">
-    <div>
-      <h1>🏠 Explorador de Propiedades</h1>
-      <div class="subtitle" id="subtitle">Cargando datos...</div>
-    </div>
-    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar por dirección o descripción...">
-  </div>
+<div id="loading-overlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Cargando propiedades…</div>
 </div>
 
-<button class="sidebar-toggle" id="sidebarToggle">⚙️ Filtros</button>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-title">
+      <h1>🏠 Explorador de Propiedades — Valladolid &amp; Madrid</h1>
+      <p><span id="count-display">0</span> propiedades encontradas</p>
+    </div>
+    <div class="search-box">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search-input" placeholder="Buscar dirección o descripción…">
+    </div>
+    <button class="mobile-filter-btn" onclick="openSidebar()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Filtros
+    </button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
 <div class="layout">
+
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-    <button class="sidebar-close" id="sidebarClose" style="display:none;">✕</button>
-    
-    <h3>📍 Ubicación</h3>
-    <div class="filter-group">
-      <label>Zona</label>
-      <div class="checkbox-list" id="filterZona"></div>
-    </div>
-    <div class="filter-group">
-      <label>Subzona</label>
-      <div class="checkbox-list" id="filterSubzona"></div>
-    </div>
-
-    <h3>💰 Precio</h3>
-    <div class="filter-group">
-      <label>Precio (€)</label>
-      <div class="range-row">
-        <input type="number" id="precioMin" placeholder="Min" step="5000">
-        <span>—</span>
-        <input type="number" id="precioMax" placeholder="Max" step="5000">
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Precio/m² (€)</label>
-      <div class="range-row">
-        <input type="number" id="ppm2Min" placeholder="Min" step="50">
-        <span>—</span>
-        <input type="number" id="ppm2Max" placeholder="Max" step="50">
+    <div class="sidebar-header">
+      <span class="sidebar-title">Filtros</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="clear-btn" id="clear-filters-btn" onclick="clearAllFilters()">Limpiar todo</button>
+        <button class="sidebar-close-btn" id="sidebar-close" onclick="closeSidebar()">✕</button>
       </div>
     </div>
 
-    <h3>📐 Tamaño</h3>
+    <!-- Zona -->
     <div class="filter-group">
-      <label>m² construidos</label>
-      <div class="range-row">
-        <input type="number" id="m2Min" placeholder="Min" step="5">
-        <span>—</span>
-        <input type="number" id="m2Max" placeholder="Max" step="5">
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Habitaciones (mín.)</label>
-      <select id="filterHab">
-        <option value="0">Todas</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5+</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Baños (mín.)</label>
-      <select id="filterBan">
-        <option value="0">Todos</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-      </select>
+      <span class="filter-label">Zona</span>
+      <div class="checkbox-list" id="zona-list"></div>
     </div>
 
-    <h3>🏗️ Características</h3>
+    <!-- Subzona -->
     <div class="filter-group">
-      <label>Ascensor</label>
-      <div class="tri-toggle" data-filter="ascensor">
-        <button class="active" data-val="">Todos</button>
-        <button data-val="Sí">Sí</button>
-        <button data-val="No">No</button>
-      </div>
+      <span class="filter-label">Subzona</span>
+      <div class="checkbox-list" id="subzona-list"></div>
     </div>
+
+    <!-- Precio -->
     <div class="filter-group">
-      <label>Exterior / Interior</label>
-      <div class="tri-toggle" data-filter="exterior">
-        <button class="active" data-val="">Todos</button>
-        <button data-val="Exterior">Ext</button>
-        <button data-val="Interior">Int</button>
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Garaje</label>
-      <div class="tri-toggle" data-filter="garaje">
-        <button class="active" data-val="">Todos</button>
-        <button data-val="Sí">Sí</button>
-        <button data-val="No">No</button>
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Terraza</label>
-      <div class="tri-toggle" data-filter="terraza">
-        <button class="active" data-val="">Todos</button>
-        <button data-val="Sí">Sí</button>
-        <button data-val="No">No</button>
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Piscina</label>
-      <div class="tri-toggle" data-filter="piscina">
-        <button class="active" data-val="">Todos</button>
-        <button data-val="Sí">Sí</button>
-        <button data-val="No">No</button>
-      </div>
-    </div>
-    <div class="filter-group">
-      <label>Estado</label>
-      <div class="checkbox-list" id="filterEstado"></div>
-    </div>
-    
-    <h3>📅 Año</h3>
-    <div class="filter-group">
-      <label>Año construcción</label>
-      <div class="range-row">
-        <input type="number" id="yearMin" placeholder="Min">
-        <span>—</span>
-        <input type="number" id="yearMax" placeholder="Max">
+      <span class="filter-label">Precio</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="precio-min-display"></span>
+          <span id="precio-max-display"></span>
+        </div>
+        <div class="range-slider-dual" id="precio-slider">
+          <div class="range-track"></div>
+          <div class="range-fill" id="precio-fill"></div>
+          <input type="range" id="precio-min" step="1000">
+          <input type="range" id="precio-max" step="1000">
+        </div>
       </div>
     </div>
 
-    <button class="btn-clear" id="btnClear">🗑️ Limpiar todos los filtros</button>
+    <!-- m² construidos -->
+    <div class="filter-group">
+      <span class="filter-label">m² construidos</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="m2-min-display"></span>
+          <span id="m2-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="m2-fill"></div>
+          <input type="range" id="m2-min" step="1">
+          <input type="range" id="m2-max" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- Precio/m² -->
+    <div class="filter-group">
+      <span class="filter-label">Precio / m²</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="ppm2-min-display"></span>
+          <span id="ppm2-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="ppm2-fill"></div>
+          <input type="range" id="ppm2-min" step="10">
+          <input type="range" id="ppm2-max" step="10">
+        </div>
+      </div>
+    </div>
+
+    <!-- Año construcción -->
+    <div class="filter-group">
+      <span class="filter-label">Año construcción</span>
+      <div class="range-wrapper">
+        <div class="range-display">
+          <span id="anyo-min-display"></span>
+          <span id="anyo-max-display"></span>
+        </div>
+        <div class="range-slider-dual">
+          <div class="range-track"></div>
+          <div class="range-fill" id="anyo-fill"></div>
+          <input type="range" id="anyo-min" step="1">
+          <input type="range" id="anyo-max" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- Habitaciones -->
+    <div class="filter-group">
+      <span class="filter-label">Habitaciones (mín.)</span>
+      <div class="min-selector" id="hab-selector">
+        <button class="min-btn active" data-val="0">Todos</button>
+        <button class="min-btn" data-val="1">1</button>
+        <button class="min-btn" data-val="2">2</button>
+        <button class="min-btn" data-val="3">3</button>
+        <button class="min-btn" data-val="4">4</button>
+        <button class="min-btn" data-val="5">5+</button>
+      </div>
+    </div>
+
+    <!-- Baños -->
+    <div class="filter-group">
+      <span class="filter-label">Baños (mín.)</span>
+      <div class="min-selector" id="bano-selector">
+        <button class="min-btn active" data-val="0">Todos</button>
+        <button class="min-btn" data-val="1">1</button>
+        <button class="min-btn" data-val="2">2</button>
+        <button class="min-btn" data-val="3">3+</button>
+      </div>
+    </div>
+
+    <!-- Exterior/Interior -->
+    <div class="filter-group">
+      <span class="filter-label">Orientación</span>
+      <div class="toggle-group" id="orient-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Exterior">Exterior</button>
+        <button class="toggle-btn" data-val="Interior">Interior</button>
+      </div>
+    </div>
+
+    <!-- Ascensor -->
+    <div class="filter-group">
+      <span class="filter-label">Ascensor</span>
+      <div class="toggle-group" id="ascensor-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Garaje -->
+    <div class="filter-group">
+      <span class="filter-label">Garaje</span>
+      <div class="toggle-group" id="garaje-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Terraza -->
+    <div class="filter-group">
+      <span class="filter-label">Terraza</span>
+      <div class="toggle-group" id="terraza-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Piscina -->
+    <div class="filter-group">
+      <span class="filter-label">Piscina</span>
+      <div class="toggle-group" id="piscina-toggle">
+        <button class="toggle-btn active" data-val="">Todos</button>
+        <button class="toggle-btn" data-val="Sí">Sí</button>
+        <button class="toggle-btn" data-val="No">No</button>
+      </div>
+    </div>
+
+    <!-- Estado -->
+    <div class="filter-group">
+      <span class="filter-label">Estado</span>
+      <div class="checkbox-list" id="estado-list"></div>
+    </div>
+
   </aside>
 
-  <main class="main">
-    <div class="stats-bar" id="statsBar">
-      <div class="stat-card"><div class="stat-label">Propiedades</div><div class="stat-value" id="statCount">—</div></div>
-      <div class="stat-card"><div class="stat-label">Precio medio</div><div class="stat-value" id="statAvgPrice">—</div></div>
-      <div class="stat-card"><div class="stat-label">€/m² medio</div><div class="stat-value" id="statAvgPpm2">—</div></div>
-      <div class="stat-card"><div class="stat-label">m² medio</div><div class="stat-value" id="statAvgM2">—</div></div>
-      <div class="stat-card"><div class="stat-label">Rango precio</div><div class="stat-value" id="statRange">—</div></div>
-    </div>
+  <!-- MAIN -->
+  <main class="main-content">
 
-    <div class="sort-bar">
-      <label style="font-size:0.85rem; color:var(--gray-500);">Ordenar por:</label>
-      <select id="sortBy">
-        <option value="precio">Precio</option>
-        <option value="ppm2">Precio/m²</option>
-        <option value="m2">m² construidos</option>
-        <option value="hab">Habitaciones</option>
-        <option value="year">Año construcción</option>
-      </select>
-      <button id="sortDir" title="Cambiar orden">↑ Ascendente</button>
-      <div class="view-toggle">
-        <button id="viewGrid" class="active" title="Vista cuadrícula">⊞</button>
-        <button id="viewList" title="Vista lista">☰</button>
+    <!-- Stats bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-label">Propiedades</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-avg-price">—</div>
+        <div class="stat-label">Precio medio</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-avg-ppm2">—</div>
+        <div class="stat-label">€/m² medio</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-avg-m2">—</div>
+        <div class="stat-label">m² medios</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-price-range">—</div>
+        <div class="stat-label">Rango precio</div>
       </div>
     </div>
 
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-      Cargando propiedades...
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <span class="sort-label">Ordenar por:</span>
+      <select class="sort-select" id="sort-select">
+        <option value="precio">Precio</option>
+        <option value="ppm2">Precio / m²</option>
+        <option value="m2">m² construidos</option>
+        <option value="hab">Habitaciones</option>
+        <option value="anyo">Año construcción</option>
+        <option value="pie">Tiempo a pie</option>
+      </select>
+      <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
     </div>
 
-    <div class="grid" id="grid"></div>
-    
-    <div class="no-results" id="noResults" style="display:none;">
-      <h3>😕 Sin resultados</h3>
-      <p>Prueba a cambiar los filtros</p>
-    </div>
+    <!-- Cards grid -->
+    <div class="cards-grid" id="cards-grid"></div>
 
-    <div class="load-more" id="loadMore" style="display:none;">
-      <button id="btnLoadMore">Cargar más propiedades</button>
-    </div>
   </main>
 </div>
 
 <script>
-const BATCH_SIZE = 60;
-let allData = [];
-let filtered = [];
-let rendered = 0;
-let sortAsc = true;
-let triFilters = { ascensor: '', exterior: '', garaje: '', terraza: '', piscina: '' };
+// ==================== STATE ====================
+const state = {
+  allData: [],
+  filtered: [],
+  // filters
+  zonas: new Set(),
+  subzonas: new Set(),
+  precioMin: 0, precioMax: Infinity,
+  m2Min: 0, m2Max: Infinity,
+  ppm2Min: 0, ppm2Max: Infinity,
+  anyoMin: 0, anyoMax: Infinity,
+  habMin: 0,
+  banoMin: 0,
+  orient: '',
+  ascensor: '',
+  garaje: '',
+  terraza: '',
+  piscina: '',
+  estados: new Set(),
+  search: '',
+  sortBy: 'precio',
+  sortDir: 1,
+  // render state
+  renderPage: 0,
+  PAGE_SIZE: 30,
+  // data ranges
+  dataRanges: {}
+};
 
-// Format number with dots
-function fmt(n) { return n != null ? Math.round(n).toLocaleString('es-ES') : '—'; }
-
-// Parse number from CSV
-function pn(v) { const n = parseFloat(String(v).replace(/[^\d.-]/g, '')); return isNaN(n) ? null : n; }
-
-// Estado badge class
-function estadoClass(e) {
-  if (!e) return 'badge-default';
-  const l = e.toLowerCase();
-  if (l.includes('reformar')) return 'badge-reformar';
-  if (l.includes('reformado')) return 'badge-bueno';
-  if (l.includes('buen estado')) return 'badge-bueno';
-  if (l.includes('obra nueva') || l.includes('nueva')) return 'badge-nuevo';
-  return 'badge-default';
+// ==================== UTILS ====================
+function fmt(n) {
+  return n.toLocaleString('es-ES') + ' €';
+}
+function fmtK(n) {
+  if (n >= 1000) return (n/1000).toFixed(0) + 'K €';
+  return n + ' €';
+}
+function fmtRange(a, b) {
+  return fmtK(a) + ' – ' + fmtK(b);
+}
+function calcPpm2(precio, m2) {
+  if (!precio || !m2) return null;
+  return Math.round(precio / m2);
+}
+function getEstadoClass(estado) {
+  if (!estado) return 'estado-default';
+  const e = estado.toLowerCase();
+  if (e.includes('buen estado')) return 'estado-bueno';
+  if (e.includes('para reformar')) return 'estado-reformar';
+  if (e.includes('reformado') && !e.includes('para')) return 'estado-reformado';
+  if (e.includes('obra nueva') || e.includes('promoci')) return 'estado-nuevo';
+  return 'estado-default';
+}
+function getEstadoLabel(estado) {
+  if (!estado) return '—';
+  if (estado.includes('buen estado')) return 'Buen estado';
+  if (estado.includes('para reformar')) return 'A reformar';
+  if (estado.includes('Promoción') || estado.includes('obra nueva')) return 'Obra nueva';
+  return estado.replace('Segunda mano/', '');
+}
+function debounce(fn, ms) {
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 }
 
-function estadoShort(e) {
-  if (!e) return '';
-  if (e.includes('/')) return e.split('/').pop().trim();
-  return e;
-}
-
-// Build card HTML
-function cardHTML(d) {
-  const price = pn(d['Precio (€)']);
-  const m2 = pn(d['m² construidos']);
-  const ppm2 = (price && m2 && m2 > 0) ? Math.round(price / m2) : null;
-  const hab = d['Habitaciones'] || '—';
-  const ban = d['Baños'] || '—';
-  const link = d['Link'] || '#';
-  const addr = d['Dirección'] || '';
-  const zona = d['Zona'] || '';
-  const sub = d['Subzona'] || '';
-  const estado = d['Estado'] || '';
-  const desc = (d['Descripción'] || '').substring(0, 600);
-  const coche = d['Coche lunes 8am (min)'];
-  const bus = d['Bus lunes 8am (min)'];
-  const pie = d['A pie (min)'];
-  
-  const badges = [];
-  if (d['Ascensor'] === 'Sí') badges.push('<span class="mini-badge yes">Ascensor</span>');
-  if (d['Garaje'] === 'Sí' || (d['Garaje'] && d['Garaje'] !== 'No' && d['Garaje'] !== '')) badges.push('<span class="mini-badge yes">Garaje</span>');
-  if (d['Terraza'] === 'Sí') badges.push('<span class="mini-badge yes">Terraza</span>');
-  if (d['Exterior/Interior'] === 'Exterior') badges.push('<span class="mini-badge yes">Exterior</span>');
-  if (d['Piscina'] === 'Sí') badges.push('<span class="mini-badge yes">Piscina</span>');
-  if (d['Jardín'] === 'Sí') badges.push('<span class="mini-badge yes">Jardín</span>');
-  if (d['Trastero'] === 'Sí') badges.push('<span class="mini-badge yes">Trastero</span>');
-  if (d['Aire acondicionado'] === 'Sí') badges.push('<span class="mini-badge">A/C</span>');
-
-  const travel = [];
-  if (coche) travel.push(`🚗 ${coche} min`);
-  if (bus) travel.push(`🚌 ${bus} min`);
-  if (pie) travel.push(`🚶 ${pie} min`);
-
-  return `<div class="card">
-    <div class="card-top">
-      <span class="badge badge-zona">${zona}${sub ? ' › ' + sub : ''}</span>
-      ${estado ? `<span class="badge badge-estado ${estadoClass(estado)}">${estadoShort(estado)}</span>` : ''}
-    </div>
-    <div class="card-body">
-      <div class="card-price">${price ? fmt(price) + ' €' : 'Consultar'}</div>
-      <div class="card-ppm2">${ppm2 ? fmt(ppm2) + ' €/m²' : ''} ${m2 ? '· ' + fmt(m2) + ' m²' : ''}</div>
-      <div class="card-features">
-        <span>🛏️ ${hab}</span>
-        <span>🚿 ${ban}</span>
-        ${d['Planta'] ? `<span>🏢 ${d['Planta']}</span>` : ''}
-        ${d['Año construcción'] ? `<span>📅 ${d['Año construcción']}</span>` : ''}
-      </div>
-      ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
-      <div class="card-address" title="${addr}">${addr}</div>
-      ${travel.length ? `<div class="card-travel">${travel.join(' · ')}</div>` : ''}
-    </div>
-    <div class="card-desc">${desc}${desc.length >= 600 ? '...' : ''}</div>
-    <div class="card-footer">
-      <a href="${link}" target="_blank" rel="noopener" class="btn-idealista">Ver en idealista ↗</a>
-      ${desc ? `<button class="btn-expand" onclick="this.closest('.card').querySelector('.card-desc').classList.toggle('open'); this.textContent = this.textContent === '▼' ? '▲' : '▼';">▼</button>` : ''}
-    </div>
-  </div>`;
-}
-
-// Render batch
-function renderBatch() {
-  const grid = document.getElementById('grid');
-  const end = Math.min(rendered + BATCH_SIZE, filtered.length);
-  let html = '';
-  for (let i = rendered; i < end; i++) {
-    html += cardHTML(filtered[i]);
-  }
-  grid.insertAdjacentHTML('beforeend', html);
-  rendered = end;
-  document.getElementById('loadMore').style.display = rendered < filtered.length ? '' : 'none';
-  if (filtered.length > 0) {
-    document.getElementById('btnLoadMore').textContent = `Cargar más (${rendered}/${filtered.length})`;
-  }
-}
-
-// Update stats
-function updateStats() {
-  const n = filtered.length;
-  document.getElementById('statCount').textContent = fmt(n);
-  if (n === 0) {
-    ['statAvgPrice','statAvgPpm2','statAvgM2','statRange'].forEach(id => document.getElementById(id).textContent = '—');
-    return;
-  }
-  let sumP = 0, sumPPM2 = 0, sumM2 = 0, cP = 0, cPPM2 = 0, cM2 = 0, minP = Infinity, maxP = 0;
-  filtered.forEach(d => {
-    const p = pn(d['Precio (€)']);
-    const m = pn(d['m² construidos']);
-    if (p) { sumP += p; cP++; if (p < minP) minP = p; if (p > maxP) maxP = p; }
-    if (m) { sumM2 += m; cM2++; }
-    if (p && m && m > 0) { sumPPM2 += p/m; cPPM2++; }
+// ==================== LOAD CSV ====================
+async function loadData() {
+  return new Promise((resolve, reject) => {
+    Papa.parse('data.csv', {
+      download: true,
+      header: true,
+      delimiter: ';',
+      quoteChar: '"',
+      skipEmptyLines: true,
+      complete: results => resolve(results.data),
+      error: reject
+    });
   });
-  document.getElementById('statAvgPrice').textContent = cP ? fmt(sumP/cP) + ' €' : '—';
-  document.getElementById('statAvgPpm2').textContent = cPPM2 ? fmt(sumPPM2/cPPM2) + ' €' : '—';
-  document.getElementById('statAvgM2').textContent = cM2 ? fmt(sumM2/cM2) + ' m²' : '—';
-  document.getElementById('statRange').textContent = cP ? fmt(minP) + ' — ' + fmt(maxP) + ' €' : '—';
 }
 
-// Get checked values
-function getChecked(containerId) {
-  const checks = document.querySelectorAll(`#${containerId} input:checked`);
-  return Array.from(checks).map(c => c.value);
+// ==================== INIT ====================
+async function init() {
+  try {
+    const raw = await loadData();
+    state.allData = raw.map(r => {
+      const precio = parseInt(r['Precio (€)']) || 0;
+      const m2c = parseInt(r['m² construidos']) || 0;
+      const m2u = parseInt(r['m² útiles']) || 0;
+      const hab = parseInt(r['Habitaciones']) || 0;
+      const bano = parseInt(r['Baños']) || 0;
+      const anyo = parseInt(r['Año construcción']) || 0;
+      const ppm2 = calcPpm2(precio, m2c);
+      return {
+        zona: r['Zona'] || '',
+        subzona: r['Subzona'] || '',
+        tipo: r['Tipo'] || '',
+        dir: r['Dirección'] || '',
+        precio, m2c, m2u, hab, bano,
+        planta: r['Planta'] || '',
+        orient: r['Exterior/Interior'] || '',
+        ascensor: r['Ascensor'] || '',
+        estado: r['Estado'] || '',
+        anyo,
+        calefaccion: r['Calefacción'] || '',
+        ac: r['Aire acondicionado'] || '',
+        garaje: r['Garaje'] || '',
+        trastero: r['Trastero'] || '',
+        terraza: r['Terraza'] || '',
+        piscina: r['Piscina'] || '',
+        jardin: r['Jardín'] || '',
+        cert: r['Certificación energética'] || '',
+        desc: r['Descripción'] || '',
+        link: r['Link'] || '',
+        cocheL: parseFloat(r['Coche lunes 8am (min)']) || 0,
+        cocheD: parseFloat(r['Coche domingo 9am (min)']) || 0,
+        distCoche: parseFloat(r['Distancia coche (km)']) || 0,
+        busL: parseFloat(r['Bus lunes 8am (min)']) || 0,
+        busD: parseFloat(r['Bus domingo 9am (min)']) || 0,
+        pie: parseFloat(r['A pie (min)']) || 0,
+        ppm2
+      };
+    });
+
+    computeRanges();
+    buildFiltersUI();
+    loadFromHash();
+    applyFilters();
+    document.getElementById('loading-overlay').style.display = 'none';
+  } catch(e) {
+    console.error(e);
+    document.getElementById('loading-overlay').innerHTML = '<div style="color:#ef4444;font-size:1.1rem;text-align:center">❌ Error al cargar datos.<br><small>' + e.message + '</small></div>';
+  }
 }
 
-// Apply filters
+function computeRanges() {
+  const d = state.allData;
+  const prices = d.map(r=>r.precio).filter(v=>v>0);
+  const m2s = d.map(r=>r.m2c).filter(v=>v>0 && v<1000);
+  const ppm2s = d.map(r=>r.ppm2).filter(v=>v>0 && v<20000);
+  const anyos = d.map(r=>r.anyo).filter(v=>v>1800);
+
+  state.dataRanges = {
+    precioMin: Math.min(...prices), precioMax: Math.max(...prices),
+    m2Min: Math.min(...m2s), m2Max: Math.max(...m2s),
+    ppm2Min: Math.min(...ppm2s), ppm2Max: Math.max(...ppm2s),
+    anyoMin: Math.min(...anyos), anyoMax: Math.max(...anyos)
+  };
+  // init filter values to full range
+  state.precioMin = state.dataRanges.precioMin;
+  state.precioMax = state.dataRanges.precioMax;
+  state.m2Min = state.dataRanges.m2Min;
+  state.m2Max = state.dataRanges.m2Max;
+  state.ppm2Min = state.dataRanges.ppm2Min;
+  state.ppm2Max = state.dataRanges.ppm2Max;
+  state.anyoMin = state.dataRanges.anyoMin;
+  state.anyoMax = state.dataRanges.anyoMax;
+}
+
+// ==================== BUILD FILTER UI ====================
+function buildFiltersUI() {
+  const d = state.allData;
+
+  // Zonas
+  const zonas = [...new Set(d.map(r=>r.zona))].filter(Boolean).sort();
+  const zonaList = document.getElementById('zona-list');
+  zonaList.innerHTML = zonas.map(z => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${z}" onchange="onZonaChange(this)">
+      <span>${z}</span>
+    </label>`).join('');
+
+  // Subzonas
+  buildSubzonaList();
+
+  // Estado
+  const estados = [...new Set(d.map(r=>r.estado))].filter(Boolean).sort();
+  const estadoList = document.getElementById('estado-list');
+  estadoList.innerHTML = estados.map(e => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${e}" onchange="onEstadoChange(this)">
+      <span>${getEstadoLabel(e)}</span>
+    </label>`).join('');
+
+  // Range sliders
+  setupRangeSlider('precio', state.dataRanges.precioMin, state.dataRanges.precioMax, v => fmt(v));
+  setupRangeSlider('m2', state.dataRanges.m2Min, state.dataRanges.m2Max, v => v + ' m²');
+  setupRangeSlider('ppm2', state.dataRanges.ppm2Min, state.dataRanges.ppm2Max, v => v + ' €/m²');
+  setupRangeSlider('anyo', state.dataRanges.anyoMin, state.dataRanges.anyoMax, v => v.toString());
+
+  // Min selectors
+  document.getElementById('hab-selector').querySelectorAll('.min-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#hab-selector .min-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.habMin = parseInt(btn.dataset.val);
+      applyFilters();
+    });
+  });
+  document.getElementById('bano-selector').querySelectorAll('.min-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#bano-selector .min-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.banoMin = parseInt(btn.dataset.val);
+      applyFilters();
+    });
+  });
+
+  // Toggle groups
+  setupToggleGroup('orient-toggle', v => { state.orient = v; applyFilters(); });
+  setupToggleGroup('ascensor-toggle', v => { state.ascensor = v; applyFilters(); });
+  setupToggleGroup('garaje-toggle', v => { state.garaje = v; applyFilters(); });
+  setupToggleGroup('terraza-toggle', v => { state.terraza = v; applyFilters(); });
+  setupToggleGroup('piscina-toggle', v => { state.piscina = v; applyFilters(); });
+
+  // Search
+  document.getElementById('search-input').addEventListener('input', debounce(e => {
+    state.search = e.target.value.toLowerCase().trim();
+    applyFilters();
+  }, 250));
+
+  // Sort
+  document.getElementById('sort-select').addEventListener('change', e => {
+    state.sortBy = e.target.value;
+    applyFilters();
+  });
+  document.getElementById('sort-dir-btn').addEventListener('click', () => {
+    state.sortDir *= -1;
+    document.getElementById('sort-dir-btn').textContent = state.sortDir === 1 ? '▲' : '▼';
+    applyFilters();
+  });
+}
+
+function buildSubzonaList(selectedZonas) {
+  const d = state.allData;
+  const filterByZona = selectedZonas && selectedZonas.size > 0;
+  const subzonas = [...new Set(d
+    .filter(r => !filterByZona || selectedZonas.has(r.zona))
+    .map(r => r.subzona))].filter(Boolean).sort();
+
+  const list = document.getElementById('subzona-list');
+  list.innerHTML = subzonas.map(s => `
+    <label class="checkbox-item">
+      <input type="checkbox" value="${s}" ${state.subzonas.has(s) ? 'checked' : ''} onchange="onSubzonaChange(this)">
+      <span>${s}</span>
+    </label>`).join('');
+}
+
+function setupToggleGroup(id, onChange) {
+  document.getElementById(id).querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll(`#${id} .toggle-btn`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      onChange(btn.dataset.val);
+    });
+  });
+}
+
+function setupRangeSlider(id, min, max, formatter) {
+  const elMin = document.getElementById(id + '-min');
+  const elMax = document.getElementById(id + '-max');
+  const fill = document.getElementById(id + '-fill');
+  const dMin = document.getElementById(id + '-min-display');
+  const dMax = document.getElementById(id + '-max-display');
+
+  elMin.min = min; elMin.max = max; elMin.value = min;
+  elMax.min = min; elMax.max = max; elMax.value = max;
+
+  function update() {
+    let vMin = parseInt(elMin.value);
+    let vMax = parseInt(elMax.value);
+    if (vMin > vMax) { if (this === elMin) { vMin = vMax; elMin.value = vMin; } else { vMax = vMin; elMax.value = vMax; } }
+    const pMin = (vMin - min) / (max - min) * 100;
+    const pMax = (vMax - min) / (max - min) * 100;
+    fill.style.left = pMin + '%';
+    fill.style.width = (pMax - pMin) + '%';
+    dMin.textContent = formatter(vMin);
+    dMax.textContent = formatter(vMax);
+
+    // update state
+    const key = id === 'precio' ? ['precioMin','precioMax'] :
+                id === 'm2'    ? ['m2Min','m2Max'] :
+                id === 'ppm2'  ? ['ppm2Min','ppm2Max'] :
+                                 ['anyoMin','anyoMax'];
+    state[key[0]] = vMin;
+    state[key[1]] = vMax;
+    applyFilters();
+  }
+
+  // initial display
+  const pMin = 0, pMax = 100;
+  fill.style.left = '0%'; fill.style.width = '100%';
+  dMin.textContent = formatter(min);
+  dMax.textContent = formatter(max);
+
+  elMin.addEventListener('input', update);
+  elMax.addEventListener('input', update);
+}
+
+function onZonaChange(cb) {
+  if (cb.checked) state.zonas.add(cb.value);
+  else state.zonas.delete(cb.value);
+  buildSubzonaList(state.zonas);
+  // Remove subzonas that no longer apply
+  state.subzonas = new Set([...state.subzonas].filter(s => {
+    return state.allData.some(r => r.subzona === s && (state.zonas.size === 0 || state.zonas.has(r.zona)));
+  }));
+  applyFilters();
+}
+
+function onSubzonaChange(cb) {
+  if (cb.checked) state.subzonas.add(cb.value);
+  else state.subzonas.delete(cb.value);
+  applyFilters();
+}
+
+function onEstadoChange(cb) {
+  if (cb.checked) state.estados.add(cb.value);
+  else state.estados.delete(cb.value);
+  applyFilters();
+}
+
+// ==================== FILTER + SORT ====================
 function applyFilters() {
-  const search = document.getElementById('searchBox').value.toLowerCase().trim();
-  const zonas = getChecked('filterZona');
-  const subzonas = getChecked('filterSubzona');
-  const estados = getChecked('filterEstado');
-  const precioMin = pn(document.getElementById('precioMin').value);
-  const precioMax = pn(document.getElementById('precioMax').value);
-  const m2Min = pn(document.getElementById('m2Min').value);
-  const m2Max = pn(document.getElementById('m2Max').value);
-  const ppm2Min = pn(document.getElementById('ppm2Min').value);
-  const ppm2Max = pn(document.getElementById('ppm2Max').value);
-  const habMin = parseInt(document.getElementById('filterHab').value) || 0;
-  const banMin = parseInt(document.getElementById('filterBan').value) || 0;
-  const yearMin = pn(document.getElementById('yearMin').value);
-  const yearMax = pn(document.getElementById('yearMax').value);
+  const s = state;
+  let data = s.allData;
 
-  filtered = allData.filter(d => {
-    const p = pn(d['Precio (€)']);
-    const m = pn(d['m² construidos']);
-    const ppm2 = (p && m && m > 0) ? p/m : null;
-    const h = pn(d['Habitaciones']);
-    const b = pn(d['Baños']);
-    const y = pn(d['Año construcción']);
+  if (s.zonas.size > 0) data = data.filter(r => s.zonas.has(r.zona));
+  if (s.subzonas.size > 0) data = data.filter(r => s.subzonas.has(r.subzona));
+  if (s.estados.size > 0) data = data.filter(r => s.estados.has(r.estado));
+  if (s.orient) data = data.filter(r => r.orient === s.orient);
+  if (s.ascensor) data = data.filter(r => r.ascensor === s.ascensor);
+  if (s.garaje) data = data.filter(r => r.garaje === s.garaje);
+  if (s.terraza) data = data.filter(r => r.terraza === s.terraza);
+  if (s.piscina) data = data.filter(r => r.piscina === s.piscina);
+  if (s.habMin > 0) data = data.filter(r => s.habMin === 5 ? r.hab >= 5 : r.hab >= s.habMin);
+  if (s.banoMin > 0) data = data.filter(r => s.banoMin === 3 ? r.bano >= 3 : r.bano >= s.banoMin);
 
-    if (search) {
-      const hay = ((d['Dirección']||'') + ' ' + (d['Descripción']||'')).toLowerCase();
-      if (!hay.includes(search)) return false;
-    }
-    if (zonas.length && !zonas.includes(d['Zona'])) return false;
-    if (subzonas.length && !subzonas.includes(d['Subzona'])) return false;
-    if (estados.length && !estados.includes(d['Estado']||'')) return false;
-    if (precioMin != null && (p == null || p < precioMin)) return false;
-    if (precioMax != null && (p == null || p > precioMax)) return false;
-    if (m2Min != null && (m == null || m < m2Min)) return false;
-    if (m2Max != null && (m == null || m > m2Max)) return false;
-    if (ppm2Min != null && (ppm2 == null || ppm2 < ppm2Min)) return false;
-    if (ppm2Max != null && (ppm2 == null || ppm2 > ppm2Max)) return false;
-    if (habMin > 0 && (h == null || h < habMin)) return false;
-    if (banMin > 0 && (b == null || b < banMin)) return false;
-    if (yearMin != null && (y == null || y < yearMin)) return false;
-    if (yearMax != null && (y == null || y > yearMax)) return false;
-
-    // Tri-toggle filters
-    if (triFilters.ascensor && d['Ascensor'] !== triFilters.ascensor) return false;
-    if (triFilters.exterior && d['Exterior/Interior'] !== triFilters.exterior) return false;
-    if (triFilters.garaje) {
-      const g = d['Garaje'] || '';
-      if (triFilters.garaje === 'Sí' && !(g === 'Sí' || (g && g !== 'No'))) return false;
-      if (triFilters.garaje === 'No' && g && g !== 'No' && g !== '') return false;
-    }
-    if (triFilters.terraza && d['Terraza'] !== triFilters.terraza) return false;
-    if (triFilters.piscina && d['Piscina'] !== triFilters.piscina) return false;
-
+  data = data.filter(r => {
+    if (r.precio > 0 && (r.precio < s.precioMin || r.precio > s.precioMax)) return false;
+    if (r.m2c > 0 && (r.m2c < s.m2Min || r.m2c > s.m2Max)) return false;
+    if (r.ppm2 && (r.ppm2 < s.ppm2Min || r.ppm2 > s.ppm2Max)) return false;
+    if (r.anyo > 0 && (r.anyo < s.anyoMin || r.anyo > s.anyoMax)) return false;
     return true;
   });
 
-  // Sort
-  sortFiltered();
-  
-  // Render
-  document.getElementById('grid').innerHTML = '';
-  rendered = 0;
-  renderBatch();
-  updateStats();
-  document.getElementById('subtitle').textContent = `${fmt(filtered.length)} propiedades encontradas`;
-  document.getElementById('noResults').style.display = filtered.length === 0 ? '' : 'none';
-}
+  if (s.search) {
+    const q = s.search;
+    data = data.filter(r => r.dir.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q));
+  }
 
-function sortFiltered() {
-  const by = document.getElementById('sortBy').value;
-  const dir = sortAsc ? 1 : -1;
-  filtered.sort((a, b) => {
+  // Sort
+  data = [...data].sort((a, b) => {
     let va, vb;
-    if (by === 'precio') { va = pn(a['Precio (€)']); vb = pn(b['Precio (€)']); }
-    else if (by === 'ppm2') {
-      const pa = pn(a['Precio (€)']), ma = pn(a['m² construidos']);
-      const pb = pn(b['Precio (€)']), mb = pn(b['m² construidos']);
-      va = (pa && ma) ? pa/ma : null; vb = (pb && mb) ? pb/mb : null;
+    switch(s.sortBy) {
+      case 'precio': va = a.precio; vb = b.precio; break;
+      case 'ppm2': va = a.ppm2 || 0; vb = b.ppm2 || 0; break;
+      case 'm2': va = a.m2c; vb = b.m2c; break;
+      case 'hab': va = a.hab; vb = b.hab; break;
+      case 'anyo': va = a.anyo; vb = b.anyo; break;
+      case 'pie': va = a.pie; vb = b.pie; break;
+      default: va = a.precio; vb = b.precio;
     }
-    else if (by === 'm2') { va = pn(a['m² construidos']); vb = pn(b['m² construidos']); }
-    else if (by === 'hab') { va = pn(a['Habitaciones']); vb = pn(b['Habitaciones']); }
-    else if (by === 'year') { va = pn(a['Año construcción']); vb = pn(b['Año construcción']); }
-    if (va == null && vb == null) return 0;
-    if (va == null) return 1;
-    if (vb == null) return -1;
-    return (va - vb) * dir;
+    return (va - vb) * s.sortDir;
   });
+
+  state.filtered = data;
+  state.renderPage = 0;
+  updateStats(data);
+  renderCards(true);
+  updateHash();
 }
 
-// Populate checkbox list
-function populateCheckboxes(containerId, values) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = values.filter(v => v).sort().map(v => 
-    `<label><input type="checkbox" value="${v}"> ${v}</label>`
-  ).join('');
-  el.querySelectorAll('input').forEach(cb => cb.addEventListener('change', applyFilters));
+// ==================== STATS ====================
+function updateStats(data) {
+  document.getElementById('count-display').textContent = data.length.toLocaleString('es-ES');
+  document.getElementById('stat-total').textContent = data.length.toLocaleString('es-ES');
+
+  const prices = data.map(r=>r.precio).filter(v=>v>0);
+  const m2s = data.map(r=>r.m2c).filter(v=>v>0 && v<1000);
+  const ppm2s = data.map(r=>r.ppm2).filter(v=>v>0);
+
+  if (prices.length) {
+    const avg = Math.round(prices.reduce((a,b)=>a+b,0)/prices.length);
+    document.getElementById('stat-avg-price').textContent = fmt(avg);
+    document.getElementById('stat-price-range').textContent = fmtRange(Math.min(...prices), Math.max(...prices));
+  } else {
+    document.getElementById('stat-avg-price').textContent = '—';
+    document.getElementById('stat-price-range').textContent = '—';
+  }
+  if (ppm2s.length) {
+    const avg = Math.round(ppm2s.reduce((a,b)=>a+b,0)/ppm2s.length);
+    document.getElementById('stat-avg-ppm2').textContent = avg.toLocaleString('es-ES') + ' €/m²';
+  } else document.getElementById('stat-avg-ppm2').textContent = '—';
+  if (m2s.length) {
+    const avg = Math.round(m2s.reduce((a,b)=>a+b,0)/m2s.length);
+    document.getElementById('stat-avg-m2').textContent = avg + ' m²';
+  } else document.getElementById('stat-avg-m2').textContent = '—';
 }
 
-// Init
-function init(data) {
-  allData = data;
-  document.getElementById('loading').style.display = 'none';
+// ==================== RENDER CARDS ====================
+function renderCards(reset) {
+  const grid = document.getElementById('cards-grid');
+  if (reset) grid.innerHTML = '';
 
-  // Populate filter options
-  const zonas = [...new Set(data.map(d => d['Zona']))].filter(Boolean);
-  const subzonas = [...new Set(data.map(d => d['Subzona']))].filter(Boolean);
-  const estados = [...new Set(data.map(d => d['Estado']))];
-  
-  populateCheckboxes('filterZona', zonas);
-  populateCheckboxes('filterSubzona', subzonas);
-  populateCheckboxes('filterEstado', estados);
+  const start = state.renderPage * state.PAGE_SIZE;
+  const end = Math.min(start + state.PAGE_SIZE, state.filtered.length);
+  const batch = state.filtered.slice(start, end);
 
-  // Update subzonas when zona changes
-  document.getElementById('filterZona').addEventListener('change', () => {
-    const selZonas = getChecked('filterZona');
-    if (selZonas.length === 0) {
-      populateCheckboxes('filterSubzona', subzonas);
-    } else {
-      const filteredSub = [...new Set(data.filter(d => selZonas.includes(d['Zona'])).map(d => d['Subzona']))];
-      populateCheckboxes('filterSubzona', filteredSub);
-    }
+  // Remove old load-more
+  const oldBtn = document.getElementById('load-more-btn');
+  if (oldBtn) oldBtn.parentElement.remove();
+
+  batch.forEach((r, i) => {
+    const card = buildCard(r, reset ? i : i + start);
+    grid.appendChild(card);
   });
 
-  // Tri-toggle setup
-  document.querySelectorAll('.tri-toggle').forEach(tog => {
-    const filterName = tog.dataset.filter;
-    tog.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        tog.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        triFilters[filterName] = btn.dataset.val;
-        applyFilters();
-      });
-    });
+  state.renderPage++;
+
+  if (end < state.filtered.length) {
+    const container = document.createElement('div');
+    container.className = 'load-more-container';
+    const btn = document.createElement('button');
+    btn.id = 'load-more-btn';
+    btn.className = 'load-more-btn';
+    btn.textContent = `Cargar más (${state.filtered.length - end} restantes)`;
+    btn.onclick = () => renderCards(false);
+    container.appendChild(btn);
+    grid.appendChild(container);
+  }
+
+  if (state.filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <h3>Sin resultados</h3>
+        <p>Prueba a ajustar los filtros para ver más propiedades.</p>
+      </div>`;
+  }
+}
+
+function buildCard(r, idx) {
+  const card = document.createElement('div');
+  card.className = 'card entering';
+  card.style.animationDelay = Math.min(idx % state.PAGE_SIZE * 20, 300) + 'ms';
+
+  const ppm2Str = r.ppm2 ? r.ppm2.toLocaleString('es-ES') + ' €/m²' : '';
+  const estadoClass = getEstadoClass(r.estado);
+  const estadoLabel = getEstadoLabel(r.estado);
+  const precioFmt = r.precio ? r.precio.toLocaleString('es-ES') + ' €' : 'Precio n/d';
+  const dirTrunc = r.dir.length > 52 ? r.dir.substring(0, 52) + '…' : r.dir;
+  const descShort = r.desc.length > 140 ? r.desc.substring(0, 140) + '…' : r.desc;
+
+  // badges
+  const badges = [];
+  if (r.ascensor === 'Sí') badges.push('<span class="badge badge-yes">🛗 Ascensor</span>');
+  if (r.garaje === 'Sí') badges.push('<span class="badge badge-yes">🚗 Garaje</span>');
+  if (r.terraza === 'Sí') badges.push('<span class="badge badge-yes">🌿 Terraza</span>');
+  if (r.orient === 'Exterior') badges.push('<span class="badge badge-yes">☀️ Exterior</span>');
+  if (r.piscina === 'Sí') badges.push('<span class="badge badge-yes">🏊 Piscina</span>');
+  if (r.trastero === 'Sí') badges.push('<span class="badge">📦 Trastero</span>');
+  if (r.jardin === 'Sí') badges.push('<span class="badge badge-yes">🌳 Jardín</span>');
+
+  const travelHtml = (r.cocheL || r.busL || r.pie) ? `
+    <div class="card-travel">
+      ${r.cocheL ? `<div class="travel-item">🚗 ${r.cocheL} min</div>` : ''}
+      ${r.busL ? `<div class="travel-item">🚌 ${r.busL} min</div>` : ''}
+      ${r.pie ? `<div class="travel-item">🚶 ${r.pie} min</div>` : ''}
+    </div>` : '';
+
+  const descId = 'desc-' + idx;
+  const descHtml = r.desc ? `<div class="card-desc" id="${descId}">${r.desc}</div>` : '';
+
+  card.innerHTML = `
+    <div class="card-header">
+      <span class="zone-badge">${r.zona}${r.subzona ? ' › ' + r.subzona : ''}</span>
+      ${r.estado ? `<span class="estado-badge ${estadoClass}">${estadoLabel}</span>` : ''}
+    </div>
+    <div class="card-body">
+      <div class="card-price">
+        <span class="price-main">${precioFmt}</span>
+        ${ppm2Str ? `<span class="price-sqm">${ppm2Str}</span>` : ''}
+      </div>
+      <div class="card-stats">
+        ${r.m2c ? `<div class="card-stat"><span>📐</span><span>${r.m2c} m²</span></div>` : ''}
+        ${r.hab ? `<div class="card-stat"><span>🛏</span><span>${r.hab}</span></div>` : ''}
+        ${r.bano ? `<div class="card-stat"><span>🚿</span><span>${r.bano}</span></div>` : ''}
+        ${r.planta ? `<div class="card-stat"><span>🏢</span><span>${r.planta}</span></div>` : ''}
+      </div>
+      ${r.dir ? `<div class="card-address" title="${r.dir}">${dirTrunc}</div>` : ''}
+      ${badges.length ? `<div class="card-badges">${badges.join('')}</div>` : ''}
+      ${travelHtml}
+      ${descHtml}
+    </div>
+    <div class="card-footer">
+      ${r.link ? `<a class="btn-idealista" href="${r.link}" target="_blank" rel="noopener">Ver en idealista ↗</a>` : ''}
+      ${r.desc ? `<button class="btn-expand" onclick="toggleDesc('${descId}', this)">+ Info</button>` : ''}
+    </div>`;
+
+  return card;
+}
+
+function toggleDesc(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const expanded = el.classList.toggle('expanded');
+  btn.textContent = expanded ? '− Info' : '+ Info';
+}
+
+// ==================== CLEAR FILTERS ====================
+function clearAllFilters() {
+  state.zonas = new Set();
+  state.subzonas = new Set();
+  state.estados = new Set();
+  state.orient = '';
+  state.ascensor = '';
+  state.garaje = '';
+  state.terraza = '';
+  state.piscina = '';
+  state.habMin = 0;
+  state.banoMin = 0;
+  state.search = '';
+  state.precioMin = state.dataRanges.precioMin;
+  state.precioMax = state.dataRanges.precioMax;
+  state.m2Min = state.dataRanges.m2Min;
+  state.m2Max = state.dataRanges.m2Max;
+  state.ppm2Min = state.dataRanges.ppm2Min;
+  state.ppm2Max = state.dataRanges.ppm2Max;
+  state.anyoMin = state.dataRanges.anyoMin;
+  state.anyoMax = state.dataRanges.anyoMax;
+
+  // Reset UI
+  document.querySelectorAll('.checkbox-list input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('search-input').value = '';
+
+  // Reset sliders
+  ['precio','m2','ppm2','anyo'].forEach(id => {
+    const r = state.dataRanges;
+    const [mn, mx] = id === 'precio' ? [r.precioMin, r.precioMax] :
+                     id === 'm2'    ? [r.m2Min, r.m2Max] :
+                     id === 'ppm2'  ? [r.ppm2Min, r.ppm2Max] :
+                                      [r.anyoMin, r.anyoMax];
+    const eMin = document.getElementById(id+'-min');
+    const eMax = document.getElementById(id+'-max');
+    eMin.value = mn; eMax.value = mx;
+    const fill = document.getElementById(id+'-fill');
+    if (fill) { fill.style.left = '0%'; fill.style.width = '100%'; }
+    const formatter = id === 'precio' ? v => fmt(v) :
+                      id === 'm2'    ? v => v + ' m²' :
+                      id === 'ppm2'  ? v => v + ' €/m²' :
+                                       v => v.toString();
+    document.getElementById(id+'-min-display').textContent = formatter(mn);
+    document.getElementById(id+'-max-display').textContent = formatter(mx);
   });
 
-  // Input filters
-  ['precioMin','precioMax','m2Min','m2Max','ppm2Min','ppm2Max','yearMin','yearMax'].forEach(id => {
-    document.getElementById(id).addEventListener('input', debounce(applyFilters, 300));
-  });
-  ['filterHab','filterBan'].forEach(id => {
-    document.getElementById(id).addEventListener('change', applyFilters);
-  });
-  document.getElementById('searchBox').addEventListener('input', debounce(applyFilters, 300));
-
-  // Sort
-  document.getElementById('sortBy').addEventListener('change', applyFilters);
-  document.getElementById('sortDir').addEventListener('click', () => {
-    sortAsc = !sortAsc;
-    document.getElementById('sortDir').textContent = sortAsc ? '↑ Ascendente' : '↓ Descendente';
-    applyFilters();
+  // Reset toggles
+  ['orient-toggle','ascensor-toggle','garaje-toggle','terraza-toggle','piscina-toggle'].forEach(id => {
+    document.querySelectorAll(`#${id} .toggle-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === ''));
   });
 
-  // View toggle
-  document.getElementById('viewGrid').addEventListener('click', () => {
-    document.getElementById('grid').classList.remove('list-view');
-    document.getElementById('viewGrid').classList.add('active');
-    document.getElementById('viewList').classList.remove('active');
-  });
-  document.getElementById('viewList').addEventListener('click', () => {
-    document.getElementById('grid').classList.add('list-view');
-    document.getElementById('viewList').classList.add('active');
-    document.getElementById('viewGrid').classList.remove('active');
-  });
-
-  // Load more
-  document.getElementById('btnLoadMore').addEventListener('click', renderBatch);
-
-  // Clear
-  document.getElementById('btnClear').addEventListener('click', () => {
-    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(c => c.checked = false);
-    document.querySelectorAll('.sidebar input[type="number"]').forEach(i => i.value = '');
-    document.querySelectorAll('.sidebar select').forEach(s => s.selectedIndex = 0);
-    document.querySelectorAll('.tri-toggle').forEach(tog => {
-      tog.querySelectorAll('button').forEach((b, i) => {
-        b.classList.toggle('active', i === 0);
-      });
-      triFilters[tog.dataset.filter] = '';
-    });
-    document.getElementById('searchBox').value = '';
-    applyFilters();
-  });
-
-  // Mobile sidebar
-  document.getElementById('sidebarToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('sidebarClose').style.display = '';
-  });
-  document.getElementById('sidebarClose').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
+  // Reset min selectors
+  ['hab-selector','bano-selector'].forEach(id => {
+    document.querySelectorAll(`#${id} .min-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === '0'));
   });
 
   applyFilters();
 }
 
-function debounce(fn, ms) {
-  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+// ==================== MOBILE SIDEBAR ====================
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+  document.body.style.overflow = '';
 }
 
-// Load CSV
-fetch('data.csv')
-  .then(r => r.text())
-  .then(text => {
-    const result = Papa.parse(text, { header: true, delimiter: ';', skipEmptyLines: true });
-    init(result.data);
-  })
-  .catch(err => {
-    document.getElementById('loading').innerHTML = `<p style="color:var(--red);">Error cargando datos: ${err.message}</p>`;
+// ==================== URL HASH STATE ====================
+function updateHash() {
+  const s = state;
+  const params = {};
+  if (s.zonas.size) params.zona = [...s.zonas].join(',');
+  if (s.subzonas.size) params.subzona = [...s.subzonas].join(',');
+  if (s.estados.size) params.estado = [...s.estados].join('|');
+  if (s.orient) params.orient = s.orient;
+  if (s.ascensor) params.ascensor = s.ascensor;
+  if (s.garaje) params.garaje = s.garaje;
+  if (s.terraza) params.terraza = s.terraza;
+  if (s.piscina) params.piscina = s.piscina;
+  if (s.habMin > 0) params.hab = s.habMin;
+  if (s.banoMin > 0) params.bano = s.banoMin;
+  if (s.search) params.q = s.search;
+  if (s.sortBy !== 'precio') params.sort = s.sortBy;
+  if (s.sortDir !== 1) params.dir = s.sortDir;
+  // ranges
+  if (s.precioMin !== s.dataRanges.precioMin) params.pMin = s.precioMin;
+  if (s.precioMax !== s.dataRanges.precioMax) params.pMax = s.precioMax;
+  if (s.m2Min !== s.dataRanges.m2Min) params.m2Min = s.m2Min;
+  if (s.m2Max !== s.dataRanges.m2Max) params.m2Max = s.m2Max;
+
+  const qs = Object.keys(params).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+  history.replaceState(null, '', '#' + qs);
+}
+
+function loadFromHash() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+  const params = {};
+  hash.split('&').forEach(part => {
+    const [k, v] = part.split('=');
+    if (k && v) params[k] = decodeURIComponent(v);
   });
+
+  if (params.zona) {
+    const zones = params.zona.split(',');
+    zones.forEach(z => state.zonas.add(z));
+    document.querySelectorAll('#zona-list input').forEach(cb => {
+      if (state.zonas.has(cb.value)) cb.checked = true;
+    });
+    buildSubzonaList(state.zonas);
+  }
+  if (params.subzona) {
+    const subs = params.subzona.split(',');
+    subs.forEach(s => state.subzonas.add(s));
+    document.querySelectorAll('#subzona-list input').forEach(cb => {
+      if (state.subzonas.has(cb.value)) cb.checked = true;
+    });
+  }
+  if (params.estado) {
+    const ests = params.estado.split('|');
+    ests.forEach(e => state.estados.add(e));
+    document.querySelectorAll('#estado-list input').forEach(cb => {
+      if (state.estados.has(cb.value)) cb.checked = true;
+    });
+  }
+  if (params.orient) {
+    state.orient = params.orient;
+    document.querySelectorAll('#orient-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.orient));
+  }
+  if (params.ascensor) {
+    state.ascensor = params.ascensor;
+    document.querySelectorAll('#ascensor-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.ascensor));
+  }
+  if (params.garaje) {
+    state.garaje = params.garaje;
+    document.querySelectorAll('#garaje-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.garaje));
+  }
+  if (params.terraza) {
+    state.terraza = params.terraza;
+    document.querySelectorAll('#terraza-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.terraza));
+  }
+  if (params.piscina) {
+    state.piscina = params.piscina;
+    document.querySelectorAll('#piscina-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.piscina));
+  }
+  if (params.hab) {
+    state.habMin = parseInt(params.hab);
+    document.querySelectorAll('#hab-selector .min-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.hab));
+  }
+  if (params.bano) {
+    state.banoMin = parseInt(params.bano);
+    document.querySelectorAll('#bano-selector .min-btn').forEach(b => b.classList.toggle('active', b.dataset.val === params.bano));
+  }
+  if (params.q) {
+    state.search = params.q;
+    document.getElementById('search-input').value = params.q;
+  }
+  if (params.sort) {
+    state.sortBy = params.sort;
+    document.getElementById('sort-select').value = params.sort;
+  }
+  if (params.dir) {
+    state.sortDir = parseInt(params.dir);
+    document.getElementById('sort-dir-btn').textContent = state.sortDir === 1 ? '▲' : '▼';
+  }
+  // Ranges
+  if (params.pMin) { state.precioMin = parseInt(params.pMin); document.getElementById('precio-min').value = params.pMin; }
+  if (params.pMax) { state.precioMax = parseInt(params.pMax); document.getElementById('precio-max').value = params.pMax; }
+  if (params.m2Min) { state.m2Min = parseInt(params.m2Min); document.getElementById('m2-min').value = params.m2Min; }
+  if (params.m2Max) { state.m2Max = parseInt(params.m2Max); document.getElementById('m2-max').value = params.m2Max; }
+}
+
+// ==================== START ====================
+init();
 </script>
 </body>
 </html>
