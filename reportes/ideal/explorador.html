@@ -728,6 +728,42 @@
 
   /* scrollbar for results */
   .main-content { scrollbar-width: thin; }
+
+  /* TOP PICKS */
+  .card.top-pick { border: 2px solid #f59e0b; }
+  .top-pick-ribbon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f59e0b;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  /* FLAGGED / PROBLEMATIC */
+  .card.flagged-prop { border: 2px solid #ef4444; opacity: 0.7; }
+  .flagged-ribbon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  #flagged-filter-btn:hover { border-color: #ef4444 !important; color: #ef4444 !important; }
+  #flagged-filter-btn.active { background: #fef2f2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+  #top-picks-filter-btn:hover { border-color: #f59e0b; color: #f59e0b; }
+  #top-picks-filter-btn.active { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+
 </style>
 </head>
 <body>
@@ -1141,6 +1177,12 @@
         <option value="alqEst">Alquiler estimado</option>
       </select>
       <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
+      <button class="suggested-filter-btn" id="top-picks-filter-btn" onclick="toggleTopPicksFilter()" title="Mostrar solo las top picks de todas las estrategias">
+        🏆 Top Picks <span class="fav-count">41</span>
+      </button>
+      <button class="suggested-filter-btn" id="flagged-filter-btn" onclick="toggleFlaggedFilter()" style="border-color: #ef4444; color: #6b7280;" title="Ocultar propiedades ocupadas, sin posesión, subasta, nuda propiedad, etc.">
+        🚩 Ocultar Problemáticas <span class="fav-count">47</span>
+      </button>
       <button class="suggested-filter-btn" id="suggested-filter-btn" onclick="toggleSuggestedFilter()">
         💎 Sugeridas <span class="fav-count" id="suggested-count-badge">0</span>
       </button>
@@ -1186,6 +1228,36 @@ const favorites = loadFavs();
 
 // ==================== SUGGESTED ====================
 let suggestedMap = {}; // link -> [strategy letters]
+
+// ==================== TOP PICKS & FLAGGED ====================
+const TOP_PICK_IDS = new Set(["100905696", "100913568", "101600968", "101600988", "103554826", "103635545", "105018344", "105580708", "106362472", "107102854", "107313170", "107792315", "107890183", "108425033", "108456337", "108546082", "108609760", "108654355", "108763689", "108812397", "109178857", "109410873", "109477943", "109681861", "109763502", "109828327", "109870834", "109926657", "109999123", "109999135", "110030377", "110033612", "110146797", "110235578", "110451920", "110676715", "110700911", "110888685", "36182489", "39191743", "91380860"]);
+const FLAGGED_IDS = new Set(["103677514", "106410586", "106410789", "106497649", "106658471", "106697455", "106751748", "106858431", "106882641", "107147556", "107160714", "107398368", "107561016", "107610701", "107684048", "107921739", "107981217", "108164792", "108264003", "108286530", "108473650", "108563732", "108608804", "108611339", "108632485", "108664378", "108748480", "109001385", "109387004", "109421049", "109563006", "109649874", "109728175", "109866242", "110110694", "110258899", "110328178", "110443106", "110447524", "110580565", "110657400", "110740093", "110878398", "110942753", "94925618", "98623189", "99241479"]);
+
+function getIdFromLink(link) {
+  const match = link.match(/inmueble\/(\d+)\//);
+  return match ? match[1] : null;
+}
+
+function toggleTopPicksFilter() {
+  state.showTopPicksOnly = !state.showTopPicksOnly;
+  const btn = document.getElementById('top-picks-filter-btn');
+  btn.classList.toggle('active', state.showTopPicksOnly);
+  btn.innerHTML = state.showTopPicksOnly 
+    ? '🏆 Top Picks ON <span class="fav-count">41</span>'
+    : '🏆 Top Picks <span class="fav-count">41</span>';
+  applyFilters();
+}
+
+function toggleFlaggedFilter() {
+  state.hideFlagged = !state.hideFlagged;
+  const btn = document.getElementById('flagged-filter-btn');
+  btn.classList.toggle('active', state.hideFlagged);
+  btn.innerHTML = state.hideFlagged
+    ? '✅ Problemáticas Ocultas <span class="fav-count">47</span>'
+    : '🚩 Ocultar Problemáticas <span class="fav-count">47</span>';
+  applyFilters();
+}
+
 function toggleSuggestedFilter() {
   state.showSuggestedOnly = !state.showSuggestedOnly;
   document.getElementById('suggested-filter-btn').classList.toggle('active', state.showSuggestedOnly);
@@ -1234,6 +1306,8 @@ const state = {
   sortBy: 'precio',
   showFavsOnly: false,
   showSuggestedOnly: false,
+  showTopPicksOnly: false,
+  hideFlagged: false,
   sortDir: 1,
   // render state
   renderPage: 0,
@@ -1686,6 +1760,18 @@ function applyFilters() {
   if (s.showSuggestedOnly) {
     data = data.filter(r => r.link in suggestedMap);
   }
+  if (s.showTopPicksOnly) {
+    data = data.filter(r => {
+      const id = getIdFromLink(r.link);
+      return id && TOP_PICK_IDS.has(id);
+    });
+  }
+  if (s.hideFlagged) {
+    data = data.filter(r => {
+      const id = getIdFromLink(r.link);
+      return !id || !FLAGGED_IDS.has(id);
+    });
+  }
   if (s.strategyFilter) {
     data = data.filter(r => {
       const tags = suggestedMap[r.link];
@@ -1865,7 +1951,17 @@ function buildCard(r, idx) {
     ? `<img class="card-thumb" src="${thumbUrl}" alt="${r.dir}" loading="lazy" onerror="this.outerHTML='<div class=\\'card-thumb-placeholder\\'>🏠</div>'">`
     : `<div class="card-thumb-placeholder">🏠</div>`;
 
-  const ribbonHtml = isSuggested ? `<span class="suggested-ribbon">💎 ${sugLabel}</span>` : '';
+  const isTopPick = TOP_PICK_IDS.has(getIdFromLink(r.link));
+  const isFlagged = FLAGGED_IDS.has(getIdFromLink(r.link));
+  if (isTopPick) card.classList.add('top-pick');
+  if (isFlagged) card.classList.add('flagged-prop');
+  const ribbonHtml = isFlagged 
+    ? '<span class="flagged-ribbon">🚩 Problemática</span>'
+    : isSuggested 
+      ? `<span class="suggested-ribbon">💎 ${sugLabel}</span>` 
+      : isTopPick 
+        ? '<span class="top-pick-ribbon">🏆 Top Pick</span>'
+        : '';
 
   card.innerHTML = `
     <div class="card-img-wrap">${imgHtml}${ribbonHtml}</div>
