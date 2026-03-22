@@ -1,1 +1,429 @@
-{"https://www.idealista.com/inmueble/110699465/": ["A"], "https://www.idealista.com/inmueble/110536799/": ["A"], "https://www.idealista.com/inmueble/107792315/": ["A"], "https://www.idealista.com/inmueble/109763502/": ["A", "C"], "https://www.idealista.com/inmueble/109178857/": ["A"], "https://www.idealista.com/inmueble/107890183/": ["A"], "https://www.idealista.com/inmueble/107886792/": ["A"], "https://www.idealista.com/inmueble/103635545/": ["A"], "https://www.idealista.com/inmueble/110888685/": ["A"], "https://www.idealista.com/inmueble/109828327/": ["A"], "https://www.idealista.com/inmueble/108456337/": ["B", "D"], "https://www.idealista.com/inmueble/108609760/": ["B", "D"], "https://www.idealista.com/inmueble/104408434/": ["B", "D"], "https://www.idealista.com/inmueble/107407510/": ["B", "D"], "https://www.idealista.com/inmueble/105580708/": ["B", "D"], "https://www.idealista.com/inmueble/110451920/": ["B", "D"], "https://www.idealista.com/inmueble/100905696/": ["B", "D"], "https://www.idealista.com/inmueble/104596059/": ["B", "D"], "https://www.idealista.com/inmueble/94925618/": ["B", "D"], "https://www.idealista.com/inmueble/39191743/": ["B", "D"], "https://www.idealista.com/inmueble/109410873/": ["C"], "https://www.idealista.com/inmueble/106362472/": ["C"], "https://www.idealista.com/inmueble/105018344/": ["C"], "https://www.idealista.com/inmueble/109244249/": ["C"], "https://www.idealista.com/inmueble/109539437/": ["C"], "https://www.idealista.com/inmueble/109173374/": ["C"], "https://www.idealista.com/inmueble/110163393/": ["C"], "https://www.idealista.com/inmueble/109181346/": ["C"], "https://www.idealista.com/inmueble/110030377/": ["C"], "https://www.idealista.com/inmueble/29341537/": ["E"], "https://www.idealista.com/inmueble/28021920/": ["E"], "https://www.idealista.com/inmueble/110653305/": ["E"], "https://www.idealista.com/inmueble/108727222/": ["E"], "https://www.idealista.com/inmueble/110726024/": ["E"], "https://www.idealista.com/inmueble/110438633/": ["E"], "https://www.idealista.com/inmueble/109870834/": ["E"], "https://www.idealista.com/inmueble/109999123/": ["E"], "https://www.idealista.com/inmueble/109999135/": ["E"], "https://www.idealista.com/inmueble/109361023/": ["E"], "https://www.idealista.com/inmueble/101370946/": ["F"], "https://www.idealista.com/inmueble/106588727/": ["F"], "https://www.idealista.com/inmueble/30343846/": ["F"], "https://www.idealista.com/inmueble/109935648/": ["F"], "https://www.idealista.com/inmueble/109932862/": ["F"], "https://www.idealista.com/inmueble/109675509/": ["F"], "https://www.idealista.com/inmueble/109936779/": ["F"], "https://www.idealista.com/inmueble/109678883/": ["F"], "https://www.idealista.com/inmueble/106204131/": ["F"], "https://www.idealista.com/inmueble/109240927/": ["F"]}
+{
+  "https://www.idealista.com/inmueble/110699465/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/110536799/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/107792315/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/109763502/": [
+    "A",
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/109178857/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/107890183/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/107886792/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/103635545/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/110888685/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/109828327/": [
+    "A"
+  ],
+  "https://www.idealista.com/inmueble/108456337/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108609760/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/104408434/": [
+    "B",
+    "D"
+  ],
+  "https://www.idealista.com/inmueble/107407510/": [
+    "B",
+    "D"
+  ],
+  "https://www.idealista.com/inmueble/105580708/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110451920/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/100905696/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/104596059/": [
+    "B",
+    "D"
+  ],
+  "https://www.idealista.com/inmueble/94925618/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/39191743/": [
+    "B",
+    "D",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109410873/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/106362472/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/105018344/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/109244249/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/109539437/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/109173374/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/110163393/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/109181346/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/110030377/": [
+    "C"
+  ],
+  "https://www.idealista.com/inmueble/29341537/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/28021920/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110653305/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108727222/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110726024/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110438633/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109870834/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109999123/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109999135/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109361023/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/101370946/": [
+    "F",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106588727/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/30343846/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109935648/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109932862/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109675509/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109936779/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109678883/": [
+    "F",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106204131/": [
+    "F",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109240927/": [
+    "F",
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/100913568/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/101694455/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/101809808/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/101820583/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/102224309/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/102564038/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/103112837/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/103695645/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/104108073/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/104147991/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/104798170/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/105212159/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106198884/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106419843/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106812143/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/106841261/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107102854/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107313170/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107630857/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107637276/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107637465/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107718530/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107736627/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/107776575/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108285163/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108546082/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108557948/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108654355/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108704426/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108710191/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108763689/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/108812397/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/108816359/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108853170/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/108966727/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109061015/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109093216/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109153548/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109248049/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109436271/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109681861/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109704663/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109776928/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109790223/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109794150/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109866476/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/109926657/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/109930103/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110018098/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110018377/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110021459/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110033612/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/110041240/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110156796/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110223733/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110235578/": [
+    "F"
+  ],
+  "https://www.idealista.com/inmueble/110250548/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110254784/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110401155/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110463545/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110497573/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110510181/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110555163/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110599939/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110645716/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110676715/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110808525/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110814970/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110867539/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110869539/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110873759/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110878021/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110909216/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110923584/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110923900/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110928628/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110942753/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110957912/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110978201/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/110978221/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/31125061/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/36182489/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/40144751/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/97395248/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/97416572/": [
+    "E"
+  ],
+  "https://www.idealista.com/inmueble/99638206/": [
+    "E"
+  ]
+}
