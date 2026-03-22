@@ -514,6 +514,40 @@
   }
   .btn-expand:hover { background: var(--gray-200); }
 
+  /* FAVORITES */
+  .btn-fav {
+    background: none;
+    border: 1px solid var(--gray-200);
+    color: var(--gray-400);
+    font-size: 1.1rem;
+    padding: 5px 9px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .btn-fav:hover { border-color: #f59e0b; color: #f59e0b; }
+  .btn-fav.faved { background: #fef3c7; border-color: #f59e0b; color: #f59e0b; }
+  .fav-filter-btn {
+    padding: 6px 14px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+  }
+  .fav-filter-btn:hover { border-color: #f59e0b; color: #f59e0b; }
+  .fav-filter-btn.active { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+  .fav-count { font-size: 0.75rem; background: var(--gray-200); border-radius: 10px; padding: 1px 7px; font-weight: 700; }
+  .fav-filter-btn.active .fav-count { background: #fde68a; }
+
   /* EMPTY STATE */
   .empty-state {
     grid-column: 1 / -1;
@@ -865,6 +899,9 @@
         <option value="pie">Tiempo a pie</option>
       </select>
       <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
+      <button class="fav-filter-btn" id="fav-filter-btn" onclick="toggleFavFilter()">
+        ⭐ Favoritos <span class="fav-count" id="fav-count-badge">0</span>
+      </button>
     </div>
 
     <!-- Cards grid -->
@@ -874,6 +911,34 @@
 </div>
 
 <script>
+// ==================== FAVORITES ====================
+const FAVS_KEY = 'cthae_property_favs';
+function loadFavs() {
+  try { return new Set(JSON.parse(localStorage.getItem(FAVS_KEY) || '[]')); }
+  catch { return new Set(); }
+}
+function saveFavs() { localStorage.setItem(FAVS_KEY, JSON.stringify([...favorites])); updateFavBadge(); }
+function toggleFav(link) {
+  if (favorites.has(link)) favorites.delete(link);
+  else favorites.add(link);
+  saveFavs();
+  // Update button state
+  document.querySelectorAll(`.btn-fav[data-link="${CSS.escape(link)}"]`).forEach(btn => {
+    btn.classList.toggle('faved', favorites.has(link));
+    btn.textContent = favorites.has(link) ? '★' : '☆';
+  });
+}
+function updateFavBadge() {
+  const badge = document.getElementById('fav-count-badge');
+  if (badge) badge.textContent = favorites.size;
+}
+function toggleFavFilter() {
+  state.showFavsOnly = !state.showFavsOnly;
+  document.getElementById('fav-filter-btn').classList.toggle('active', state.showFavsOnly);
+  applyFilters();
+}
+const favorites = loadFavs();
+
 // ==================== STATE ====================
 const state = {
   allData: [],
@@ -895,6 +960,7 @@ const state = {
   estados: new Set(),
   search: '',
   sortBy: 'precio',
+  showFavsOnly: false,
   sortDir: 1,
   // render state
   renderPage: 0,
@@ -1000,6 +1066,7 @@ async function init() {
     buildFiltersUI();
     loadFromHash();
     applyFilters();
+    updateFavBadge();
     document.getElementById('loading-overlay').style.display = 'none';
   } catch(e) {
     console.error(e);
@@ -1218,6 +1285,10 @@ function applyFilters() {
     return true;
   });
 
+  if (s.showFavsOnly) {
+    data = data.filter(r => favorites.has(r.link));
+  }
+
   if (s.search) {
     const q = s.search;
     data = data.filter(r => r.dir.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q));
@@ -1368,6 +1439,7 @@ function buildCard(r, idx) {
       ${descHtml}
     </div>
     <div class="card-footer">
+      <button class="btn-fav ${favorites.has(r.link) ? 'faved' : ''}" data-link="${r.link}" onclick="toggleFav('${r.link.replace(/'/g, "\\'")}')">${favorites.has(r.link) ? '★' : '☆'}</button>
       ${r.link ? `<a class="btn-idealista" href="${r.link}" target="_blank" rel="noopener">Ver en idealista ↗</a>` : ''}
       ${r.desc ? `<button class="btn-expand" onclick="toggleDesc('${descId}', this)">+ Info</button>` : ''}
     </div>`;
