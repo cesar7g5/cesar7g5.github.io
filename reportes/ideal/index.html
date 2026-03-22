@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe de Inversión Inmobiliaria v2 — Cesar</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+    --navy: #1a2332;
+    --navy-light: #2a3a52;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #e9ecef;
+    --gray-200: #dee2e6;
+    --gray-600: #6c757d;
+    --gray-800: #343a40;
+    --green: #28a745;
+    --green-light: #d4edda;
+    --green-bg: #f0faf3;
+    --amber: #ffc107;
+    --amber-light: #fff3cd;
+    --amber-bg: #fffbf0;
+    --red: #dc3545;
+    --red-light: #f8d7da;
+    --blue: #007bff;
+    --blue-light: #cce5ff;
+    --purple: #6f42c1;
+    --purple-light: #e2d9f3;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: white;
+    padding: 40px 0;
+    margin-bottom: 30px;
+}
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    font-weight: 300;
+}
+header .meta {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+.header-zones {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+.zone-pill {
+    background: rgba(255,255,255,0.15);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+/* SECTIONS */
+section {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+section h2 {
+    color: var(--navy);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gray-100);
+}
+section h3 {
+    color: var(--navy-light);
+    font-size: 1.15rem;
+    margin: 20px 0 12px;
+}
+section h4 {
+    color: var(--navy);
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+
+/* EXEC SUMMARY */
+.exec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.exec-card {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+}
+.exec-card .big-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+}
+.exec-card .label {
+    font-size: 0.82rem;
+    color: var(--gray-600);
+    margin-top: 4px;
+}
+.exec-card.green { border-color: var(--green); background: var(--green-bg); }
+.exec-card.green .big-num { color: var(--green); }
+.exec-card.amber { border-color: var(--amber); background: var(--amber-bg); }
+.exec-card.amber .big-num { color: #856404; }
+.exec-card.blue { border-color: var(--blue); background: #f0f7ff; }
+.exec-card.blue .big-num { color: var(--blue); }
+.exec-card.purple { border-color: var(--purple); background: var(--purple-light); }
+.exec-card.purple .big-num { color: var(--purple); }
+
+.recommendation {
+    background: var(--green-bg);
+    border-left: 4px solid var(--green);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+}
+.recommendation strong { color: var(--green); }
+.warning {
+    background: var(--amber-bg);
+    border-left: 4px solid var(--amber);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+}
+
+/* ZONE COMPARISON */
+.zone-compare {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 16px 0;
+}
+.zone-col {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+}
+.zone-col h4 {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gray-200);
+}
+.zone-col.madrid h4 { border-color: var(--red); }
+.zone-col.centro h4 { border-color: var(--blue); }
+.zone-col.provincia h4 { border-color: var(--purple); }
+.zone-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--gray-100);
+}
+.zone-stat:last-child { border: none; }
+.zone-stat .val { font-weight: 600; }
+
+/* CHARTS */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 24px;
+    margin: 20px 0;
+}
+.chart-box {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--gray-200);
+}
+.chart-box h4 {
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--navy);
+}
+.chart-box canvas {
+    max-height: 320px;
+}
+
+/* TABLES */
+.table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.87rem;
+}
+thead { position: sticky; top: 0; z-index: 10; }
+th {
+    background: var(--navy);
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+}
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: middle;
+}
+tr:nth-child(even) { background: var(--gray-50); }
+tr:hover { background: var(--blue-light); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.buy-row { background: var(--green-bg) !important; }
+.buy-row:hover { background: var(--green-light) !important; }
+.consider-row { background: var(--amber-bg) !important; }
+.consider-row:hover { background: var(--amber-light) !important; }
+
+/* BADGES */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-buy { background: var(--green); color: white; }
+.badge-consider { background: var(--amber); color: var(--gray-800); }
+.badge-skip { background: var(--red); color: white; }
+.badge-madrid { background: var(--red); color: white; }
+.badge-centro { background: var(--blue); color: white; }
+.badge-provincia { background: var(--purple); color: white; }
+
+/* ZONE CARDS */
+.zone-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.zone-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+}
+.zone-metrics span {
+    background: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--gray-200);
+}
+.lifestyle-match {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 12px;
+    background: var(--green-light);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--green);
+}
+.lifestyle-ok {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 12px;
+    background: var(--amber-light);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+/* STRATEGY */
+.strategy-block { margin-bottom: 24px; }
+.strategy-block h3 {
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+.strategy-block h3.living { background: var(--blue-light); }
+.strategy-block h3.invest { background: var(--green-light); }
+.strategy-block h3.dual { background: linear-gradient(90deg, var(--blue-light), var(--green-light)); }
+.strategy-block h3.provincia { background: var(--purple-light); }
+
+/* NAV */
+nav {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+nav a {
+    color: var(--navy);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+nav a:hover { background: var(--gray-100); }
+
+a { color: var(--blue); }
+.green-text { color: #1a6b2f; }
+.red-text { color: #842029; }
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--gray-600);
+    font-size: 0.85rem;
+}
+
+/* PRINT */
+@media print {
+    body { background: white; }
+    section { box-shadow: none; break-inside: avoid; }
+    nav { display: none; }
+    header { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+@media (max-width: 768px) {
+    header h1 { font-size: 1.5rem; }
+    section { padding: 16px; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .exec-grid { grid-template-columns: repeat(2, 1fr); }
+    .zone-compare { grid-template-columns: 1fr; }
+    table { font-size: 0.8rem; }
+    th, td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>📊 Informe de Inversión Inmobiliaria v2</h1>
+<p class="subtitle">Análisis comparativo Madrid Moratalaz · Valladolid Capital · Valladolid Provincia</p>
+<p class="meta">Preparado para Cesar · Marzo 2026 · 1,259 propiedades analizadas</p>
+<div class="header-zones">
+  <span class="zone-pill">🏙️ Madrid Moratalaz: 74 propiedades</span>
+  <span class="zone-pill">🏢 Valladolid Capital: 682 propiedades</span>
+  <span class="zone-pill">🌳 Valladolid Provincia: 503 propiedades</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+
+<nav>
+<a href="#executive">📋 Resumen</a>
+<a href="#market">📈 Mercado</a>
+<a href="#top50">🏆 Top 50</a>
+<a href="#redflags">⚠️ Alertas</a>
+<a href="#zones">🗺️ Zonas</a>
+<a href="#strategy">🎯 Estrategia</a>
+<a href="#methodology">📐 Metodología</a>
+</nav>
+
+<!-- ============================================================ -->
+<!-- 1. EXECUTIVE SUMMARY -->
+<!-- ============================================================ -->
+<section id="executive">
+<h2>1. Resumen Ejecutivo</h2>
+
+<div class="exec-grid">
+<div class="exec-card">
+<div class="big-num">1,259</div>
+<div class="label">Propiedades analizadas</div>
+</div>
+<div class="exec-card">
+<div class="big-num">3</div>
+<div class="label">Zonas (Madrid + Valladolid + Provincia)</div>
+</div>
+<div class="exec-card green">
+<div class="big-num">282</div>
+<div class="label">Recomendadas (BUY)</div>
+</div>
+<div class="exec-card amber">
+<div class="big-num">626</div>
+<div class="label">A considerar (CONSIDER)</div>
+</div>
+<div class="exec-card blue">
+<div class="big-num">5.01%</div>
+<div class="label">Rentabilidad media Valladolid Capital</div>
+</div>
+<div class="exec-card purple">
+<div class="big-num">4.38%</div>
+<div class="label">Rentabilidad media Valladolid Provincia</div>
+</div>
+<div class="exec-card">
+<div class="big-num">4.11%</div>
+<div class="label">Rentabilidad media Madrid</div>
+</div>
+<div class="exec-card">
+<div class="big-num">2.173€</div>
+<div class="label">€/m² medio Valladolid Capital</div>
+</div>
+<div class="exec-card">
+<div class="big-num">1.349€</div>
+<div class="label">€/m² medio Valladolid Provincia</div>
+</div>
+<div class="exec-card">
+<div class="big-num">4.190€</div>
+<div class="label">€/m² medio Madrid Moratalaz</div>
+</div>
+</div>
+
+<h3>🔍 Hallazgo Principal</h3>
+<p><strong>Valladolid capital sigue siendo la mejor opción de inversión</strong>, con un precio medio de 2.173€/m² frente a 4.190€/m² en Moratalaz. Pero la <strong>gran novedad de este análisis</strong> es la provincia: con 503 propiedades analizadas, los pueblos del área metropolitana de Valladolid ofrecen rentabilidades estimadas del 4.38% de media, con precios muy por debajo de la capital y tipologías únicas (casas con jardín, chalets adosados).</p>
+
+<p>En Moratalaz, el 68% de las propiedades son SKIP — mayoritariamente por problemas legales (ocupación, nuda propiedad, sin posesión), precios inflados para pisos pequeños, o falta de ascensor. Solo 2 propiedades obtienen BUY.</p>
+
+<div class="zone-compare">
+<div class="zone-col madrid">
+<h4>🏙️ Madrid Moratalaz</h4>
+<div class="zone-stat"><span>Propiedades</span><span class="val">74</span></div>
+<div class="zone-stat"><span>Precio medio</span><span class="val">264.962€</span></div>
+<div class="zone-stat"><span>m² medio</span><span class="val">66m²</span></div>
+<div class="zone-stat"><span>€/m² medio</span><span class="val">4.190€</span></div>
+<div class="zone-stat"><span>Rentabilidad</span><span class="val">4.11%</span></div>
+<div class="zone-stat"><span>BUY / CONSIDER / SKIP</span><span class="val">2 / 22 / 50</span></div>
+</div>
+<div class="zone-col centro">
+<h4>🏢 Valladolid Capital</h4>
+<div class="zone-stat"><span>Propiedades</span><span class="val">682</span></div>
+<div class="zone-stat"><span>Precio medio</span><span class="val">191.345€</span></div>
+<div class="zone-stat"><span>m² medio</span><span class="val">94m²</span></div>
+<div class="zone-stat"><span>€/m² medio</span><span class="val">2.173€</span></div>
+<div class="zone-stat"><span>Rentabilidad</span><span class="val">5.01%</span></div>
+<div class="zone-stat"><span>BUY / CONSIDER / SKIP</span><span class="val">262 / 319 / 101</span></div>
+</div>
+<div class="zone-col provincia">
+<h4>🌳 Valladolid Provincia</h4>
+<div class="zone-stat"><span>Propiedades</span><span class="val">503</span></div>
+<div class="zone-stat"><span>Precio medio</span><span class="val">168.285€</span></div>
+<div class="zone-stat"><span>m² medio</span><span class="val">220m²</span></div>
+<div class="zone-stat"><span>€/m² medio</span><span class="val">1.349€</span></div>
+<div class="zone-stat"><span>Rentabilidad</span><span class="val">4.38%</span></div>
+<div class="zone-stat"><span>BUY / CONSIDER / SKIP</span><span class="val">18 / 285 / 200</span></div>
+</div>
+</div>
+
+<div class="recommendation">
+<strong>💡 Recomendación Principal:</strong> Para inversión pura, centrar la búsqueda en Valladolid capital — distritos <strong>Huerta del Rey, Parquesol, La Rubia, Pº Zorrilla, Centro y Delicias</strong> ofrecen la mejor combinación de calidad, rentabilidad y liquidez. Para budget ajustado o inversión en casas con jardín, los pueblos del cinturón metropolitano como <strong>Arroyo de la Encomienda, Laguna de Duero, Cistérniga y Aldeamayor</strong> ofrecen rentabilidades estimadas más altas, pero con menor liquidez y requieren gestión remota.
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 2. MARKET OVERVIEW -->
+<!-- ============================================================ -->
+<section id="market">
+<h2>2. Visión del Mercado</h2>
+
+<div class="chart-grid">
+<div class="chart-box">
+<h4>📊 Distribución de Precios por Zona</h4>
+<canvas id="priceHistChart"></canvas>
+</div>
+<div class="chart-box">
+<h4>📊 €/m² por Distrito (Valladolid Capital)</h4>
+<canvas id="eurM2Chart"></canvas>
+</div>
+</div>
+
+<div class="chart-grid">
+<div class="chart-box">
+<h4>🥧 Veredictos — Madrid Moratalaz</h4>
+<canvas id="verdictMadridChart"></canvas>
+</div>
+<div class="chart-box">
+<h4>🥧 Veredictos — Valladolid Capital</h4>
+<canvas id="verdictCentroChart"></canvas>
+</div>
+<div class="chart-box">
+<h4>🥧 Veredictos — Valladolid Provincia</h4>
+<canvas id="verdictProvChart"></canvas>
+</div>
+</div>
+
+<div class="chart-grid">
+<div class="chart-box">
+<h4>📊 Distribución de Rentabilidad por Zona</h4>
+<canvas id="yieldChart"></canvas>
+</div>
+<div class="chart-box">
+<h4>📊 €/m² por Pueblo (Top 15)</h4>
+<canvas id="puebloEurM2Chart"></canvas>
+</div>
+</div>
+
+<div class="chart-grid">
+<div class="chart-box" style="grid-column: 1 / -1;">
+<h4>💎 Calidad de Zona vs Potencial de Crecimiento (tamaño = rentabilidad)</h4>
+<canvas id="scatterChart" style="max-height:400px;"></canvas>
+</div>
+</div>
+
+<h3>📊 Resumen por Distrito — Valladolid Capital</h3>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Distrito</th><th>N</th><th>Precio Medio</th><th>m² Medio</th><th>€/m²</th><th>Rentabilidad</th><th>Veredictos</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Las Flores</strong></td>
+<td class="num">12</td>
+<td class="num">164.483€</td>
+<td class="num">145m²</td>
+<td class="num">1.149€</td>
+<td class="num">6.79%</td>
+<td><span class="badge badge-buy">BUY</span> 4 &nbsp; <span class="badge badge-consider">CONSIDER</span> 8 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Huerta del Rey</strong></td>
+<td class="num">20</td>
+<td class="num">189.170€</td>
+<td class="num">100m²</td>
+<td class="num">3.311€</td>
+<td class="num">6.01%</td>
+<td><span class="badge badge-buy">BUY</span> 18 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Arturo Eyres</strong></td>
+<td class="num">13</td>
+<td class="num">171.877€</td>
+<td class="num">102m²</td>
+<td class="num">1.717€</td>
+<td class="num">5.88%</td>
+<td><span class="badge badge-buy">BUY</span> 1 &nbsp; <span class="badge badge-consider">CONSIDER</span> 6 &nbsp; <span class="badge badge-skip">SKIP</span> 6</td>
+</tr>
+<tr>
+<td><strong>Delicias</strong></td>
+<td class="num">113</td>
+<td class="num">129.555€</td>
+<td class="num">78m²</td>
+<td class="num">1.700€</td>
+<td class="num">5.86%</td>
+<td><span class="badge badge-buy">BUY</span> 41 &nbsp; <span class="badge badge-consider">CONSIDER</span> 64 &nbsp; <span class="badge badge-skip">SKIP</span> 8</td>
+</tr>
+<tr>
+<td><strong>Pº Zorrilla - Campo Grande</strong></td>
+<td class="num">20</td>
+<td class="num">211.080€</td>
+<td class="num">94m²</td>
+<td class="num">2.305€</td>
+<td class="num">5.58%</td>
+<td><span class="badge badge-buy">BUY</span> 15 &nbsp; <span class="badge badge-consider">CONSIDER</span> 5 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Parquesol</strong></td>
+<td class="num">49</td>
+<td class="num">233.773€</td>
+<td class="num">111m²</td>
+<td class="num">2.191€</td>
+<td class="num">5.44%</td>
+<td><span class="badge badge-buy">BUY</span> 47 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>La Victoria</strong></td>
+<td class="num">22</td>
+<td class="num">178.914€</td>
+<td class="num">117m²</td>
+<td class="num">1.754€</td>
+<td class="num">5.34%</td>
+<td><span class="badge badge-buy">BUY</span> 5 &nbsp; <span class="badge badge-consider">CONSIDER</span> 15 &nbsp; <span class="badge badge-skip">SKIP</span> 2</td>
+</tr>
+<tr>
+<td><strong>La Rubia</strong></td>
+<td class="num">20</td>
+<td class="num">183.065€</td>
+<td class="num">90m²</td>
+<td class="num">2.039€</td>
+<td class="num">5.24%</td>
+<td><span class="badge badge-buy">BUY</span> 14 &nbsp; <span class="badge badge-consider">CONSIDER</span> 6 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>San Isidro</strong></td>
+<td class="num">8</td>
+<td class="num">139.812€</td>
+<td class="num">88m²</td>
+<td class="num">1.644€</td>
+<td class="num">5.20%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 6 &nbsp; <span class="badge badge-skip">SKIP</span> 2</td>
+</tr>
+<tr>
+<td><strong>Girón - Villa del Prado</strong></td>
+<td class="num">16</td>
+<td class="num">239.356€</td>
+<td class="num">112m²</td>
+<td class="num">2.221€</td>
+<td class="num">5.19%</td>
+<td><span class="badge badge-buy">BUY</span> 14 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Pajarillos</strong></td>
+<td class="num">34</td>
+<td class="num">144.879€</td>
+<td class="num">106m²</td>
+<td class="num">1.445€</td>
+<td class="num">5.07%</td>
+<td><span class="badge badge-buy">BUY</span> 2 &nbsp; <span class="badge badge-consider">CONSIDER</span> 25 &nbsp; <span class="badge badge-skip">SKIP</span> 7</td>
+</tr>
+<tr>
+<td><strong>Centro</strong></td>
+<td class="num">89</td>
+<td class="num">229.171€</td>
+<td class="num">84m²</td>
+<td class="num">2.885€</td>
+<td class="num">4.94%</td>
+<td><span class="badge badge-buy">BUY</span> 71 &nbsp; <span class="badge badge-consider">CONSIDER</span> 18 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Cuatro de Marzo</strong></td>
+<td class="num">14</td>
+<td class="num">178.154€</td>
+<td class="num">94m²</td>
+<td class="num">1.995€</td>
+<td class="num">4.88%</td>
+<td><span class="badge badge-buy">BUY</span> 3 &nbsp; <span class="badge badge-consider">CONSIDER</span> 11 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>San Juan - Batallas</strong></td>
+<td class="num">13</td>
+<td class="num">206.109€</td>
+<td class="num">102m²</td>
+<td class="num">2.056€</td>
+<td class="num">4.88%</td>
+<td><span class="badge badge-buy">BUY</span> 6 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Belén - Pilarica - Bº España</strong></td>
+<td class="num">52</td>
+<td class="num">209.654€</td>
+<td class="num">94m²</td>
+<td class="num">2.279€</td>
+<td class="num">4.70%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 18 &nbsp; <span class="badge badge-skip">SKIP</span> 34</td>
+</tr>
+<tr>
+<td><strong>El Cabildo</strong></td>
+<td class="num">16</td>
+<td class="num">231.688€</td>
+<td class="num">115m²</td>
+<td class="num">2.109€</td>
+<td class="num">4.65%</td>
+<td><span class="badge badge-buy">BUY</span> 5 &nbsp; <span class="badge badge-consider">CONSIDER</span> 11 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Hospital</strong></td>
+<td class="num">11</td>
+<td class="num">171.245€</td>
+<td class="num">83m²</td>
+<td class="num">2.074€</td>
+<td class="num">4.44%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 8 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>Rondilla - Santa Clara</strong></td>
+<td class="num">27</td>
+<td class="num">151.411€</td>
+<td class="num">80m²</td>
+<td class="num">1.928€</td>
+<td class="num">4.36%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 20 &nbsp; <span class="badge badge-skip">SKIP</span> 7</td>
+</tr>
+<tr>
+<td><strong>Covaresa - Parque Alameda</strong></td>
+<td class="num">11</td>
+<td class="num">214.318€</td>
+<td class="num">75m²</td>
+<td class="num">2.991€</td>
+<td class="num">4.35%</td>
+<td><span class="badge badge-buy">BUY</span> 9 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Circular - Vadillos</strong></td>
+<td class="num">38</td>
+<td class="num">196.621€</td>
+<td class="num">93m²</td>
+<td class="num">2.155€</td>
+<td class="num">4.27%</td>
+<td><span class="badge badge-buy">BUY</span> 2 &nbsp; <span class="badge badge-consider">CONSIDER</span> 32 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Hospital Nuevo</strong></td>
+<td class="num">3</td>
+<td class="num">231.333€</td>
+<td class="num">114m²</td>
+<td class="num">2.147€</td>
+<td class="num">4.20%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Arco Ladrillo</strong></td>
+<td class="num">12</td>
+<td class="num">238.167€</td>
+<td class="num">91m²</td>
+<td class="num">2.715€</td>
+<td class="num">4.04%</td>
+<td><span class="badge badge-buy">BUY</span> 5 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Arcas Reales - Pinar del Jalón</strong></td>
+<td class="num">23</td>
+<td class="num">228.061€</td>
+<td class="num">114m²</td>
+<td class="num">2.337€</td>
+<td class="num">4.01%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 16 &nbsp; <span class="badge badge-skip">SKIP</span> 7</td>
+</tr>
+<tr>
+<td><strong>La Overuela</strong></td>
+<td class="num">6</td>
+<td class="num">226.148€</td>
+<td class="num">175m²</td>
+<td class="num">1.494€</td>
+<td class="num">3.85%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 1 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Las Villas - Valparaíso</strong></td>
+<td class="num">12</td>
+<td class="num">243.740€</td>
+<td class="num">91m²</td>
+<td class="num">2.730€</td>
+<td class="num">3.50%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Pº Zorrilla - Plaza de Toros</strong></td>
+<td class="num">27</td>
+<td class="num">202.515€</td>
+<td class="num">83m²</td>
+<td class="num">2.484€</td>
+<td class="num">3.37%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 17 &nbsp; <span class="badge badge-skip">SKIP</span> 10</td>
+</tr>
+<tr>
+<td><strong>?</strong></td>
+<td class="num">1</td>
+<td class="num">—</td>
+<td class="num">0m²</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 0 &nbsp; <span class="badge badge-skip">SKIP</span> 1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>📊 Resumen por Barrio — Madrid Moratalaz</h3>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Barrio</th><th>N</th><th>Precio Medio</th><th>m² Medio</th><th>€/m²</th><th>Rentabilidad</th><th>Veredictos</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Media Legua</strong></td>
+<td class="num">7</td>
+<td class="num">251.571€</td>
+<td class="num">94m²</td>
+<td class="num">2.902€</td>
+<td class="num">5.62%</td>
+<td><span class="badge badge-buy">BUY</span> 1 &nbsp; <span class="badge badge-consider">CONSIDER</span> 4 &nbsp; <span class="badge badge-skip">SKIP</span> 2</td>
+</tr>
+<tr>
+<td><strong>Fontarrón</strong></td>
+<td class="num">28</td>
+<td class="num">265.832€</td>
+<td class="num">68m²</td>
+<td class="num">3.968€</td>
+<td class="num">4.22%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 21</td>
+</tr>
+<tr>
+<td><strong>Pavones</strong></td>
+<td class="num">10</td>
+<td class="num">262.650€</td>
+<td class="num">63m²</td>
+<td class="num">4.291€</td>
+<td class="num">4.06%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 4 &nbsp; <span class="badge badge-skip">SKIP</span> 6</td>
+</tr>
+<tr>
+<td><strong>Vinateros</strong></td>
+<td class="num">16</td>
+<td class="num">277.031€</td>
+<td class="num">65m²</td>
+<td class="num">4.271€</td>
+<td class="num">3.84%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 5 &nbsp; <span class="badge badge-skip">SKIP</span> 11</td>
+</tr>
+<tr>
+<td><strong>Marroquina</strong></td>
+<td class="num">9</td>
+<td class="num">244.878€</td>
+<td class="num">48m²</td>
+<td class="num">5.088€</td>
+<td class="num">3.67%</td>
+<td><span class="badge badge-buy">BUY</span> 1 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 6</td>
+</tr>
+<tr>
+<td><strong>Horcajo</strong></td>
+<td class="num">4</td>
+<td class="num">285.000€</td>
+<td class="num">54m²</td>
+<td class="num">5.394€</td>
+<td class="num">2.92%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 0 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>🌳 Resumen por Pueblo — Valladolid Provincia</h3>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Pueblo</th><th>N</th><th>Precio Medio</th><th>m² Medio</th><th>€/m²</th><th>Rentabilidad Est.</th><th>Veredictos</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Piña De Esgueva</strong></td>
+<td class="num">2</td>
+<td class="num">49.000€</td>
+<td class="num">202m²</td>
+<td class="num">244€</td>
+<td class="num">12.86%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Torrelobaton</strong></td>
+<td class="num">3</td>
+<td class="num">82.600€</td>
+<td class="num">217m²</td>
+<td class="num">401€</td>
+<td class="num">9.98%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Portillo</strong></td>
+<td class="num">18</td>
+<td class="num">87.667€</td>
+<td class="num">147m²</td>
+<td class="num">765€</td>
+<td class="num">8.91%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 14 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Olivares De Duero</strong></td>
+<td class="num">2</td>
+<td class="num">74.450€</td>
+<td class="num">246m²</td>
+<td class="num">324€</td>
+<td class="num">8.86%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 0</td>
+</tr>
+<tr>
+<td><strong>Wamba</strong></td>
+<td class="num">4</td>
+<td class="num">125.375€</td>
+<td class="num">116m²</td>
+<td class="num">1.082€</td>
+<td class="num">8.09%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 1 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>Cubillas De Santa Marta</strong></td>
+<td class="num">11</td>
+<td class="num">110.455€</td>
+<td class="num">154m²</td>
+<td class="num">784€</td>
+<td class="num">6.82%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>La Parrilla</strong></td>
+<td class="num">4</td>
+<td class="num">109.500€</td>
+<td class="num">273m²</td>
+<td class="num">411€</td>
+<td class="num">6.71%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 2</td>
+</tr>
+<tr>
+<td><strong>Trigueros Del Valle</strong></td>
+<td class="num">6</td>
+<td class="num">163.483€</td>
+<td class="num">194m²</td>
+<td class="num">965€</td>
+<td class="num">6.40%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>Matapozuelos</strong></td>
+<td class="num">11</td>
+<td class="num">137.364€</td>
+<td class="num">247m²</td>
+<td class="num">661€</td>
+<td class="num">5.41%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 6 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Zaratan</strong></td>
+<td class="num">18</td>
+<td class="num">153.310€</td>
+<td class="num">155m²</td>
+<td class="num">1.359€</td>
+<td class="num">5.33%</td>
+<td><span class="badge badge-buy">BUY</span> 3 &nbsp; <span class="badge badge-consider">CONSIDER</span> 12 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>Villanueva De Duero</strong></td>
+<td class="num">11</td>
+<td class="num">122.181€</td>
+<td class="num">122m²</td>
+<td class="num">983€</td>
+<td class="num">5.20%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Geria</strong></td>
+<td class="num">3</td>
+<td class="num">116.300€</td>
+<td class="num">175m²</td>
+<td class="num">918€</td>
+<td class="num">5.16%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 1 &nbsp; <span class="badge badge-skip">SKIP</span> 2</td>
+</tr>
+<tr>
+<td><strong>Tierra De Pinares</strong></td>
+<td class="num">11</td>
+<td class="num">122.955€</td>
+<td class="num">194m²</td>
+<td class="num">879€</td>
+<td class="num">5.00%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 5 &nbsp; <span class="badge badge-skip">SKIP</span> 6</td>
+</tr>
+<tr>
+<td><strong>Mucientes</strong></td>
+<td class="num">12</td>
+<td class="num">137.332€</td>
+<td class="num">193m²</td>
+<td class="num">809€</td>
+<td class="num">4.90%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Aldeamayor De San Martin</strong></td>
+<td class="num">30</td>
+<td class="num">198.813€</td>
+<td class="num">178m²</td>
+<td class="num">1.312€</td>
+<td class="num">4.74%</td>
+<td><span class="badge badge-buy">BUY</span> 3 &nbsp; <span class="badge badge-consider">CONSIDER</span> 24 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>Cigales</strong></td>
+<td class="num">27</td>
+<td class="num">158.500€</td>
+<td class="num">128m²</td>
+<td class="num">1.380€</td>
+<td class="num">4.72%</td>
+<td><span class="badge badge-buy">BUY</span> 3 &nbsp; <span class="badge badge-consider">CONSIDER</span> 19 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Tudela De Duero</strong></td>
+<td class="num">30</td>
+<td class="num">150.109€</td>
+<td class="num">158m²</td>
+<td class="num">1.251€</td>
+<td class="num">4.64%</td>
+<td><span class="badge badge-buy">BUY</span> 4 &nbsp; <span class="badge badge-consider">CONSIDER</span> 18 &nbsp; <span class="badge badge-skip">SKIP</span> 8</td>
+</tr>
+<tr>
+<td><strong>Tierra De Medina</strong></td>
+<td class="num">5</td>
+<td class="num">141.380€</td>
+<td class="num">155m²</td>
+<td class="num">958€</td>
+<td class="num">4.54%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 3</td>
+</tr>
+<tr>
+<td><strong>La Pedraja De Portillo</strong></td>
+<td class="num">8</td>
+<td class="num">177.800€</td>
+<td class="num">3950m²</td>
+<td class="num">722€</td>
+<td class="num">4.45%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+<tr>
+<td><strong>Traspinedo</strong></td>
+<td class="num">10</td>
+<td class="num">144.630€</td>
+<td class="num">197m²</td>
+<td class="num">862€</td>
+<td class="num">4.36%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 4 &nbsp; <span class="badge badge-skip">SKIP</span> 6</td>
+</tr>
+<tr>
+<td><strong>Serrada</strong></td>
+<td class="num">7</td>
+<td class="num">157.664€</td>
+<td class="num">217m²</td>
+<td class="num">741€</td>
+<td class="num">4.16%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Mojados</strong></td>
+<td class="num">20</td>
+<td class="num">151.129€</td>
+<td class="num">171m²</td>
+<td class="num">998€</td>
+<td class="num">4.05%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 7 &nbsp; <span class="badge badge-skip">SKIP</span> 13</td>
+</tr>
+<tr>
+<td><strong>Simancas</strong></td>
+<td class="num">15</td>
+<td class="num">179.800€</td>
+<td class="num">126m²</td>
+<td class="num">1.524€</td>
+<td class="num">3.92%</td>
+<td><span class="badge badge-buy">BUY</span> 1 &nbsp; <span class="badge badge-consider">CONSIDER</span> 10 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Renedo</strong></td>
+<td class="num">10</td>
+<td class="num">242.648€</td>
+<td class="num">175m²</td>
+<td class="num">1.421€</td>
+<td class="num">3.92%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 2 &nbsp; <span class="badge badge-skip">SKIP</span> 8</td>
+</tr>
+<tr>
+<td><strong>Villanubla</strong></td>
+<td class="num">17</td>
+<td class="num">152.982€</td>
+<td class="num">150m²</td>
+<td class="num">1.191€</td>
+<td class="num">3.90%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 6 &nbsp; <span class="badge badge-skip">SKIP</span> 11</td>
+</tr>
+<tr>
+<td><strong>Boecillo</strong></td>
+<td class="num">21</td>
+<td class="num">225.186€</td>
+<td class="num">158m²</td>
+<td class="num">1.512€</td>
+<td class="num">3.76%</td>
+<td><span class="badge badge-buy">BUY</span> 1 &nbsp; <span class="badge badge-consider">CONSIDER</span> 19 &nbsp; <span class="badge badge-skip">SKIP</span> 1</td>
+</tr>
+<tr>
+<td><strong>Valdestillas</strong></td>
+<td class="num">12</td>
+<td class="num">183.233€</td>
+<td class="num">210m²</td>
+<td class="num">1.057€</td>
+<td class="num">3.66%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 3 &nbsp; <span class="badge badge-skip">SKIP</span> 9</td>
+</tr>
+<tr>
+<td><strong>Tordesillas</strong></td>
+<td class="num">31</td>
+<td class="num">156.029€</td>
+<td class="num">155m²</td>
+<td class="num">1.198€</td>
+<td class="num">3.49%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 10 &nbsp; <span class="badge badge-skip">SKIP</span> 21</td>
+</tr>
+<tr>
+<td><strong>Cabezón De Pisuerga</strong></td>
+<td class="num">13</td>
+<td class="num">172.954€</td>
+<td class="num">143m²</td>
+<td class="num">1.680€</td>
+<td class="num">3.47%</td>
+<td><span class="badge badge-buy">BUY</span> 0 &nbsp; <span class="badge badge-consider">CONSIDER</span> 9 &nbsp; <span class="badge badge-skip">SKIP</span> 4</td>
+</tr>
+<tr>
+<td><strong>Cistérniga</strong></td>
+<td class="num">22</td>
+<td class="num">192.405€</td>
+<td class="num">103m²</td>
+<td class="num">1.963€</td>
+<td class="num">3.45%</td>
+<td><span class="badge badge-buy">BUY</span> 2 &nbsp; <span class="badge badge-consider">CONSIDER</span> 15 &nbsp; <span class="badge badge-skip">SKIP</span> 5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 3. TOP 50 -->
+<!-- ============================================================ -->
+<section id="top50">
+<h2>3. 🏆 Top 50 Oportunidades</h2>
+<p style="margin-bottom:16px; color: var(--gray-600);">Propiedades con mejor combinación de rentabilidad, calidad de zona y precio dentro del presupuesto (≤300k€, ≥75m²). Primero BUY ordenado por rentabilidad, luego CONSIDER.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>#</th><th>🔗</th><th>Dirección</th><th>Precio</th><th>m²</th><th>€/m²</th><th>Hab.</th><th>Rentab.</th><th>Calidad</th><th>Crecim.</th><th>Veredicto</th><th>Por qué SÍ</th><th>Por qué NO</th>
+</tr></thead>
+<tbody>
+<tr class="buy-row">
+<td class="num">1</td>
+<td><a href="https://www.idealista.com/inmueble/104596059/" target="_blank">🔗</a></td>
+<td><strong>Calle Trascastillo, 32, Zaratan</strong><br><small>Provincia — Zaratan</small></td>
+<td class="num">46.000€</td>
+<td class="num">200</td>
+<td class="num">230€</td>
+<td class="num">2</td>
+<td class="num">19.57%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (19.57%), calidad zona 3/5, 200m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">2</td>
+<td><a href="https://www.idealista.com/inmueble/110873759/" target="_blank">🔗</a></td>
+<td><strong>1, Cigales</strong><br><small>Provincia — Cigales</small></td>
+<td class="num">35.000€</td>
+<td class="num">99</td>
+<td class="num">354€</td>
+<td class="num">1</td>
+<td class="num">16.97%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (16.97%), calidad zona 3/5, 99m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">3</td>
+<td><a href="https://www.idealista.com/inmueble/100905696/" target="_blank">🔗</a></td>
+<td><strong>Calle Solana Alta, Tudela de Duero</strong><br><small>Provincia — Tudela De Duero</small></td>
+<td class="num">55.000€</td>
+<td class="num">236</td>
+<td class="num">233€</td>
+<td class="num">5</td>
+<td class="num">16.36%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (16.36%), calidad zona 3/5, 236m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">4</td>
+<td><a href="https://www.idealista.com/inmueble/94925618/" target="_blank">🔗</a></td>
+<td><strong>Via de Pinares, 14, Aldeamayor de San Martin</strong><br><small>Provincia — Aldeamayor De San Martin</small></td>
+<td class="num">62.000€</td>
+<td class="num">250</td>
+<td class="num">248€</td>
+<td class="num">4</td>
+<td class="num">14.52%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (14.52%), calidad zona 3/5, 250m² + garaj</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">5</td>
+<td><a href="https://www.idealista.com/inmueble/91380860/" target="_blank">🔗</a></td>
+<td><strong>Calle Ecuador, 27</strong><br><small>Valladolid — Arturo Eyres</small></td>
+<td class="num">65.000€</td>
+<td class="num">89</td>
+<td class="num">730€</td>
+<td class="num">3</td>
+<td class="num">12.70%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², incluye garaje, con a</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">6</td>
+<td><a href="https://www.idealista.com/inmueble/109001385/" target="_blank">🔗</a></td>
+<td><strong>Carretera Segovia</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">70.000€</td>
+<td class="num">89</td>
+<td class="num">787€</td>
+<td class="num">4</td>
+<td class="num">10.68%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor, interior</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">7</td>
+<td><a href="https://www.idealista.com/inmueble/108816359/" target="_blank">🔗</a></td>
+<td><strong>Zaratan, Área Metropolitana Valladolid, Valladolid</strong><br><small>Provincia — Zaratan</small></td>
+<td class="num">84.900€</td>
+<td class="num">230</td>
+<td class="num">369€</td>
+<td class="num">8</td>
+<td class="num">10.60%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (10.6%), calidad zona 3/5, 230m² + garaje</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">8</td>
+<td><a href="https://www.idealista.com/inmueble/106696170/" target="_blank">🔗</a></td>
+<td><strong>Calle Matadero, Zaratan</strong><br><small>Provincia — Zaratan</small></td>
+<td class="num">85.000€</td>
+<td class="num">280</td>
+<td class="num">304€</td>
+<td class="num">8</td>
+<td class="num">10.59%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (10.59%), calidad zona 3/5, 280m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">9</td>
+<td><a href="https://www.idealista.com/inmueble/101600988/" target="_blank">🔗</a></td>
+<td><strong>Calle de Hernando de Acuña, 29</strong><br><small>Valladolid — Parquesol</small></td>
+<td class="num">135.000€</td>
+<td class="num">127</td>
+<td class="num">1.063€</td>
+<td class="num">1</td>
+<td class="num">10.16%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">sin ascensor</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">10</td>
+<td><a href="https://www.idealista.com/inmueble/110368899/" target="_blank">🔗</a></td>
+<td><strong>Calle de Joaquín Velasco Martín</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">82.500€</td>
+<td class="num">87</td>
+<td class="num">948€</td>
+<td class="num">3</td>
+<td class="num">10.12%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">interior, situación: Alquilada</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">11</td>
+<td><a href="https://www.idealista.com/inmueble/109387004/" target="_blank">🔗</a></td>
+<td><strong>Calle Gavilla</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">120.000€</td>
+<td class="num">111</td>
+<td class="num">1.081€</td>
+<td class="num">3</td>
+<td class="num">9.82%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">12</td>
+<td><a href="https://www.idealista.com/inmueble/110447524/" target="_blank">🔗</a></td>
+<td><strong>Calle de Joaquín Velasco Martín</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">100.000€</td>
+<td class="num">96</td>
+<td class="num">1.042€</td>
+<td class="num">3</td>
+<td class="num">9.22%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">sin ascensor</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">13</td>
+<td><a href="https://www.idealista.com/inmueble/110459189/" target="_blank">🔗</a></td>
+<td><strong>Delicias</strong><br><small>Valladolid — Valladolid</small></td>
+<td class="num">107.000€</td>
+<td class="num">111</td>
+<td class="num">964€</td>
+<td class="num">4</td>
+<td class="num">9.15%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">14</td>
+<td><a href="https://www.idealista.com/inmueble/110808291/" target="_blank">🔗</a></td>
+<td><strong>Chalet pareado en venta en CL Panorama, 22</strong><br><small>Valladolid — Girón - Villa del Prado</small></td>
+<td class="num">89.900€</td>
+<td class="num">90</td>
+<td class="num">999€</td>
+<td class="num">3</td>
+<td class="num">9.12%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">necesita reforma, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">15</td>
+<td><a href="https://www.idealista.com/inmueble/110878398/" target="_blank">🔗</a></td>
+<td><strong>Calle de Joaquín Velasco Martín</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">95.000€</td>
+<td class="num">83</td>
+<td class="num">1.145€</td>
+<td class="num">3</td>
+<td class="num">8.80%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">16</td>
+<td><a href="https://www.idealista.com/inmueble/109477943/" target="_blank">🔗</a></td>
+<td><strong>Calle Capuchinos</strong><br><small>Valladolid — Pº Zorrilla - Campo Grande</small></td>
+<td class="num">150.000€</td>
+<td class="num">109</td>
+<td class="num">1.376€</td>
+<td class="num">3</td>
+<td class="num">8.72%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">17</td>
+<td><a href="https://www.idealista.com/inmueble/110867287/" target="_blank">🔗</a></td>
+<td><strong>Calle de Joaquín Velasco Martín, 32</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">89.999€</td>
+<td class="num">96</td>
+<td class="num">937€</td>
+<td class="num">3</td>
+<td class="num">8.71%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">necesita reforma, sin ascensor</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">18</td>
+<td><a href="https://www.idealista.com/inmueble/110018098/" target="_blank">🔗</a></td>
+<td><strong>Calle del Campillo, 1, Cigales</strong><br><small>Provincia — Cigales</small></td>
+<td class="num">105.000€</td>
+<td class="num">249</td>
+<td class="num">422€</td>
+<td class="num">6</td>
+<td class="num">8.57%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (8.57%), calidad zona 3/5, 249m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">19</td>
+<td><a href="https://www.idealista.com/inmueble/109248049/" target="_blank">🔗</a></td>
+<td><strong>Calle Solana Alta, 16, Tudela de Duero</strong><br><small>Provincia — Tudela De Duero</small></td>
+<td class="num">99.000€</td>
+<td class="num">138</td>
+<td class="num">717€</td>
+<td class="num">2</td>
+<td class="num">8.36%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (8.36%), calidad zona 3/5, 138m² + garaje</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">20</td>
+<td><a href="https://www.idealista.com/inmueble/101820583/" target="_blank">🔗</a></td>
+<td><strong>Calle Subida a la Ermita, Laguna de Duero</strong><br><small>Provincia — Laguna De Duero</small></td>
+<td class="num">100.000€</td>
+<td class="num">138</td>
+<td class="num">725€</td>
+<td class="num">4</td>
+<td class="num">8.28%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (8.28%), calidad zona 3/5, 138m² + traste</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">21</td>
+<td><a href="https://www.idealista.com/inmueble/110676715/" target="_blank">🔗</a></td>
+<td><strong>Calle González Silva, 12, Cistérniga</strong><br><small>Provincia — Cistérniga</small></td>
+<td class="num">110.000€</td>
+<td class="num">150</td>
+<td class="num">733€</td>
+<td class="num">3</td>
+<td class="num">8.18%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (8.18%), calidad zona 3/5, 150m² + garaje</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">22</td>
+<td><a href="https://www.idealista.com/inmueble/107792315/" target="_blank">🔗</a></td>
+<td><strong>Calle San Antonio de Padua</strong><br><small>Valladolid — Centro</small></td>
+<td class="num">171.000€</td>
+<td class="num">129</td>
+<td class="num">1.326€</td>
+<td class="num">5</td>
+<td class="num">8.08%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², amplio</small></td>
+<td><small class="red-text">necesita reforma, sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">23</td>
+<td><a href="https://www.idealista.com/inmueble/109440882/" target="_blank">🔗</a></td>
+<td><strong>CL Ebro, 9</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">139.500€</td>
+<td class="num">142</td>
+<td class="num">982€</td>
+<td class="num">4</td>
+<td class="num">7.83%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², incluye garaje, con a</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">24</td>
+<td><a href="https://www.idealista.com/inmueble/109847859/" target="_blank">🔗</a></td>
+<td><strong>Calle del Iris</strong><br><small>Valladolid — Las Flores</small></td>
+<td class="num">110.000€</td>
+<td class="num">96</td>
+<td class="num">1.146€</td>
+<td class="num">1</td>
+<td class="num">7.69%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², incluye garaje, con a</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">25</td>
+<td><a href="https://www.idealista.com/inmueble/103467926/" target="_blank">🔗</a></td>
+<td><strong>Paseo de Zorrilla</strong><br><small>Valladolid — Cuatro de Marzo</small></td>
+<td class="num">120.000€</td>
+<td class="num">95</td>
+<td class="num">1.263€</td>
+<td class="num">3</td>
+<td class="num">7.55%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², con ascensor, buen es</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">26</td>
+<td><a href="https://www.idealista.com/inmueble/110961324/" target="_blank">🔗</a></td>
+<td><strong>Calle Padre Manjón, 18</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">145.000€</td>
+<td class="num">145</td>
+<td class="num">1.000€</td>
+<td class="num">1</td>
+<td class="num">7.53%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², incluye garaje, con a</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">27</td>
+<td><a href="https://www.idealista.com/inmueble/99638206/" target="_blank">🔗</a></td>
+<td><strong>Camino de la Vega, 2, Boecillo</strong><br><small>Provincia — Boecillo</small></td>
+<td class="num">120.000€</td>
+<td class="num">327</td>
+<td class="num">367€</td>
+<td class="num">1</td>
+<td class="num">7.50%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (7.5%), calidad zona 3/5, 327m² + jardín</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">28</td>
+<td><a href="https://www.idealista.com/inmueble/108654355/" target="_blank">🔗</a></td>
+<td><strong>Camino Carraportillo, Tudela de Duero</strong><br><small>Provincia — Tudela De Duero</small></td>
+<td class="num">123.000€</td>
+<td class="num">169</td>
+<td class="num">728€</td>
+<td class="num">3</td>
+<td class="num">7.32%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (7.32%), calidad zona 3/5, 169m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">29</td>
+<td><a href="https://www.idealista.com/inmueble/107637465/" target="_blank">🔗</a></td>
+<td><strong>Calle Río Tajo, Aldeamayor de San Martin</strong><br><small>Provincia — Aldeamayor De San Martin</small></td>
+<td class="num">124.000€</td>
+<td class="num">226</td>
+<td class="num">549€</td>
+<td class="num">3</td>
+<td class="num">7.26%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (7.26%), calidad zona 3/5, 226m²</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">30</td>
+<td><a href="https://www.idealista.com/inmueble/109240927/" target="_blank">🔗</a></td>
+<td><strong>Calle Río Tajo, 174, Aldeamayor de San Martin</strong><br><small>Provincia — Aldeamayor De San Martin</small></td>
+<td class="num">124.000€</td>
+<td class="num">226</td>
+<td class="num">549€</td>
+<td class="num">3</td>
+<td class="num">7.26%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (7.26%), calidad zona 3/5, 226m² + garaje</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">31</td>
+<td><a href="https://www.idealista.com/inmueble/110146797/" target="_blank">🔗</a></td>
+<td><strong>CL Amadeo Arias, 10</strong><br><small>Valladolid — Parquesol</small></td>
+<td class="num">195.800€</td>
+<td class="num">172</td>
+<td class="num">1.138€</td>
+<td class="num">4</td>
+<td class="num">7.17%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">32</td>
+<td><a href="https://www.idealista.com/inmueble/110611551/" target="_blank">🔗</a></td>
+<td><strong>Calle Amadeo Arias, 10</strong><br><small>Valladolid — Parquesol</small></td>
+<td class="num">195.800€</td>
+<td class="num">120</td>
+<td class="num">1.632€</td>
+<td class="num">4</td>
+<td class="num">7.17%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, incluye garaje, con </small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">33</td>
+<td><a href="https://www.idealista.com/inmueble/109649874/" target="_blank">🔗</a></td>
+<td><strong>Calle de Joaquín Velasco Martín</strong><br><small>Valladolid — Huerta del Rey</small></td>
+<td class="num">151.000€</td>
+<td class="num">107</td>
+<td class="num">1.411€</td>
+<td class="num">3</td>
+<td class="num">7.14%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">34</td>
+<td><a href="https://www.idealista.com/inmueble/108718906/" target="_blank">🔗</a></td>
+<td><strong>Casa o chalet independiente en venta en Plaza Port</strong><br><small>Valladolid — Girón - Villa del Prado</small></td>
+<td class="num">187.000€</td>
+<td class="num">145</td>
+<td class="num">1.290€</td>
+<td class="num">3</td>
+<td class="num">7.09%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">35</td>
+<td><a href="https://www.idealista.com/inmueble/108778853/" target="_blank">🔗</a></td>
+<td><strong>Chalet adosado en venta en Pz Porticada</strong><br><small>Valladolid — Girón - Villa del Prado</small></td>
+<td class="num">187.000€</td>
+<td class="num">147</td>
+<td class="num">1.272€</td>
+<td class="num">4</td>
+<td class="num">7.09%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">36</td>
+<td><a href="https://www.idealista.com/inmueble/110113882/" target="_blank">🔗</a></td>
+<td><strong>Calle del Arca Real</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">116.000€</td>
+<td class="num">82</td>
+<td class="num">1.415€</td>
+<td class="num">3</td>
+<td class="num">7.07%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², incluye garaje, con a</small></td>
+<td><small class="red-text">edificio antiguo, interior</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">37</td>
+<td><a href="https://www.idealista.com/inmueble/104090493/" target="_blank">🔗</a></td>
+<td><strong>Calle Narciso Alonso Cortes, 1</strong><br><small>Valladolid — Cuatro de Marzo</small></td>
+<td class="num">140.000€</td>
+<td class="num">112</td>
+<td class="num">1.250€</td>
+<td class="num">4</td>
+<td class="num">7.05%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², con ascensor, buen es</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">38</td>
+<td><a href="https://www.idealista.com/inmueble/109410873/" target="_blank">🔗</a></td>
+<td><strong>Calle Loza</strong><br><small>Valladolid — Centro</small></td>
+<td class="num">169.000€</td>
+<td class="num">90</td>
+<td class="num">1.878€</td>
+<td class="num">3</td>
+<td class="num">7.04%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, con ascensor, buen estado, amplio</small></td>
+<td><small class="red-text">edificio antiguo, situación: Alquilada</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">39</td>
+<td><a href="https://www.idealista.com/inmueble/110940905/" target="_blank">🔗</a></td>
+<td><strong>Ps Zorrilla, 113</strong><br><small>Valladolid — La Rubia</small></td>
+<td class="num">125.000€</td>
+<td class="num">82</td>
+<td class="num">1.524€</td>
+<td class="num">3</td>
+<td class="num">7.03%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">40</td>
+<td><a href="https://www.idealista.com/inmueble/109763502/" target="_blank">🔗</a></td>
+<td><strong>Calle Padre Francisco Suárez</strong><br><small>Valladolid — Pº Zorrilla - Campo Grande</small></td>
+<td class="num">205.000€</td>
+<td class="num">128</td>
+<td class="num">1.602€</td>
+<td class="num">3</td>
+<td class="num">7.02%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, con ascensor, amplio</small></td>
+<td><small class="red-text">necesita reforma, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">41</td>
+<td><a href="https://www.idealista.com/inmueble/110791260/" target="_blank">🔗</a></td>
+<td><strong>Calle Amadeo Arias, 10 n</strong><br><small>Valladolid — Parquesol</small></td>
+<td class="num">200.000€</td>
+<td class="num">167</td>
+<td class="num">1.198€</td>
+<td class="num">4</td>
+<td class="num">7.02%</td>
+<td class="num">★★★★☆</td>
+<td class="num">★★★★☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, zona en crecimiento, precio bajo por m², </small></td>
+<td><small class="red-text">necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">42</td>
+<td><a href="https://www.idealista.com/inmueble/109428446/" target="_blank">🔗</a></td>
+<td><strong>Calle Aaiún, 2</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">98.000€</td>
+<td class="num">78</td>
+<td class="num">1.256€</td>
+<td class="num">2</td>
+<td class="num">7.02%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado</small></td>
+<td><small class="red-text">sin ascensor, edificio antiguo, interior</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">43</td>
+<td><a href="https://www.idealista.com/inmueble/106812143/" target="_blank">🔗</a></td>
+<td><strong>Simancas, Área Metropolitana Valladolid, Valladoli</strong><br><small>Provincia — Simancas</small></td>
+<td class="num">89.000€</td>
+<td class="num">104</td>
+<td class="num">856€</td>
+<td class="num">3</td>
+<td class="num">7.01%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (7.01%), calidad zona 3/5, 104m² + traste</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">44</td>
+<td><a href="https://www.idealista.com/inmueble/110461474/" target="_blank">🔗</a></td>
+<td><strong>Calle Zorzal</strong><br><small>Valladolid — Pajarillos</small></td>
+<td class="num">92.000€</td>
+<td class="num">81</td>
+<td class="num">1.136€</td>
+<td class="num">3</td>
+<td class="num">6.99%</td>
+<td class="num">★★☆☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², con ascensor, buen es</small></td>
+<td><small class="red-text">edificio antiguo, zona baja calidad</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">45</td>
+<td><a href="https://www.idealista.com/inmueble/109670718/" target="_blank">🔗</a></td>
+<td><strong>CL Arca Real</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">139.000€</td>
+<td class="num">110</td>
+<td class="num">1.264€</td>
+<td class="num">3</td>
+<td class="num">6.98%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">46</td>
+<td><a href="https://www.idealista.com/inmueble/101694455/" target="_blank">🔗</a></td>
+<td><strong>Tudela de Duero, Área Metropolitana Valladolid, Va</strong><br><small>Provincia — Tudela De Duero</small></td>
+<td class="num">129.000€</td>
+<td class="num">200</td>
+<td class="num">645€</td>
+<td class="num">8</td>
+<td class="num">6.98%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★☆☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Buena rentabilidad (6.98%), calidad zona 3/5, 200m² + garaje</small></td>
+<td><small class="red-text">Pueblo — menor liquidez que ciudad, necesita reforma</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">47</td>
+<td><a href="https://www.idealista.com/inmueble/109604858/" target="_blank">🔗</a></td>
+<td><strong>CL Arca Real</strong><br><small>Valladolid — Delicias</small></td>
+<td class="num">139.999€</td>
+<td class="num">110</td>
+<td class="num">1.273€</td>
+<td class="num">3</td>
+<td class="num">6.93%</td>
+<td class="num">★★★☆☆</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, precio bajo por m², buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">48</td>
+<td><a href="https://www.idealista.com/inmueble/109824049/" target="_blank">🔗</a></td>
+<td><strong>Calle Ferrocarril, 21</strong><br><small>Valladolid — Centro</small></td>
+<td class="num">173.000€</td>
+<td class="num">90</td>
+<td class="num">1.922€</td>
+<td class="num">3</td>
+<td class="num">6.88%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, buen estado, amplio</small></td>
+<td><small class="red-text">sin ascensor</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">49</td>
+<td><a href="https://www.idealista.com/inmueble/105587798/" target="_blank">🔗</a></td>
+<td><strong>Pº Zorrilla - Campo Grande</strong><br><small>Valladolid — Valladolid</small></td>
+<td class="num">125.000€</td>
+<td class="num">80</td>
+<td class="num">1.562€</td>
+<td class="num">3</td>
+<td class="num">6.85%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, amplio</small></td>
+<td><small class="red-text">necesita reforma, sin ascensor, edificio antiguo</small></td>
+</tr>
+<tr class="buy-row">
+<td class="num">50</td>
+<td><a href="https://www.idealista.com/inmueble/106362472/" target="_blank">🔗</a></td>
+<td><strong>Calle Estación</strong><br><small>Valladolid — Centro</small></td>
+<td class="num">227.000€</td>
+<td class="num">113</td>
+<td class="num">2.009€</td>
+<td class="num">3</td>
+<td class="num">6.85%</td>
+<td class="num">★★★★★</td>
+<td class="num">★★★☆☆</td>
+<td><span class="badge badge-buy">BUY</span></td>
+<td><small class="green-text">Alta rentabilidad, incluye garaje, con ascensor, buen estado</small></td>
+<td><small class="red-text"></small></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 4. RED FLAGS -->
+<!-- ============================================================ -->
+<section id="redflags">
+<h2>4. ⚠️ Alertas y Propiedades Problemáticas</h2>
+<p style="margin-bottom:16px;">Se han identificado <strong>46</strong> propiedades con alertas legales o de riesgo. <strong>No recomendadas para inversión estándar.</strong></p>
+
+<div class="warning">
+<strong>⚠️ Categorías de riesgo identificadas:</strong>
+<ul style="margin-top:8px; padding-left:20px;">
+<li><strong>OCUPADA:</strong> Inmueble con ocupantes ilegales. Requiere proceso de desahucio (coste y tiempo inciertos). No apta para financiación.</li>
+<li><strong>NUDA PROPIEDAD:</strong> Se compra la propiedad pero el usufructuario sigue en el inmueble (normalmente hasta su fallecimiento).</li>
+<li><strong>SIN POSESIÓN:</strong> Situación legal irregular pendiente de regularizar. Sin visitas posibles, sin tasación oficial.</li>
+<li><strong>SIN FINANCIACIÓN:</strong> Solo compra al contado. Mayor riesgo, menor pool de compradores en reventa.</li>
+</ul>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Dirección</th><th>Precio</th><th>m²</th><th>Alertas</th><th>Descripción (extracto)</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106751748/" target="_blank"><strong>Calle de la Hacienda de Pavones</strong></a><br><small>Fontarrón</small></td>
+<td class="num">159.000€</td>
+<td class="num">75m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN FINANCIACIÓN</span></td>
+<td><small>¡LEER ANUNCIO!  |  | VIVIENDA OKUPADA, NO SE PUEDE VISITAR. | ¡NO SE PUEDE FINANCIAR! ¡COMPRA AL CON</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107160714/" target="_blank"><strong>Calle de la Encomienda de Palacios</strong></a><br><small>Fontarrón</small></td>
+<td class="num">232.000€</td>
+<td class="num">78m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108473650/" target="_blank"><strong>Media Legua</strong></a><br><small>Media Legua</small></td>
+<td class="num">101.000€</td>
+<td class="num">58m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>¡Oportunidad única! Venta de Nuda Propiedad en Moratalaz |  | Inmobiliaria Eduardo Molet, pone el ex</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/101600968/" target="_blank"><strong>Delicias</strong></a><br><small>Valladolid</small></td>
+<td class="num">35.000€</td>
+<td class="num">48m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Este acogedor y luminoso piso de 48.0 m² en Valladolid es ideal para quienes buscan comodidad y ampl</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/101600988/" target="_blank"><strong>Calle de Hernando de Acuña, 29</strong></a><br><small>Parquesol</small></td>
+<td class="num">135.000€</td>
+<td class="num">127m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble pendiente de Posesión. Lujoso hogar de 127.07 m² en Valladolid es ideal para quienes buscan</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/103677514/" target="_blank"><strong>Calle Clavel</strong></a><br><small>Las Flores</small></td>
+<td class="num">67.500€</td>
+<td class="num">74m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debid</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/105571701/" target="_blank"><strong>Chalet pareado en venta en Plaza Maestrazgo</strong></a><br><small>Belén - Pilarica - Bº España</small></td>
+<td class="num">115.000€</td>
+<td class="num">74m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Vivienda unifamiliar adosada de dos plantas sobre rasante situado en la provincia de Valladolid. Tie</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106697455/" target="_blank"><strong>Centro</strong></a><br><small>Valladolid</small></td>
+<td class="num">98.000€</td>
+<td class="num">52m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>No se puede visitar el interior del inmueble por su situación de SIN POSESION y está en venta con es</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106858431/" target="_blank"><strong>Calle del Arca Real</strong></a><br><small>Delicias</small></td>
+<td class="num">81.000€</td>
+<td class="num">72m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107147556/" target="_blank"><strong>Calle Clavel</strong></a><br><small>Las Flores</small></td>
+<td class="num">67.500€</td>
+<td class="num">74m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debid</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107398368/" target="_blank"><strong>Calle del Arca Real, 46</strong></a><br><small>Delicias</small></td>
+<td class="num">81.000€</td>
+<td class="num">72m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span> <span class="badge badge-skip">SIN FINANCIACIÓN</span></td>
+<td><small>Inmueble okupado INMUEBLE SIN POSESION / VIVIENDA OKUPADA! **SOLO PARA INVERSORES** **SIN COMISIONES</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107981217/" target="_blank"><strong>Calle de las Mieses, 11</strong></a><br><small>Huerta del Rey</small></td>
+<td class="num">185.000€</td>
+<td class="num">107m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Oportunidad para Inversores Ocupada LEGALMENTE hasta 2028. Cuando hablan de situaciones excepcionale</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108512995/" target="_blank"><strong>Avenida de Zamora, 31</strong></a><br><small>La Rubia</small></td>
+<td class="num">275.000€</td>
+<td class="num">117m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>. Inmueble pendiente de Posesión. Moderna vivienda de 117 m² en Parque Alameda-Covaresa, Valladolid.</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108608804/" target="_blank"><strong>Calle Macías Picavea</strong></a><br><small>Centro</small></td>
+<td class="num">98.000€</td>
+<td class="num">52m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>VENTA DE INMUEBLE SIN ENTREGA DE POSESIÓN. CONSULTE TODA LA INFORMACIÓN EN NUESTRA WEB INFOACTIVOS. </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108611339/" target="_blank"><strong>Calle Caamaño</strong></a><br><small>Delicias</small></td>
+<td class="num">59.000€</td>
+<td class="num">55m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>� OPORTUNIDAD DE INVERSIÓN — PROPIEDAD EN CESIÓN DE REMATE Inmueble sin posesión. Perfecto para inve</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108664378/" target="_blank"><strong>Calle González Dueñas</strong></a><br><small>Rondilla - Santa Clara</small></td>
+<td class="num">95.000€</td>
+<td class="num">95m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>VENTA DE INMUEBLE SIN ENTREGA DE POSESIÓN. CONSULTE TODA LA INFORMACIÓN EN NUESTRA WEB INFOACTIVOS. </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108748480/" target="_blank"><strong>Carretera Segovia</strong></a><br><small>Delicias</small></td>
+<td class="num">70.000€</td>
+<td class="num">79m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Esta propiedad es de PROCEDENCIA BANCARIA y se ubica en Valladolid Se encuentra actualmente OKUPADA </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109001385/" target="_blank"><strong>Carretera Segovia</strong></a><br><small>Delicias</small></td>
+<td class="num">70.000€</td>
+<td class="num">89m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109171884/" target="_blank"><strong>Calle Golondrina</strong></a><br><small>Pajarillos</small></td>
+<td class="num">159.000€</td>
+<td class="num">80m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>El barrio de Pajarillos es conocido como uno de los barrios obreros donde se lleva una vida de lo má</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109387004/" target="_blank"><strong>Calle Gavilla</strong></a><br><small>Huerta del Rey</small></td>
+<td class="num">120.000€</td>
+<td class="num">111m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>PISO OCUPADO POR PERSONA SIN JUSTO TÍTULOESTE INMUEBLE DEBIDO A SU ESTADO OCUPACIONAL NO ADMITE VISI</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109649874/" target="_blank"><strong>Calle de Joaquín Velasco Martín</strong></a><br><small>Huerta del Rey</small></td>
+<td class="num">151.000€</td>
+<td class="num">107m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>PISO OCUPADO POR PERSONA SIN JUSTO TÍTULOESTE INMUEBLE DEBIDO A SU ESTADO OCUPACIONAL NO ADMITE VISI</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109728175/" target="_blank"><strong>Calle Navajos</strong></a><br><small>Delicias</small></td>
+<td class="num">45.000€</td>
+<td class="num">47m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>PISO OCUPADO POR PERSONA SIN JUSTO TÍTULOESTE INMUEBLE DEBIDO A SU ESTADO OCUPACIONAL NO ADMITE VISI</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110328178/" target="_blank"><strong>Calle de Santa Lucía</strong></a><br><small>Circular - Vadillos</small></td>
+<td class="num">120.000€</td>
+<td class="num">96m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>REMAX NEXO. La excelencia en servicios inmobiliarios. Ofrecemos en venta esta vivienda en CALLE SANT</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110446640/" target="_blank"><strong>Chalet pareado en venta en Plaza Maestrazgo</strong></a><br><small>Belén - Pilarica - Bº España</small></td>
+<td class="num">115.000€</td>
+<td class="num">74m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Vivienda unifamiliar adosada de dos plantas sobre rasante situado en la provincia de Valladolid. Tie</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110447524/" target="_blank"><strong>Calle de Joaquín Velasco Martín</strong></a><br><small>Huerta del Rey</small></td>
+<td class="num">100.000€</td>
+<td class="num">96m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debid</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110580565/" target="_blank"><strong>CL Caamaño</strong></a><br><small>Delicias</small></td>
+<td class="num">60.000€</td>
+<td class="num">72m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>GRAN OPORTUNIDAD INVERSOR – COMPRA DE INMUEBLE POR DEBAJO DE SU PRECIO, LEA CONDICIONES ESPECIALES Q</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110629581/" target="_blank"><strong>Chalet adosado en venta en Calle de los Aperos</strong></a><br><small>Pajarillos</small></td>
+<td class="num">198.000€</td>
+<td class="num">226m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Chalet situado en la Calle Aperos, en Valladolid capital. Una vivienda amplia, versátil y con un eno</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110657400/" target="_blank"><strong>Calle Caamaño, 70</strong></a><br><small>Delicias</small></td>
+<td class="num">37.000€</td>
+<td class="num">50m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>OPORTUNIDAD DE INVERSIÓN - CESIÓN DE REMATE EN VALLADOLID CAPITAL  Inmueble sin posesión. Operación </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110740093/" target="_blank"><strong>Chalet adosado en venta en Calle Raza s/n</strong></a><br><small>Belén - Pilarica - Bº España</small></td>
+<td class="num">46.000€</td>
+<td class="num">110m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span> <span class="badge badge-skip">SIN FINANCIACIÓN</span></td>
+<td><small>Oportunidad de inversión: inmueble sin posesión. Imposibilidad de visita interior, no se puede finan</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110878398/" target="_blank"><strong>Calle de Joaquín Velasco Martín</strong></a><br><small>Huerta del Rey</small></td>
+<td class="num">95.000€</td>
+<td class="num">83m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>¡SOLO INVERSORES! VENTA DE VIVIENDA SIN POSESIÓN - ATICO A AGENCIA INMOBILIARIA- vende este inmueble</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106410586/" target="_blank"><strong>Calle de las Herrenes, Mucientes</strong></a><br><small>Mucientes</small></td>
+<td class="num">115.000€</td>
+<td class="num">191m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106410789/" target="_blank"><strong>Calle Zarcillo, Cigales</strong></a><br><small>Cigales</small></td>
+<td class="num">180.000€</td>
+<td class="num">159m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106497649/" target="_blank"><strong>Calle Avelino Hernandez Lucas, Laguna de Duero</strong></a><br><small>Laguna De Duero</small></td>
+<td class="num">210.000€</td>
+<td class="num">190m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Las fotografías del interior y las características d</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106658471/" target="_blank"><strong>Calle Sementera, Aldeamayor de San Martin</strong></a><br><small>Aldeamayor De San Martin</small></td>
+<td class="num">119.500€</td>
+<td class="num">285m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>Se vende el 100 de la nuda propiedad de una Vivienda unifamiliar aislada en Aldeamayor de San Martín</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/106882641/" target="_blank"><strong>Calle Sementera, Aldeamayor de San Martin</strong></a><br><small>Aldeamayor De San Martin</small></td>
+<td class="num">119.500€</td>
+<td class="num">285m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>Se vende el 100 de la nuda propiedad de una Vivienda unifamiliar aislada en Aldeamayor de San Martín</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107610701/" target="_blank"><strong>Calle Avelino Hernandez Lucas, Laguna de Duero</strong></a><br><small>Laguna De Duero</small></td>
+<td class="num">210.000€</td>
+<td class="num">190m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>Inmueble sin posesión y sin acceso al interior. Vivienda que puedes adquirir en propiedad, con una s</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/107684048/" target="_blank"><strong>Villabañez, Tierra de Pinares, Valladolid</strong></a><br><small>Tierra De Pinares</small></td>
+<td class="num">158.000€</td>
+<td class="num">681m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>¡Fantástica INVERSIÓN! Se vende la NUDA PROPIEDAD de una finca excepcional situada en Villabañez (Va</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108264003/" target="_blank"><strong>Calle Castillejo, Cistérniga</strong></a><br><small>Cistérniga</small></td>
+<td class="num">115.000€</td>
+<td class="num">106m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span> <span class="badge badge-skip">SIN FINANCIACIÓN</span></td>
+<td><small>¡OPORTUNIDAD PARA INVERSORES! VENTA DE CRÉDITO HIPOTECARIO (NPL). No se puede visitar el interior de</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108330025/" target="_blank"><strong>Carretera General, 17, Geria</strong></a><br><small>Geria</small></td>
+<td class="num">75.000€</td>
+<td class="num">302m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>. Inmueble pendiente de Posesión. MUSQUILA Polígono 9 Parcela 5068 OPORTUNIDAD DE INVERSION, Ubicaci</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108563732/" target="_blank"><strong>Mojados, Tierra de Medina, Valladolid</strong></a><br><small>Tierra De Medina</small></td>
+<td class="num">182.000€</td>
+<td class="num">266m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>INMUEBLE SIN POSESION Y SIN ACCESO AL INTERIOR. INMUEBLE SIN POSESION Y SIN ACCESO AL INTERIOR. Las </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/108632485/" target="_blank"><strong>CL Ricardo De Los Rios, Laguna de Duero</strong></a><br><small>Laguna De Duero</small></td>
+<td class="num">129.000€</td>
+<td class="num">116m²</td>
+<td><span class="badge badge-skip">OCUPADA</span> <span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>¡OPORTUNIDAD PARA INVERSORES! ACTIVO SIN POSESIÓN. No se puede visitar el interior del inmueble. OPE</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109421049/" target="_blank"><strong>Laguna de Duero, Área Metropolitana Valladolid, Va</strong></a><br><small>Laguna De Duero</small></td>
+<td class="num">225.000€</td>
+<td class="num">236m²</td>
+<td><span class="badge badge-skip">SIN POSESIÓN</span></td>
+<td><small>INMUEBLE SIN POSESION Y SIN ACCESO AL INTERIOR. INMUEBLE SIN POSESION Y SIN ACCESO AL INTERIOR. Las </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/109563006/" target="_blank"><strong>Calle Eras, Simancas</strong></a><br><small>Simancas</small></td>
+<td class="num">195.000€</td>
+<td class="num">188m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>“OPORTUNIDAD PARA INVERSORES. ACTIVO OCUPADO Chalet adosado de tres plantas (Planta bajo cubierta, p</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110258899/" target="_blank"><strong>CL Camino Viejo Valladolid, Santovenia de Pisuerga</strong></a><br><small>Santovenia De Pisuerga</small></td>
+<td class="num">147.200€</td>
+<td class="num">113m²</td>
+<td><span class="badge badge-skip">SIN FINANCIACIÓN</span></td>
+<td><small>OPORTUNIDAD - Inmueble con RENTABILIDAD (Contrato de alquiler VIGENTE) PAGO DE ALQUILER 428€ FIN DE </small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/110443106/" target="_blank"><strong>Calle Carrión, Laguna de Duero</strong></a><br><small>Laguna De Duero</small></td>
+<td class="num">210.000€</td>
+<td class="num">187m²</td>
+<td><span class="badge badge-skip">OCUPADA</span></td>
+<td><small>Oportunidad sólo para inversores. El activo se encuentra ocupado por persona sin justo título. Debid</small></td>
+</tr>
+<tr>
+<td><a href="https://www.idealista.com/inmueble/98623189/" target="_blank"><strong>Calle Sementera, Aldeamayor de San Martin</strong></a><br><small>Aldeamayor De San Martin</small></td>
+<td class="num">119.500€</td>
+<td class="num">285m²</td>
+<td><span class="badge badge-skip">NUDA PROPIEDAD</span></td>
+<td><small>Se vende el 100 de la nuda propiedad de una Vivienda unifamiliar aislada en Aldeamayor de San Martín</small></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 5. ZONE ANALYSIS -->
+<!-- ============================================================ -->
+<section id="zones">
+<h2>5. 🗺️ Análisis por Zona</h2>
+
+<h3>🏙️ Madrid — Moratalaz</h3>
+<div class="zone-card">
+<h4>Moratalaz <small>— 74 propiedades · €/m² medio: 4.190€ · Rentabilidad: 4.11%</small></h4>
+<div class="zone-metrics">
+<span>📍 Distritos: Fontarrón, Media Legua, Vinateros, Pavones, Valdebernardo</span>
+<span>🚇 Metro: Pavones, Valdebernardo, Vinateros</span>
+<span>🏫 Colegios, supermercados, M-40</span>
+</div>
+<p><strong>Pros:</strong> Zona residencial consolidada de Madrid, bien comunicada, demanda de alquiler estable, potencial de revalorización a largo plazo por proximidad al centro.</p>
+<p style="margin-top:8px;"><strong>Contras:</strong> Precio muy elevado en €/m² (4.190€), el 68% de propiedades tienen problemas legales o son muy pequeñas. Rendimientos bajos para la inversión requerida.</p>
+<p style="margin-top:8px;"><strong>Para vivir:</strong> Madrid tiene todo. Pero para inversión en alquiler, el precio de entrada no justifica la rentabilidad versus Valladolid.</p>
+<span class="lifestyle-ok">⚡ Solo para vivir o revalorización largo plazo</span>
+</div>
+
+<h3>🏢 Valladolid Capital — Por Distritos</h3>
+
+<div class="zone-card">
+<h4>⭐ Parquesol <small>— zona premium residencial</small></h4>
+<div class="zone-metrics">
+<span>🏠 Pisos grandes: ~111m² medio</span>
+<span>💰 Precio medio: ~233k€</span>
+<span>📈 Rentabilidad: ~5.4%</span>
+<span>⭐ Calidad: 4/5 · Crecimiento: 4/5</span>
+</div>
+<p>Zona moderna, familiar, con todos los servicios. Pisos de calidad con ascensor. Muy demandada en alquiler por familias y profesionales. Alta liquidez. Ideal para inversión + vivir.</p>
+<span class="lifestyle-match">✅ Dual: Vivir + Invertir</span>
+</div>
+
+<div class="zone-card">
+<h4>⭐ Huerta del Rey <small>— máxima rentabilidad</small></h4>
+<div class="zone-metrics">
+<span>🏠 Pisos: ~100m² medio</span>
+<span>💰 Precio medio: ~189k€</span>
+<span>📈 Rentabilidad: ~6%</span>
+<span>⭐ Calidad: 4/5 · Crecimiento: 4/5</span>
+</div>
+<p>Zona en expansión junto al río Pisuerga. Buena relación calidad-precio. Alta demanda de alquiler. El 90% son BUY.</p>
+<span class="lifestyle-match">✅ Dual: Vivir + Invertir (mejor rentabilidad)</span>
+</div>
+
+<div class="zone-card">
+<h4>⭐ Centro Histórico <small>— máximo prestigio</small></h4>
+<div class="zone-metrics">
+<span>🏠 Pisos: ~84m² medio</span>
+<span>💰 Precio medio: ~229k€</span>
+<span>📈 Rentabilidad: ~4.9%</span>
+<span>⭐ Calidad: 5/5 · Crecimiento: 3/5</span>
+</div>
+<p>La mejor ubicación de Valladolid. Plaza Mayor, comercios, cultura. Alta demanda de alquiler turístico y residencial. Ideal para invertir y tener una base si se traslada a Valladolid.</p>
+<span class="lifestyle-match">✅ Dual: Vivir + Invertir (máxima liquidez)</span>
+</div>
+
+<div class="zone-card">
+<h4>Pº Zorrilla - Campo Grande <small>— zona señorial</small></h4>
+<div class="zone-metrics">
+<span>💰 Precio medio: ~211k€</span>
+<span>📈 Rentabilidad: ~5.6%</span>
+<span>⭐ Calidad: 5/5 · Crecimiento: 3/5</span>
+</div>
+<p>El paseo más emblemático de Valladolid. Pisos amplios y señoriales. Demanda premium. El 75% son BUY.</p>
+<span class="lifestyle-match">✅ Vivir + invertir premium</span>
+</div>
+
+<div class="zone-card">
+<h4>Delicias <small>— mayor volumen y accesibilidad</small></h4>
+<div class="zone-metrics">
+<span>🏠 Pisos: ~78m² medio</span>
+<span>💰 Precio medio: ~130k€</span>
+<span>📈 Rentabilidad: ~5.9%</span>
+<span>⭐ Calidad: 3/5 · Crecimiento: 3/5</span>
+</div>
+<p>El distrito más grande con mayor variedad de opciones. Precios accesibles (desde 60k€), buenas rentabilidades. Zona popular con servicios completos. Más de 113 propiedades analizadas.</p>
+<span class="lifestyle-ok">💰 Inversión con entrada baja</span>
+</div>
+
+<div class="zone-card">
+<h4>La Rubia <small>— barrio residencial moderno</small></h4>
+<div class="zone-metrics">
+<span>💰 Precio medio: ~183k€</span>
+<span>📈 Rentabilidad: ~5.2%</span>
+<span>⭐ Calidad: 4/5 · Crecimiento: 3/5</span>
+</div>
+<p>Zona residencial moderna y tranquila. Buena calidad de vida. Alta demanda por familias.</p>
+<span class="lifestyle-match">✅ Dual: Vivir + Invertir</span>
+</div>
+
+<h3>🌳 Valladolid Provincia — Análisis de Pueblos</h3>
+
+<div class="zone-card" style="border-color: var(--purple);">
+<h4 style="color: var(--purple);">Cinturón Metropolitano — Máxima Calidad (3/5)</h4>
+<div class="zone-metrics">
+<span>🏘️ Arroyo de la Encomienda · Laguna de Duero · Cistérniga · Aldeamayor · Santovenia · Boecillo</span>
+</div>
+<p><strong>Arroyo de la Encomienda:</strong> El municipio más urbanizado del área. Prácticamente una extensión de Valladolid. Chalets adosados y pisos de buena calidad. Supermercados, colegios, buen acceso en coche. Ideal para quien quiere casa con jardín a precio de piso en ciudad.</p>
+<p style="margin-top:8px;"><strong>Laguna de Duero:</strong> Gran municipio al sur. Urbanizado, con todos los servicios. Precios más bajos que la capital pero demanda sólida.</p>
+<p style="margin-top:8px;"><strong>Cistérniga:</strong> Pegado a Valladolid por el este. Crecimiento alto. Muchas casas nuevas y adosados.</p>
+<div class="zone-metrics" style="margin-top:10px;">
+<span>💰 Precio medio: ~180k€ estimado</span>
+<span>📈 Rentabilidad estimada: 5-7%</span>
+<span>🏠 Tipología: chalets, adosados, pisos</span>
+</div>
+<span class="lifestyle-match">✅ Inversión + Vivir con coche</span>
+</div>
+
+<div class="zone-card" style="border-color: var(--purple);">
+<h4 style="color: var(--purple);">Pueblos con Encanto — Calidad Media (2/5)</h4>
+<div class="zone-metrics">
+<span>🏘️ Tudela de Duero · Tordesillas · Cigales · Portillo · Simancas · Mucientes</span>
+</div>
+<p>Pueblos con historia, más alejados, pero precios muy competitivos. Ideal para casa de pueblo barata o inversión rural. Riesgo: menor demanda de alquiler, mayor vacancia.</p>
+<p style="margin-top:8px;"><strong>Tordesillas:</strong> Pueblo histórico a 30km de Valladolid. Buenas casas a precios bajos. Turismo rural.</p>
+<p style="margin-top:8px;"><strong>Cigales:</strong> Zona vinícola. Casas grandes a precios muy bajos. Para quien busca proyecto propio.</p>
+<div class="zone-metrics" style="margin-top:10px;">
+<span>💰 Precio medio: ~100-150k€</span>
+<span>📈 Rentabilidad estimada: 4-6%</span>
+<span>⚠️ Menor liquidez</span>
+</div>
+<span class="lifestyle-ok">⚠️ Solo para perfil rural/proyecto propio</span>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 6. STRATEGY -->
+<!-- ============================================================ -->
+<section id="strategy">
+<h2>6. 🎯 Estrategia de Inversión</h2>
+<p style="color: var(--gray-600); margin-bottom:20px;">Perfil de Cesar: presupuesto máx. 300k€, mínimo 75m², doble propósito (inversión + potencial habitabilidad), valores de libertad e ingresos pasivos, gestión remota preferida.</p>
+
+<div class="strategy-block">
+<h3 class="living">🏠 Estrategia A — Para Vivir en Valladolid</h3>
+<p>Si la idea es instalarse en Valladolid a corto/medio plazo:</p>
+<ul style="padding-left:20px; margin-top:8px;">
+<li><strong>Zona recomendada:</strong> Parquesol, Huerta del Rey o Centro Histórico</li>
+<li><strong>Perfil de propiedad:</strong> 3 habitaciones, ≥90m², ascensor, calefacción gas, terraza si posible</li>
+<li><strong>Rango de precio:</strong> 180-280k€</li>
+<li><strong>Lógica:</strong> Comprar donde se quiere vivir, luego alquilar si se sale. Alta liquidez.</li>
+<li><strong>Riesgo:</strong> Bajo. Mercado de Valladolid con demanda sólida.</li>
+</ul>
+<div class="recommendation">
+<strong>Top zonas para vivir:</strong> Parquesol (moderno, servicios), Centro Histórico (cultura, vida de ciudad), Huerta del Rey (tranquilo, río, buena calidad).
+</div>
+</div>
+
+<div class="strategy-block">
+<h3 class="invest">💰 Estrategia B — Inversión Pura (ingresos pasivos)</h3>
+<p>Si el objetivo es maximizar rentabilidad y flujo de caja mensual:</p>
+<ul style="padding-left:20px; margin-top:8px;">
+<li><strong>Zona recomendada:</strong> Huerta del Rey, Delicias, La Rubia, Pajarillos</li>
+<li><strong>Perfil de propiedad:</strong> 2-3 habitaciones, 75-100m², ascensor, buen estado</li>
+<li><strong>Rango de precio:</strong> 120-200k€ (deja margen para 2ª compra)</li>
+<li><strong>Rentabilidad objetivo:</strong> ≥5.5% bruta (neta ~4% tras gastos)</li>
+<li><strong>Gestión remota:</strong> Contratar agencia inmobiliaria local (8-10% del alquiler mensual)</li>
+<li><strong>Escala:</strong> Con 300k€ se pueden comprar 2 pisos de ~150k€ cada uno con mayor diversificación</li>
+</ul>
+<div class="recommendation">
+<strong>Cálculo ejemplo:</strong> Piso en Huerta del Rey, 90m², 185k€ → Alquiler estimado 900€/mes → Rentabilidad bruta 5.8% → Neta ~4.2% → Flujo mensual neto estimado ~520€ (tras hipoteca, gastos, gestión).
+</div>
+</div>
+
+<div class="strategy-block">
+<h3 class="dual">⚡ Estrategia C — Doble Propósito (Dual)</h3>
+<p>Comprar algo que se pueda habitar Y que genere rentabilidad cuando no se use:</p>
+<ul style="padding-left:20px; margin-top:8px;">
+<li><strong>Zonas recomendadas:</strong> Centro Histórico (alquiler turístico), Parquesol (alquiler residencial premium)</li>
+<li><strong>Perfil:</strong> 2-3 hab, ≥80m², zona de alta demanda, buen estado o reformado</li>
+<li><strong>Modo operativo:</strong> Alquiler mensual cuando en Madrid; uso propio para estancias en Valladolid</li>
+<li><strong>Extra:</strong> Potencial para alquiler turístico (Airbnb) en Centro Histórico → mayor rentabilidad pero más gestión</li>
+</ul>
+<div class="recommendation">
+<strong>Combinación óptima dual:</strong> Centro Histórico de Valladolid, 90-100m², 2-3 hab, bien comunicado, buen estado. Precio 200-260k€. Alquiler residencial 700-900€/mes.
+</div>
+</div>
+
+<div class="strategy-block">
+<h3 class="provincia">🌳 Estrategia D — Provincia (entrada baja, casa propia)</h3>
+<p>Para quien quiere más por menos: casa con jardín o parcela, mayor metraje, a precios de piso en ciudad:</p>
+<ul style="padding-left:20px; margin-top:8px;">
+<li><strong>Pueblos objetivo:</strong> Arroyo de la Encomienda, Laguna de Duero, Cistérniga, Aldeamayor de San Martín</li>
+<li><strong>Ventajas:</strong>
+  <ul style="padding-left:16px; margin-top:4px;">
+    <li>Casas de 150-200m² por 150-220k€ (imposible en capital)</li>
+    <li>Jardín, garaje, piscina comunitaria — calidad de vida superior</li>
+    <li>Rentabilidades estimadas 5-8% por precio bajo de entrada</li>
+    <li>Ideal como base de operaciones si se trabaja en remoto</li>
+  </ul>
+</li>
+<li><strong>Riesgos:</strong>
+  <ul style="padding-left:16px; margin-top:4px;">
+    <li>Menor liquidez en reventa (mercado más estrecho)</li>
+    <li>Demanda de alquiler más baja y variable</li>
+    <li>Gestión remota más difícil (casas vs pisos)</li>
+    <li>Costes de mantenimiento más altos (jardín, exterior)</li>
+  </ul>
+</li>
+<li><strong>Para quién:</strong> Quien quiere su propia casa y no le importa estar a 15-20 min de la capital en coche. NO recomendado como pura inversión de alquiler sin conocer bien la zona.</li>
+</ul>
+<div class="warning">
+<strong>⚠️ Consideración importante:</strong> Los pueblos tienen mercados de alquiler pequeños. Las rentabilidades estimadas en este informe son proyecciones — antes de comprar en provincia, verificar demanda real de alquiler en la zona específica.
+</div>
+</div>
+
+<h3>📊 Resumen de Estrategias</h3>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>Estrategia</th><th>Zona</th><th>Presupuesto</th><th>Rentab. Est.</th><th>Liquidez</th><th>Gestión</th><th>Para quién</th>
+</tr></thead>
+<tbody>
+<tr class="buy-row"><td><strong>A — Vivir</strong></td><td>Parquesol / Centro / Huerta</td><td>180-280k€</td><td>4.5-5.5%</td><td>Alta</td><td>Fácil</td><td>Traslado a Valladolid</td></tr>
+<tr class="buy-row"><td><strong>B — Inversión Pura</strong></td><td>Huerta del Rey / Delicias</td><td>120-200k€</td><td>5.5-7%</td><td>Alta</td><td>Agencia local</td><td>Ingresos pasivos máximos</td></tr>
+<tr class="buy-row"><td><strong>C — Dual</strong></td><td>Centro Histórico / Parquesol</td><td>200-280k€</td><td>4.5-5.5%</td><td>Alta</td><td>Media</td><td>Base en Valladolid + ingreso</td></tr>
+<tr class="consider-row"><td><strong>D — Provincia</strong></td><td>Arroyo / Laguna / Cistérniga</td><td>130-250k€</td><td>5-8% est.</td><td>Media-Baja</td><td>Difícil remoto</td><td>Casa propia + lifestyle</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 7. METHODOLOGY -->
+<!-- ============================================================ -->
+<section id="methodology">
+<h2>7. 📐 Metodología</h2>
+
+<h3>Fuentes de Datos</h3>
+<ul style="padding-left:20px;">
+<li><strong>756 propiedades analizadas con IA</strong> (74 Madrid Moratalaz + 682 Valladolid Capital): Incluyen análisis completo con alquiler real estimado, rentabilidad calculada, scoring de calidad y crecimiento, veredicto y justificación.</li>
+<li><strong>503 propiedades de Valladolid Provincia</strong>: Extraídas de idealista con datos crudos. Campos de análisis estimados usando reglas basadas en ubicación, tipología, m² y precio.</li>
+</ul>
+
+<h3>Criterios de Veredicto</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Veredicto</th><th>Criterios</th></tr></thead>
+<tbody>
+<tr class="buy-row"><td><span class="badge badge-buy">BUY</span></td><td>Rentabilidad ≥6% + Calidad zona ≥3/5 + Precio ≤300k€ + Superficie ≥75m² + (Ascensor o casa). Para Capital: análisis IA individual. Para Provincia: estimación por reglas.</td></tr>
+<tr class="consider-row"><td><span class="badge badge-consider">CONSIDER</span></td><td>Rentabilidad ≥4.5% O (Calidad ≥3 Y m² ≥75) O (Precio ≤100k con m² ≥60). Puede faltar algún criterio pero hay mérito real.</td></tr>
+<tr><td><span class="badge badge-skip">SKIP</span></td><td>No cumple criterios, o descripción indica: ocupada, nuda propiedad, sin posesión, precio ≥300k€, superficie muy pequeña.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Estimación de Alquileres — Provincia</h3>
+<ul style="padding-left:20px;">
+<li><strong>Pueblos bien conectados</strong> (Arroyo, Laguna, Cistérniga, Aldeamayor, Boecillo, Santovenia, Cigales, Tudela, Cabezón): 5€/m²/mes como base</li>
+<li><strong>Pueblos más rurales</strong> (resto): 3.5€/m²/mes como base</li>
+<li>Para casas muy grandes (>150m²), se aplica un cap en la superficie efectiva (150m²) para el cálculo de renta</li>
+</ul>
+
+<h3>Calidad de Zona — Provincia</h3>
+<ul style="padding-left:20px;">
+<li><strong>3/5</strong>: Pueblos con urbanización significativa, servicios completos, buena conexión a Valladolid capital. Laguna de Duero, Arroyo de la Encomienda, Cistérniga, Zaratán, Santovenia, Aldeamayor, Boecillo, Cigales, Tudela, Cabezón.</li>
+<li><strong>2/5</strong>: Resto de pueblos de la provincia.</li>
+</ul>
+
+<h3>Limitaciones</h3>
+<ul style="padding-left:20px;">
+<li>Los alquileres estimados para provincia son proyecciones teóricas, no datos de mercado verificados.</li>
+<li>Los veredictos BUY/CONSIDER/SKIP son orientativos — siempre visitar y verificar in situ.</li>
+<li>Propiedades de Valladolid Capital usaron análisis IA con contexto de mercado actualizado (2024-2025).</li>
+<li>Propiedades de Provincia usan estimación algorítmica — mayor incertidumbre.</li>
+<li>No se incluyen gastos de compra (~10-12%), reforma, comunidad, IBI, ni gestión en las rentabilidades.</li>
+<li>Rentabilidad neta ≈ Rentabilidad bruta × 0.7 (estimación conservadora tras todos los gastos).</li>
+</ul>
+</section>
+
+</div>
+
+<footer>
+<p>Informe de Inversión Inmobiliaria v2 · Preparado para Cesar · Marzo 2026</p>
+<p style="margin-top:6px;">1,259 propiedades · 3 zonas · Datos: idealista.com</p>
+<p style="margin-top:6px;">⚠️ Este informe es orientativo. No constituye asesoramiento financiero o legal. Verificar siempre in situ.</p>
+</footer>
+
+<script>
+const D = {"priceLabels": ["<50k", "50-100k", "100-150k", "150-200k", "200-250k", "250-300k", ">300k"], "madridPriceDist": [0, 0, 3, 2, 17, 37, 15], "centroPriceDist": [7, 62, 150, 148, 144, 167, 4], "provPriceDist": [19, 86, 117, 112, 80, 87, 2], "eurM2Labels": ["Delicias", "Centro", "Bel\u00e9n - Pilarica - B\u00ba Espa\u00f1a", "Parquesol", "Circular - Vadillos", "Pajarillos", "Rondilla - Santa Clara", "P\u00ba Zorrilla - Plaza de Toros", "Arcas Reales - Pinar del Jal\u00f3n", "La Victoria", "Huerta del Rey", "P\u00ba Zorrilla - Campo Grande", "La Rubia", "Gir\u00f3n - Villa del Prado", "El Cabildo"], "eurM2Values": [1700, 2885, 2279, 2191, 2155, 1445, 1928, 2484, 2337, 1754, 3311, 2305, 2039, 2221, 2109], "puebloEurM2Labels": ["Tordesillas", "Arroyo De La Encomienda", "Tudela De Duero", "Laguna De Duero", "Aldeamayor De San Martin", "Cigales", "Santovenia De Pisuerga", "Cist\u00e9rniga", "Boecillo", "Mojados", "Zaratan", "Portillo", "Villanubla", "Simancas", "Cabez\u00f3n De Pisuerga"], "puebloEurM2Values": [1198, 2453, 1251, 2010, 1312, 1380, 1916, 1963, 1512, 998, 1359, 765, 1191, 1524, 1680], "yieldLabels": ["<3%", "3-4%", "4-5%", "5-6%", "6-7%", ">7%"], "yieldMadrid": [4, 38, 23, 7, 0, 2], "yieldCentro": [17, 165, 222, 157, 58, 62], "yieldProv": [158, 166, 64, 38, 21, 56], "verdictMadrid": [2, 22, 50], "verdictCentro": [262, 319, 101], "verdictProv": [18, 285, 200], "scatterBuy": [{"x": 5.0, "y": 3.0, "r": 6.72}, {"x": 3.0, "y": 3.0, "r": 10.36}, {"x": 3.0, "y": 3.0, "r": 12.84}, {"x": 4.0, "y": 4.0, "r": 10.6}, {"x": 5.0, "y": 3.0, "r": 10.4}, {"x": 3.0, "y": 3.0, "r": 12.56}, {"x": 4.0, "y": 4.0, "r": 18.44}, {"x": 3.0, "y": 3.0, "r": 14.88}, {"x": 5.0, "y": 3.0, "r": 8.92}, {"x": 4.0, "y": 4.0, "r": 10.4}, {"x": 5.0, "y": 3.0, "r": 13.7}, {"x": 4.0, "y": 3.0, "r": 8.46}, {"x": 3.0, "y": 3.0, "r": 12.34}, {"x": 3, "y": 2, "r": 20}, {"x": 5.0, "y": 3.0, "r": 10.58}, {"x": 4.0, "y": 4.0, "r": 11.34}, {"x": 3, "y": 3, "r": 20}, {"x": 3.0, "y": 3.0, "r": 11.22}, {"x": 5.0, "y": 3.0, "r": 10.16}, {"x": 5.0, "y": 3.0, "r": 10.04}, {"x": 4.0, "y": 3.0, "r": 12.36}, {"x": 5.0, "y": 3.0, "r": 10.74}, {"x": 4.0, "y": 4.0, "r": 10.4}, {"x": 3.0, "y": 3.0, "r": 12.7}, {"x": 5.0, "y": 3.0, "r": 8.56}, {"x": 4.0, "y": 4.0, "r": 8.84}, {"x": 3.0, "y": 3.0, "r": 12.32}, {"x": 5.0, "y": 3.0, "r": 10.24}, {"x": 3.0, "y": 3.0, "r": 10.66}, {"x": 3.0, "y": 3.0, "r": 12.04}, {"x": 4.0, "y": 3.0, "r": 8.46}, {"x": 4.0, "y": 4.0, "r": 20}, {"x": 5.0, "y": 3.0, "r": 13.24}, {"x": 5.0, "y": 3.0, "r": 12.34}, {"x": 4.0, "y": 4.0, "r": 14.34}, {"x": 3.0, "y": 3.0, "r": 10.46}, {"x": 3.0, "y": 3.0, "r": 12.04}], "scatterConsider": [{"x": 3.0, "y": 3.0, "r": 9.34}, {"x": 3.0, "y": 3.0, "r": 6.12}, {"x": 5.0, "y": 3.0, "r": 7.32}, {"x": 3, "y": 2, "r": 9.42}, {"x": 3.0, "y": 3.0, "r": 9.58}, {"x": 3, "y": 2, "r": 5.92}, {"x": 3.0, "y": 3.0, "r": 8.52}, {"x": 3.0, "y": 3.0, "r": 9.84}, {"x": 3, "y": 2, "r": 8.48}, {"x": 3, "y": 3, "r": 11.36}, {"x": 3, "y": 3, "r": 6.6}, {"x": 3, "y": 2, "r": 8.38}, {"x": 2.0, "y": 3.0, "r": 8.94}, {"x": 3.0, "y": 4.0, "r": 10.58}, {"x": 3.0, "y": 3.0, "r": 7.94}, {"x": 3.0, "y": 2.0, "r": 6.32}, {"x": 3.0, "y": 3.0, "r": 6.56}, {"x": 4.0, "y": 3.0, "r": 9.84}, {"x": 3.0, "y": 3.0, "r": 14.6}, {"x": 2, "y": 2, "r": 9.18}, {"x": 3.0, "y": 3.0, "r": 20}, {"x": 2.0, "y": 3.0, "r": 10.98}, {"x": 3.0, "y": 2.0, "r": 6.42}, {"x": 3, "y": 2, "r": 7.32}, {"x": 3.0, "y": 2.0, "r": 16.22}, {"x": 3, "y": 2, "r": 7.5}, {"x": 2, "y": 2, "r": 15.24}, {"x": 3.0, "y": 4.0, "r": 9.12}, {"x": 3, "y": 3, "r": 6.84}, {"x": 3.0, "y": 3.0, "r": 9.14}, {"x": 3.0, "y": 3.0, "r": 10.54}, {"x": 2, "y": 2, "r": 6.32}, {"x": 4.0, "y": 4.0, "r": 7.06}, {"x": 3.0, "y": 3.0, "r": 7.1}, {"x": 3.0, "y": 3.0, "r": 9.26}, {"x": 3.0, "y": 3.0, "r": 9.18}, {"x": 4.0, "y": 3.0, "r": 9.8}, {"x": 3.0, "y": 3.0, "r": 8.14}, {"x": 2, "y": 2, "r": 10.02}, {"x": 3.0, "y": 2.0, "r": 7.8}, {"x": 3, "y": 2, "r": 7.66}, {"x": 2.0, "y": 3.0, "r": 8.6}, {"x": 3, "y": 3, "r": 6.42}, {"x": 2.0, "y": 3.0, "r": 11.68}, {"x": 3.0, "y": 3.0, "r": 10.64}, {"x": 3.0, "y": 2.0, "r": 7.66}, {"x": 3.0, "y": 3.0, "r": 10.06}, {"x": 2.0, "y": 3.0, "r": 8.6}, {"x": 3.0, "y": 3.0, "r": 8.4}, {"x": 3, "y": 3, "r": 4.76}, {"x": 2.0, "y": 3.0, "r": 9.48}, {"x": 3.0, "y": 3.0, "r": 9.66}, {"x": 3, "y": 2, "r": 7.74}, {"x": 3, "y": 2, "r": 11.74}, {"x": 3, "y": 3, "r": 4.94}, {"x": 3, "y": 3, "r": 8.18}, {"x": 2, "y": 2, "r": 9.7}, {"x": 2, "y": 2, "r": 6.68}, {"x": 2.0, "y": 3.0, "r": 8.74}, {"x": 3.0, "y": 2.0, "r": 7.5}, {"x": 2, "y": 2, "r": 11.2}, {"x": 2, "y": 2, "r": 9.34}, {"x": 3, "y": 3, "r": 3.78}, {"x": 2, "y": 2, "r": 6.08}, {"x": 3.0, "y": 2.0, "r": 10.88}, {"x": 3, "y": 3, "r": 8.96}, {"x": 3.0, "y": 3.0, "r": 7.96}, {"x": 3.0, "y": 3.0, "r": 9.92}, {"x": 2, "y": 2, "r": 9.78}, {"x": 3.0, "y": 3.0, "r": 6.76}, {"x": 3, "y": 3, "r": 3.5}, {"x": 3.0, "y": 3.0, "r": 11.34}, {"x": 3, "y": 3, "r": 11.58}, {"x": 3.0, "y": 3.0, "r": 10.4}, {"x": 3, "y": 3, "r": 7.42}, {"x": 3.0, "y": 2.0, "r": 12.74}, {"x": 3.0, "y": 3.0, "r": 8.66}, {"x": 5.0, "y": 3.0, "r": 9.28}, {"x": 3.0, "y": 3.0, "r": 10.14}, {"x": 3, "y": 3, "r": 5.5}, {"x": 3.0, "y": 3.0, "r": 10.34}, {"x": 3.0, "y": 2.0, "r": 6.8}, {"x": 2.0, "y": 3.0, "r": 9.6}, {"x": 3, "y": 3, "r": 6.54}, {"x": 2, "y": 2, "r": 14.64}, {"x": 2, "y": 2, "r": 7.8}, {"x": 3.0, "y": 3.0, "r": 6.56}, {"x": 3.0, "y": 3.0, "r": 9.6}, {"x": 3, "y": 2, "r": 8.64}, {"x": 2, "y": 2, "r": 11.0}, {"x": 3.0, "y": 3.0, "r": 10.64}, {"x": 5.0, "y": 3.0, "r": 7.42}, {"x": 3.0, "y": 3.0, "r": 11.08}, {"x": 3, "y": 2, "r": 7.46}, {"x": 3.0, "y": 4.0, "r": 6.16}, {"x": 3.0, "y": 4.0, "r": 9.1}, {"x": 5.0, "y": 3.0, "r": 9.72}, {"x": 2.0, "y": 2.0, "r": 13.08}, {"x": 3.0, "y": 2.0, "r": 7.22}, {"x": 3, "y": 2, "r": 7.28}, {"x": 2.0, "y": 3.0, "r": 11.38}, {"x": 3.0, "y": 4.0, "r": 7.94}, {"x": 3, "y": 3, "r": 6.32}, {"x": 2, "y": 2, "r": 10.76}, {"x": 3, "y": 3, "r": 6.0}, {"x": 3.0, "y": 2.0, "r": 15.62}, {"x": 3, "y": 3, "r": 6.02}, {"x": 2, "y": 2, "r": 13.48}, {"x": 2, "y": 2, "r": 15.22}, {"x": 3.0, "y": 2.0, "r": 16.62}, {"x": 3.0, "y": 3.0, "r": 7.82}], "scatterSkip": [{"x": 3.0, "y": 2.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2.0, "y": 3.0, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 3, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3, "y": 2, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 3.0, "y": 3.0, "r": 4}, {"x": 2, "y": 2, "r": 4}, {"x": 3.0, "y": 2.0, "r": 4}, {"x": 3, "y": 3, "r": 4}, {"x": 2, "y": 2, "r": 4}]};
+
+// Color palettes
+const COLORS = {
+  buy: '#28a745',
+  consider: '#ffc107',
+  skip: '#dc3545',
+  madrid: '#dc3545',
+  centro: '#007bff',
+  provincia: '#6f42c1',
+  navy: '#1a2332',
+};
+
+// 1. Price distribution
+new Chart(document.getElementById('priceHistChart'), {
+  type: 'bar',
+  data: {
+    labels: D.priceLabels,
+    datasets: [
+      { label: 'Madrid Moratalaz', data: D.madridPriceDist, backgroundColor: COLORS.madrid + '99', borderColor: COLORS.madrid, borderWidth: 1 },
+      { label: 'Valladolid Capital', data: D.centroPriceDist, backgroundColor: COLORS.centro + '99', borderColor: COLORS.centro, borderWidth: 1 },
+      { label: 'Valladolid Provincia', data: D.provPriceDist, backgroundColor: COLORS.provincia + '99', borderColor: COLORS.provincia, borderWidth: 1 },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+});
+
+// 2. €/m² by district
+new Chart(document.getElementById('eurM2Chart'), {
+  type: 'bar',
+  data: {
+    labels: D.eurM2Labels,
+    datasets: [{ label: '€/m²', data: D.eurM2Values, backgroundColor: COLORS.centro + 'bb', borderColor: COLORS.centro, borderWidth: 1 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true } }
+  }
+});
+
+// 3. Verdict pies
+function verdictPie(canvasId, data, title) {
+  new Chart(document.getElementById(canvasId), {
+    type: 'doughnut',
+    data: {
+      labels: ['BUY', 'CONSIDER', 'SKIP'],
+      datasets: [{ data: data, backgroundColor: [COLORS.buy, COLORS.consider, COLORS.skip], borderWidth: 2 }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        title: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+              const pct = total > 0 ? ((ctx.raw/total)*100).toFixed(1) : 0;
+              return ctx.label + ': ' + ctx.raw + ' (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+}
+verdictPie('verdictMadridChart', D.verdictMadrid);
+verdictPie('verdictCentroChart', D.verdictCentro);
+verdictPie('verdictProvChart', D.verdictProv);
+
+// 4. Yield distribution
+new Chart(document.getElementById('yieldChart'), {
+  type: 'bar',
+  data: {
+    labels: D.yieldLabels,
+    datasets: [
+      { label: 'Madrid', data: D.yieldMadrid, backgroundColor: COLORS.madrid + '99', borderColor: COLORS.madrid, borderWidth: 1 },
+      { label: 'Valladolid Capital', data: D.yieldCentro, backgroundColor: COLORS.centro + '99', borderColor: COLORS.centro, borderWidth: 1 },
+      { label: 'Valladolid Provincia', data: D.yieldProv, backgroundColor: COLORS.provincia + '99', borderColor: COLORS.provincia, borderWidth: 1 },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+});
+
+// 5. Pueblo €/m²
+new Chart(document.getElementById('puebloEurM2Chart'), {
+  type: 'bar',
+  data: {
+    labels: D.puebloEurM2Labels,
+    datasets: [{ label: '€/m²', data: D.puebloEurM2Values, backgroundColor: COLORS.provincia + 'bb', borderColor: COLORS.provincia, borderWidth: 1 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true } }
+  }
+});
+
+// 6. Scatter quality vs growth
+new Chart(document.getElementById('scatterChart'), {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'BUY', data: D.scatterBuy, backgroundColor: COLORS.buy + '99', borderColor: COLORS.buy },
+      { label: 'CONSIDER', data: D.scatterConsider, backgroundColor: COLORS.consider + '99', borderColor: COLORS.consider },
+      { label: 'SKIP', data: D.scatterSkip, backgroundColor: COLORS.skip + '44', borderColor: COLORS.skip },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      x: { min: 0, max: 6, title: { display: true, text: 'Calidad de Zona (1-5)' } },
+      y: { min: 0, max: 6, title: { display: true, text: 'Potencial de Crecimiento (1-5)' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
