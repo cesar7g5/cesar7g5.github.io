@@ -355,11 +355,12 @@
   /* CARDS GRID */
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
-  @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 760px) { .cards-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 1400px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 1000px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
 
   /* CARD */
   .card {
@@ -377,28 +378,28 @@
 
   .card-thumb {
     width: 100%;
-    height: 180px;
+    height: 120px;
     object-fit: cover;
     background: var(--gray-100);
     display: block;
   }
   .card-thumb-placeholder {
     width: 100%;
-    height: 80px;
+    height: 50px;
     background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--gray-400);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .card-header {
-    padding: 10px 12px 8px;
+    padding: 6px 10px 5px;
     border-bottom: 1px solid var(--gray-100);
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 8px;
+    gap: 6px;
   }
   .zone-badge {
     font-size: 0.7rem;
@@ -424,7 +425,7 @@
   .estado-nuevo { background: #fef3c7; color: #92400e; }
   .estado-default { background: var(--gray-100); color: var(--gray-600); }
 
-  .card-body { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .card-body { padding: 8px 10px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
 
   .card-price {
     display: flex;
@@ -432,13 +433,13 @@
     gap: 8px;
     flex-wrap: wrap;
   }
-  .price-main { font-size: 1.35rem; font-weight: 800; color: var(--navy); line-height: 1; }
-  .price-sqm { font-size: 0.78rem; color: var(--gray-400); font-weight: 500; }
+  .price-main { font-size: 1.1rem; font-weight: 800; color: var(--navy); line-height: 1; }
+  .price-sqm { font-size: 0.72rem; color: var(--gray-400); font-weight: 500; }
 
   .card-stats {
     display: flex;
-    gap: 12px;
-    font-size: 0.83rem;
+    gap: 10px;
+    font-size: 0.78rem;
     color: var(--gray-700);
     flex-wrap: wrap;
   }
@@ -451,7 +452,7 @@
   .card-stat span:first-child { font-size: 1em; }
 
   .card-address {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--gray-600);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -464,10 +465,10 @@
     flex-wrap: wrap;
   }
   .badge {
-    font-size: 0.68rem;
+    font-size: 0.62rem;
     font-weight: 600;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 1px 5px;
+    border-radius: 3px;
     background: var(--gray-100);
     color: var(--gray-600);
     border: 1px solid var(--gray-200);
@@ -495,10 +496,10 @@
   .card-desc.expanded { display: block; }
 
   .card-footer {
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-top: 1px solid var(--gray-100);
     display: flex;
-    gap: 6px;
+    gap: 5px;
     align-items: center;
   }
   .btn-idealista {
@@ -506,14 +507,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     background: var(--accent);
     color: white;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    padding: 7px 12px;
-    border-radius: 7px;
+    padding: 6px 10px;
+    border-radius: 6px;
     transition: background 0.15s;
   }
   .btn-idealista:hover { background: var(--accent-hover); }
@@ -564,6 +565,40 @@
   .fav-filter-btn.active { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
   .fav-count { font-size: 0.75rem; background: var(--gray-200); border-radius: 10px; padding: 1px 7px; font-weight: 700; }
   .fav-filter-btn.active .fav-count { background: #fde68a; }
+
+  /* SUGGESTED */
+  .card.suggested { border: 2px solid #8b5cf6; }
+  .suggested-ribbon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 4px;
+    z-index: 2;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(124,58,237,0.3);
+  }
+  .card-img-wrap { position: relative; }
+  .suggested-filter-btn {
+    padding: 6px 14px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .suggested-filter-btn:hover { border-color: #8b5cf6; color: #8b5cf6; }
+  .suggested-filter-btn.active { background: #ede9fe; border-color: #8b5cf6; color: #6d28d9; }
 
   /* EMPTY STATE */
   .empty-state {
@@ -1034,6 +1069,9 @@
         <option value="pie">Tiempo a pie</option>
       </select>
       <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
+      <button class="suggested-filter-btn" id="suggested-filter-btn" onclick="toggleSuggestedFilter()">
+        💎 Sugeridas <span class="fav-count" id="suggested-count-badge">0</span>
+      </button>
       <button class="fav-filter-btn" id="fav-filter-btn" onclick="toggleFavFilter()">
         ⭐ Favoritos <span class="fav-count" id="fav-count-badge">0</span>
       </button>
@@ -1074,6 +1112,20 @@ function toggleFavFilter() {
 }
 const favorites = loadFavs();
 
+// ==================== SUGGESTED ====================
+let suggestedMap = {}; // link -> [strategy letters]
+function toggleSuggestedFilter() {
+  state.showSuggestedOnly = !state.showSuggestedOnly;
+  document.getElementById('suggested-filter-btn').classList.toggle('active', state.showSuggestedOnly);
+  applyFilters();
+}
+function getSuggestedLabel(link) {
+  const tags = suggestedMap[link];
+  if (!tags) return '';
+  const names = { A:'Mudarse', B:'Inversión', C:'Dual', D:'Turístico', E:'Casa pueblo', F:'Rural premium' };
+  return tags.map(t => names[t] || t).join(', ');
+}
+
 // ==================== STATE ====================
 const state = {
   allData: [],
@@ -1106,6 +1158,7 @@ const state = {
   search: '',
   sortBy: 'precio',
   showFavsOnly: false,
+  showSuggestedOnly: false,
   sortDir: 1,
   // render state
   renderPage: 0,
@@ -1168,11 +1221,16 @@ async function loadData() {
 // ==================== INIT ====================
 async function init() {
   try {
-    // Load thumbnails
+    // Load thumbnails + suggested
     try {
       const thumbRes = await fetch('thumbs.json');
       state.thumbs = await thumbRes.json();
     } catch(e) { console.warn('No thumbs:', e); }
+    try {
+      const sugRes = await fetch('suggested.json');
+      suggestedMap = await sugRes.json();
+      document.getElementById('suggested-count-badge').textContent = Object.keys(suggestedMap).length;
+    } catch(e) { console.warn('No suggested:', e); }
     const raw = await loadData();
     state.allData = raw.map(r => {
       const precio = parseInt(r['Precio (€)']) || 0;
@@ -1522,6 +1580,9 @@ function applyFilters() {
   if (s.showFavsOnly) {
     data = data.filter(r => favorites.has(r.link));
   }
+  if (s.showSuggestedOnly) {
+    data = data.filter(r => r.link in suggestedMap);
+  }
 
   if (s.search) {
     const q = s.search;
@@ -1652,12 +1713,18 @@ function buildCard(r, idx) {
   const descHtml = r.desc ? `<div class="card-desc" id="${descId}">${r.desc}</div>` : '';
 
   const thumbUrl = state.thumbs[r.link] || '';
+  const isSuggested = r.link in suggestedMap;
+  const sugLabel = isSuggested ? getSuggestedLabel(r.link) : '';
+  if (isSuggested) card.classList.add('suggested');
+
   const imgHtml = thumbUrl 
     ? `<img class="card-thumb" src="${thumbUrl}" alt="${r.dir}" loading="lazy" onerror="this.outerHTML='<div class=\\'card-thumb-placeholder\\'>🏠</div>'">`
     : `<div class="card-thumb-placeholder">🏠</div>`;
 
+  const ribbonHtml = isSuggested ? `<span class="suggested-ribbon">💎 ${sugLabel}</span>` : '';
+
   card.innerHTML = `
-    ${imgHtml}
+    <div class="card-img-wrap">${imgHtml}${ribbonHtml}</div>
     <div class="card-header">
       <span class="zone-badge">${r.zona}${r.subzona ? ' › ' + r.subzona : ''}</span>
       ${r.estado ? `<span class="estado-badge ${estadoClass}">${estadoLabel}</span>` : ''}
