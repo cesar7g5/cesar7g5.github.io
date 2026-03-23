@@ -1178,10 +1178,10 @@
       </select>
       <button class="sort-dir-btn" id="sort-dir-btn" title="Cambiar dirección">▲</button>
       <button class="suggested-filter-btn" id="top-picks-filter-btn" onclick="toggleTopPicksFilter()" title="Mostrar solo las top picks de todas las estrategias">
-        🏆 Top Picks <span class="fav-count">41</span>
+        🏆 Top Picks <span class="fav-count">39</span>
       </button>
       <button class="suggested-filter-btn" id="flagged-filter-btn" onclick="toggleFlaggedFilter()" style="border-color: #ef4444; color: #6b7280;" title="Ocultar propiedades ocupadas, sin posesión, subasta, nuda propiedad, etc.">
-        🚩 Ocultar Problemáticas <span class="fav-count">47</span>
+        🚩 Ocultar Problemáticas <span class="fav-count">56</span>
       </button>
       <button class="suggested-filter-btn" id="suggested-filter-btn" onclick="toggleSuggestedFilter()">
         💎 Sugeridas <span class="fav-count" id="suggested-count-badge">0</span>
@@ -1230,8 +1230,8 @@ const favorites = loadFavs();
 let suggestedMap = {}; // link -> [strategy letters]
 
 // ==================== TOP PICKS & FLAGGED ====================
-const TOP_PICK_IDS = new Set(["100905696", "100913568", "101600968", "101600988", "103554826", "103635545", "105018344", "105580708", "106362472", "107102854", "107313170", "107792315", "107890183", "108425033", "108456337", "108546082", "108609760", "108654355", "108763689", "108812397", "109178857", "109410873", "109477943", "109681861", "109763502", "109828327", "109870834", "109926657", "109999123", "109999135", "110030377", "110033612", "110146797", "110235578", "110451920", "110676715", "110700911", "110888685", "36182489", "39191743", "91380860"]);
-const FLAGGED_IDS = new Set(["103677514", "106410586", "106410789", "106497649", "106658471", "106697455", "106751748", "106858431", "106882641", "107147556", "107160714", "107398368", "107561016", "107610701", "107684048", "107921739", "107981217", "108164792", "108264003", "108286530", "108473650", "108563732", "108608804", "108611339", "108632485", "108664378", "108748480", "109001385", "109387004", "109421049", "109563006", "109649874", "109728175", "109866242", "110110694", "110258899", "110328178", "110443106", "110447524", "110580565", "110657400", "110740093", "110878398", "110942753", "94925618", "98623189", "99241479"]);
+const TOP_PICK_IDS = new Set(["100905696", "100913568", "103554826", "103635545", "105018344", "105580708", "106362472", "107102854", "107313170", "107792315", "107890183", "108456337", "108546082", "108609760", "108654355", "108763689", "108812397", "109178857", "109410873", "109477943", "109681861", "109763502", "109828327", "109870834", "109926657", "109999123", "109999135", "110030377", "110033612", "110146797", "110235578", "110451920", "110536799", "110676715", "110700911", "110888685", "36182489", "39191743", "91380860"]);
+const FLAGGED_IDS = new Set(["101600968", "101600988", "103677514", "104408434", "105571701", "106410586", "106410789", "106497649", "106658471", "106697455", "106751748", "106858431", "106882641", "107147556", "107160714", "107398368", "107561016", "107610701", "107684048", "107921739", "107981217", "108164792", "108264003", "108286530", "108473650", "108563732", "108608804", "108611339", "108632485", "108664378", "108739031", "108748480", "109001385", "109171884", "109387004", "109421049", "109563006", "109649874", "109728175", "109799704", "109866242", "110110694", "110258899", "110328178", "110443106", "110446640", "110447524", "110580565", "110629581", "110657400", "110740093", "110878398", "110954343", "94925618", "98623189", "99241479"]);
 
 function getIdFromLink(link) {
   const match = link.match(/inmueble\/(\d+)\//);
@@ -1243,8 +1243,8 @@ function toggleTopPicksFilter() {
   const btn = document.getElementById('top-picks-filter-btn');
   btn.classList.toggle('active', state.showTopPicksOnly);
   btn.innerHTML = state.showTopPicksOnly 
-    ? '🏆 Top Picks ON <span class="fav-count">41</span>'
-    : '🏆 Top Picks <span class="fav-count">41</span>';
+    ? '🏆 Top Picks ON <span class="fav-count">39</span>'
+    : '🏆 Top Picks <span class="fav-count">39</span>';
   applyFilters();
 }
 
@@ -1253,8 +1253,8 @@ function toggleFlaggedFilter() {
   const btn = document.getElementById('flagged-filter-btn');
   btn.classList.toggle('active', state.hideFlagged);
   btn.innerHTML = state.hideFlagged
-    ? '✅ Problemáticas Ocultas <span class="fav-count">47</span>'
-    : '🚩 Ocultar Problemáticas <span class="fav-count">47</span>';
+    ? '✅ Problemáticas Ocultas <span class="fav-count">56</span>'
+    : '🚩 Ocultar Problemáticas <span class="fav-count">56</span>';
   applyFilters();
 }
 
