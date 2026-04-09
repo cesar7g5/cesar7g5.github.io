@@ -1,0 +1,19 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  # Static site — no build step. Overrides Jekyll auto-detection from _config.yml.
+  command = "echo 'No build — static site'"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Don't try to autodetect Jekyll/etc — we're a plain static site.
+[dev]
+  framework = "#static"
+  publish = "."
+
+# Keep the legacy URL the frontend already uses.
+[[redirects]]
+  from = "/current_track_partial"
+  to = "/.netlify/functions/current-track"
+  status = 200
