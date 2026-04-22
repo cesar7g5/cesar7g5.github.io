@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Vivienda Cesar + Aixa — v8</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@page { size: A4; margin: 18mm 15mm; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: #1f2937; line-height: 1.55; font-size: 11.5pt; }
+h1 { font-size: 28pt; font-weight: 800; color: #111827; margin-bottom: 6px; line-height: 1.15; }
+h1 + .subtitle { font-size: 13pt; color: #6b7280; margin-bottom: 20px; font-weight: 500; }
+h2 { font-size: 18pt; font-weight: 700; color: #111827; margin-top: 28px; margin-bottom: 10px; border-bottom: 2px solid #0f172a; padding-bottom: 6px; page-break-after: avoid; }
+h3 { font-size: 13.5pt; font-weight: 700; color: #0f172a; margin-top: 18px; margin-bottom: 6px; page-break-after: avoid; }
+h4 { font-size: 11.5pt; font-weight: 700; color: #374151; margin-top: 12px; margin-bottom: 4px; }
+p { margin-bottom: 9px; }
+.meta { font-size: 10pt; color: #6b7280; margin-bottom: 24px; }
+ul, ol { margin-left: 22px; margin-bottom: 10px; }
+li { margin-bottom: 4px; }
+strong { color: #0f172a; font-weight: 600; }
+.tldr { background: #f0f9ff; border-left: 4px solid #0284c7; padding: 14px 16px; margin: 14px 0 22px 0; }
+.tldr h3 { margin-top: 0; color: #0c4a6e; border: none; padding: 0; }
+.callout { background: #fef3c7; border-left: 4px solid #d97706; padding: 11px 14px; margin: 12px 0; font-size: 11pt; }
+.callout-green { background: #ecfdf5; border-left-color: #059669; }
+.callout-red { background: #fef2f2; border-left-color: #dc2626; }
+.callout-gray { background: #f9fafb; border-left-color: #6b7280; }
+.pick { border: 1px solid #e5e7eb; border-radius: 8px; padding: 13px 15px; margin: 9px 0; page-break-inside: avoid; background: #fafafa; }
+.pick-head { display:flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+.pick-head .rank { font-size: 14pt; font-weight: 800; color: #0284c7; }
+.pick-head .price { font-size: 14pt; font-weight: 700; color: #111827; }
+.pick .loc { color: #6b7280; font-size: 9.5pt; margin-bottom: 5px; }
+.pick .specs { display: flex; gap: 10px; font-size: 9.5pt; margin-bottom: 5px; flex-wrap: wrap; }
+.pick .specs span { background: #e5e7eb; padding: 2px 7px; border-radius: 3px; }
+.pick .specs .ok { background: #d1fae5; color: #064e3b; }
+.pick .flags { font-size: 9pt; color: #047857; margin-bottom: 5px; }
+.pick .desc { font-size: 9.5pt; color: #4b5563; font-style: italic; margin-top: 3px; }
+.pick .url { font-size: 8.5pt; color: #0284c7; margin-top: 3px; word-break: break-all; }
+.barrio { background: #f5f3ff; border: 1px solid #e5e7eb; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px; margin: 12px 0; page-break-inside: avoid; }
+.barrio h4 { color: #5b21b6; margin-top: 0; font-size: 12.5pt; }
+.barrio .attrs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 14px; font-size: 10pt; margin-top: 6px; }
+.barrio .attrs div { padding-left: 8px; }
+.barrio .verdict { font-size: 10.5pt; margin-top: 8px; padding: 6px 10px; background: white; border-radius: 4px; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10.5pt; }
+th { background: #0f172a; color: white; text-align: left; padding: 6px 8px; font-weight: 600; font-size: 10pt; }
+td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+.pos { color: #059669; font-weight: 600; }
+.neg { color: #dc2626; font-weight: 600; }
+.neutral { color: #6b7280; }
+.page-break { page-break-before: always; }
+.footnote { font-size: 9pt; color: #9ca3af; margin-top: 18px; border-top: 1px solid #e5e7eb; padding-top: 8px; }
+.rec-box { background: #0f172a; color: white; padding: 18px; border-radius: 8px; margin: 14px 0; }
+.rec-box h3 { color: #fbbf24; border: none; margin-top: 0; padding: 0; }
+.rec-box p, .rec-box li { color: #e5e7eb; }
+.rec-box strong { color: white; }
+.photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 6px 0; }
+.photos img { width: 100%; height: 115px; object-fit: cover; border-radius: 4px; border: 1px solid #e5e7eb; }
+.plan-header { background: linear-gradient(135deg, #0284c7 0%, #0c4a6e 100%); color: white; padding: 16px 18px; border-radius: 8px; margin: 18px 0 14px 0; }
+.plan-header h2 { color: white; border: none; margin: 0; padding: 0; font-size: 20pt; }
+.plan-header .plan-sub { color: #bae6fd; font-size: 11.5pt; margin-top: 4px; }
+.plan-B { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); }
+.plan-B .plan-sub { color: #ddd6fe; }
+.plan-C { background: linear-gradient(135deg, #059669 0%, #065f46 100%); }
+.plan-C .plan-sub { color: #a7f3d0; }
+.principio { font-size: 10.5pt; margin-bottom: 8px; padding: 8px 10px; background: #f9fafb; border-radius: 6px; }
+.principio strong { color: #0c4a6e; }
+
+.url a { color: #0284c7; text-decoration: none; word-break: break-all; }
+.url a:hover { text-decoration: underline; }
+a { color: #0284c7; }
+.footnote a { color: inherit; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Vivienda Cesar + Aixa — v8</h1>
+<p class="subtitle">3 estrategias con candidatos · comparativa · decisión al final</p>
+<p class="meta">Generado 2026-04-22 · Howl · v8 · sin duplicados entre planes · todas las properties únicas</p>
+
+<div class="tldr">
+<h3>Cómo leer este documento</h3>
+<p>Tres estrategias presentadas en paralelo, cada una con 5 candidatos + perfil de barrio/pueblo. Sin juicios anticipados. <strong>v8: sin duplicados entre planes + filtro anti-"no hipoteca / sin servicios" mantenido. 15 properties únicas.</strong> <strong>La comparativa y la decisión quedan al final (§4-5)</strong>, después de que hayas visto todo.</p>
+<ol style="margin-top: 8px;">
+<li><strong>Plan A · Valladolid centro habitual</strong> — piso ciudad, familia en barrio caminable</li>
+<li><strong>Plan B · Inversión rural con Meli puente</strong> — no se mudan, compran rural para rentar</li>
+<li><strong>Plan C · Pueblo habitual con amenities</strong> — casa con jardín, viven en pueblo cerca de Valladolid</li>
+</ol>
+</div>
+
+<h2>0. Contexto y principios</h2>
+<p>La compra va a pasar mientras (a) están tratando de tener un hijo, (b) Meli y su pareja viven con ustedes 6 meses, (c) trabajan remoto siempre, y (d) La Postal ya no tiene ancla en Moratalaz. Los principios de pareja importan tanto como el spreadsheet.</p>
+
+<div class="principio"><strong>La pareja va primero.</strong> Aixa está conflictada — cualquier opción tiene que pasar su filtro, no solo el de Cesar.</div>
+<div class="principio"><strong>Las rutinas se protegen.</strong> Ejercicio juntos, flow sessions, artist dates, home rhythm, Sunday Reset.</div>
+<div class="principio"><strong>Elegir con intención, no por inercia.</strong> No quedarse en Madrid por default, no irse a pueblo por huida.</div>
+<div class="principio"><strong>Libertad y autonomía.</strong> La compra tiene que expandir opciones, no cerrarlas.</div>
+<div class="principio"><strong>Abundancia, no miedo.</strong> Espacio suficiente para familia que va a crecer.</div>
+
+<div class="callout callout-red">
+<strong>Descartado antes de empezar — Moratalaz/Retiro/Vicálvaro &lt;€200k habitual.</strong> Los 21 listings filtrados tienen mediana de 55m² y 2 habitaciones. No caben 4 adultos ahora, mucho menos con bebé en 18 meses. Sin La Postal en Moratalaz, tampoco hay pull específico a esa zona. <em>No aparece en ninguno de los 3 planes abajo.</em>
+</div>
+
+<div class="callout">
+<strong>Fix aplicado:</strong> v4 corrigió un bug en mi cálculo de tiempos en coche — 28 properties habían sido filtradas injustamente por geocoding ambiguo. Los datos de abajo están corregidos.
+</div>
+
+<div class="page-break"></div>
+
+<div class="plan-header">
+<h2>1. Plan A · Valladolid centro habitual</h2>
+<div class="plan-sub">Piso 100-115m² en barrio caminable · familia con bebé + Meli puente · mudanza a ciudad</div>
+</div>
+
+<h4>Tesis</h4>
+<p>Comprar piso en Valladolid centro o semi-centro (Centro, Circular-Vadillos, Pº Zorrilla-Campo Grande). Meli+pareja ocupan los primeros 6 meses aportando gastos. A los 6-8 meses ustedes se mudan. A los 18 meses, bebé en entorno de ciudad caminable con servicios.</p>
+
+<h3>1.1 Top 5 candidatos</h3>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#1 · id 108307206</span><span class="price">€209.000</span></div>
+<div class="loc">Calle de Cervantes · Circular-Vadillos</div>
+<div class="specs"><span>112 m²</span><span>4 hab</span><span>2 baños</span><span>Piso</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ ascensor · ✓ terraza · 15 min a Plaza Mayor · €1.866/m² · rentabilidad 6,9%</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/108307206/" target="_blank">https://www.idealista.com/inmueble/108307206/</a></div>
+<div class="photos"><img src="photos/108307206_0.jpg"><img src="photos/108307206_1.jpg"><img src="photos/108307206_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#2 · id 106362472</span><span class="price">€227.000</span></div>
+<div class="loc">Calle Estación · Centro</div>
+<div class="specs"><span>113 m²</span><span>3 hab</span><span>2 baños</span><span>Piso</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ ascensor · ✓ garaje · 18 min a Plaza Mayor · 5 min a estación AVE · €2.009/m²</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/106362472/" target="_blank">https://www.idealista.com/inmueble/106362472/</a></div>
+<div class="photos"><img src="photos/106362472_0.jpg"><img src="photos/106362472_1.jpg"><img src="photos/106362472_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#3 · id 110817335</span><span class="price">€250.000</span></div>
+<div class="loc">Circular-Vadillos</div>
+<div class="specs"><span>102 m²</span><span>5 hab</span><span>1 baño</span><span>Piso</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ ascensor · ✓ terraza · 21 min a Plaza Mayor · todas las habitaciones exteriores · €2.451/m²</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/110817335/" target="_blank">https://www.idealista.com/inmueble/110817335/</a></div>
+<div class="photos"><img src="photos/110817335_0.jpg"><img src="photos/110817335_1.jpg"><img src="photos/110817335_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#4 · id 107253323</span><span class="price">€225.000</span></div>
+<div class="loc">Calle Nicolás Salmerón, 8 · Centro</div>
+<div class="specs"><span>100 m²</span><span>4 hab</span><span>2 baños</span><span>Piso</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ ascensor · 15 min a Plaza Mayor · semi-centro · €2.250/m²</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/107253323/" target="_blank">https://www.idealista.com/inmueble/107253323/</a></div>
+<div class="photos"><img src="photos/107253323_0.jpg"><img src="photos/107253323_1.jpg"><img src="photos/107253323_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#5 · id 110030377</span><span class="price">€224.900</span></div>
+<div class="loc">Calle Padre Francisco Suárez · Pº Zorrilla-Campo Grande</div>
+<div class="specs"><span>105 m²</span><span>3 hab</span><span>2 baños</span><span>Piso</span><span class="ok">Buen estado 1985</span></div>
+<div class="flags">✓ ascensor · ✓ terraza · 19 min a Plaza Mayor · parquet, cocina amueblada · €2.142/m²</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/110030377/" target="_blank">https://www.idealista.com/inmueble/110030377/</a></div>
+<div class="photos"><img src="photos/110030377_0.jpg"><img src="photos/110030377_1.jpg"><img src="photos/110030377_2.jpg"></div>
+</div>
+
+<div class="page-break"></div>
+<h3>1.2 Perfil de barrios · Valladolid</h3>
+
+<div class="barrio">
+<h4>Centro Valladolid · el corazón histórico</h4>
+<p>Casco histórico y comercial. Plaza Mayor, Calle Santiago, Calle Ferrocarril. <em>"Trufado de pequeñas plazas acogedoras y de espaciosas vías peatonales"</em>. Próximo a estación AVE.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Muy alta</span></div>
+<div><strong>Seguridad:</strong> <span class="pos">Alta</span></div>
+<div><strong>Parques:</strong> Campo Grande a 10 min</div>
+<div><strong>Cafés:</strong> <span class="pos">Densidad alta</span> — Castivera, Nuberu</div>
+<div><strong>Servicios:</strong> todo</div>
+<div><strong>Ruido:</strong> moderado (fines de semana más)</div>
+</div>
+<p class="verdict"><strong>Familia con bebé:</strong> ✅ ideal; ojo con ruido weekend.</p>
+</div>
+
+<div class="barrio">
+<h4>Circular-Vadillos · al norte del Centro, más tranquilo</h4>
+<p>Dos barrios gemelos articulados en torno a plazas importantes. Residencial, menos turístico, vida de barrio.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Alta</span></div>
+<div><strong>Seguridad:</strong> <span class="pos">Alta</span></div>
+<div><strong>Parques:</strong> plazas pequeñas + Campo Grande 20 min</div>
+<div><strong>Cafés:</strong> <span class="neutral">Media</span> — de barrio</div>
+<div><strong>Servicios:</strong> completos</div>
+<div><strong>Ruido:</strong> <span class="pos">Bajo</span></div>
+</div>
+<p class="verdict"><strong>Familia con bebé:</strong> ✅ ideal — tranquilo con servicios.</p>
+</div>
+
+<div class="barrio">
+<h4>Pº Zorrilla-Campo Grande · junto al parque emblema</h4>
+<p>Paseo Zorrilla como eje comercial y verde; Parque Campo Grande al lado — <em>"115.000 m² con pavos reales, jardines románticos"</em>.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Muy alta</span></div>
+<div><strong>Seguridad:</strong> <span class="pos">Alta</span></div>
+<div><strong>Parques:</strong> <span class="pos">Campo Grande al lado</span></div>
+<div><strong>Cafés:</strong> <span class="pos">Alta</span> — Nuberu, Vasi's</div>
+<div><strong>Servicios:</strong> AVE Campo Grande a 15 min</div>
+<div><strong>Ruido:</strong> <span class="neutral">Medio</span></div>
+</div>
+<p class="verdict"><strong>Familia con bebé:</strong> ✅✅ <strong>probablemente el mejor</strong> por el parque al lado.</p>
+</div>
+
+<div class="page-break"></div>
+
+<div class="plan-header plan-B">
+<h2>2. Plan B · Inversión rural con Meli puente</h2>
+<div class="plan-sub">Comprar casa rural sin mudarse · Meli+pareja 6 meses pagando GT · después short-term rental o venta</div>
+</div>
+
+<h4>Tesis</h4>
+<p>Comprar casa rural lista para mudar (sin reformar). Meli+pareja entran inmediatamente pagando renta desde GT con ventaja cambiaria. Después: short-term rental para turismo o venta. Ustedes siguen en Madrid alquilando. Cero disrupción a la pareja.</p>
+
+<h3>2.1 Top 5 candidatos · todos únicos (buen estado)</h3>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#1 · id 111222755</span><span class="price">€170.000</span></div>
+<div class="loc">Felipe Santande · Tordesillas (Urb. La Providencia)</div>
+<div class="specs"><span>282 m²</span><span>9 hab</span><span>2 baños</span><span>Chalet adosado</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ jardín · 24 min a Valladolid · ITP 4% joven · Plan Estatal rural · dos viviendas independientes en la parcela</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/111222755/" target="_blank">https://www.idealista.com/inmueble/111222755/</a></div>
+<div class="photos"><img src="photos/111222755_0.jpg"><img src="photos/111222755_1.jpg"><img src="photos/111222755_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#2 · id 107166163</span><span class="price">€70.000</span></div>
+<div class="loc">Calle Real de Santa María · Bercero (pedanía Tordesillas)</div>
+<div class="specs"><span>549 m²</span><span>5 hab</span><span>1 baño</span><span>Casa · 1930</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ jardín · ✓ trastero · 29 min a Valladolid · €128/m² (el mejor ratio) · Plan Estatal rural</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/107166163/" target="_blank">https://www.idealista.com/inmueble/107166163/</a></div>
+<div class="photos"><img src="photos/107166163_0.jpg"><img src="photos/107166163_1.jpg"><img src="photos/107166163_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#3 · id 106204131</span><span class="price">€156.000</span></div>
+<div class="loc">Calle San Vicente 15 · Casco Histórico Tordesillas</div>
+<div class="specs"><span>301 m² construidos</span><span>6 hab</span><span>1 baño</span><span>Casa · 1940</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ jardín · ✓ garaje · ✓ trastero · 24 min a Valladolid · ITP 4% joven · Plaza Mayor a 1 min</div>
+<div class="desc">"Dos casas juntas" en casco histórico peatonal de Tordesillas — muy cerca de colegios, centro de salud, comercios.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/106204131/" target="_blank">https://www.idealista.com/inmueble/106204131/</a></div>
+<div class="photos"><img src="photos/106204131_0.jpg"><img src="photos/106204131_1.jpg"><img src="photos/106204131_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#4 · id 103518822</span><span class="price">€55.000</span></div>
+<div class="loc">Calle León 12 · Foncastín · Rueda (1.410 hab)</div>
+<div class="specs"><span>348 m²</span><span>4 hab</span><span>1 baño</span><span>Casa independiente</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ garaje · 29 min a Valladolid · ITP rural 0,01% · Plan Estatal rural · €158/m² · DO Rueda (enoturismo)</div>
+<div class="desc">Foncastín es pedanía de Rueda, a 6 km del pueblo principal y a 6 km de Tordesillas. Rueda es DO vinícola con demanda de enoturismo — short-term rental angle.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/103518822/" target="_blank">https://www.idealista.com/inmueble/103518822/</a></div>
+<div class="photos"><img src="photos/103518822_0.jpg"><img src="photos/103518822_1.jpg"><img src="photos/103518822_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#5 · id 103239156</span><span class="price">€138.000</span></div>
+<div class="loc">Centro s/n · Torrelobatón</div>
+<div class="specs"><span>305 m²</span><span>5 hab</span><span>4 baños</span><span>Casa · 3 plantas</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ jardín · ✓ garaje · ✓ terraza · 29 min a Valladolid · bodega 55m² con horno de leña · Plan Estatal rural</div>
+<div class="desc">Casa en el corazón del pueblo de Torrelobatón. 4 plantas + bodega con horno de leña + despensa. 5 hab, 4 baños — excelente para alquiler de grupos grandes o familias extendidas.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/103239156/" target="_blank">https://www.idealista.com/inmueble/103239156/</a></div>
+<div class="photos"><img src="photos/103239156_0.jpg"><img src="photos/103239156_1.jpg"><img src="photos/103239156_2.jpg"></div>
+</div>
+
+<div class="page-break"></div>
+<h3>2.2 Perfil de pueblos · Plan B</h3>
+
+<div class="barrio">
+<h4>Tordesillas Casco Histórico (8.773 hab) · 24 min</h4>
+<p>El nuevo #5 de Plan B está en el casco histórico peatonal de Tordesillas. Pueblo mediano con colegios, centro de salud, piscina climatizada, comercios, supermercados a pie. Plaza Mayor a 1 minuto. Crecimiento +1.000 habitantes este siglo.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Muy alta</span> (casco peatonal)</div>
+<div><strong>Cafés:</strong> <span class="pos">Alta</span> — turismo</div>
+<div><strong>Servicios:</strong> <span class="pos">Completos</span></div>
+<div><strong>ITP:</strong> 4% joven (muni &gt;3k hab)</div>
+</div>
+</div>
+
+<div class="barrio">
+<h4>Tordesillas (8.773 hab) · 24-29 min</h4>
+<p>Pueblo histórico sobre el Duero, Tratado de Tordesillas, patrimonio + turismo cultural. Todos los servicios (colegio, hospital, consultorio, comercios). Ha crecido +1.000 habitantes este siglo.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Alta</span> — casco peatonal</div>
+<div><strong>Cafés:</strong> <span class="pos">Alta</span> — turismo mantiene oferta</div>
+<div><strong>Servicios:</strong> completos</div>
+<div><strong>Para short-term rental:</strong> <span class="pos">✅✅ mercado real</span></div>
+</div>
+</div>
+
+<div class="barrio">
+<h4>La Pedraja de Portillo (1.186 hab) · 24 min</h4>
+<p>Municipio pequeño en Área Metropolitana de Valladolid. Compacto, entorno natural.</p>
+<div class="attrs">
+<div><strong>Servicios:</strong> básicos; Portillo a 5 min</div>
+<div><strong>ITP:</strong> <span class="pos">rural 0,01%</span></div>
+<div><strong>A Valladolid:</strong> 24 min</div>
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="plan-header plan-C">
+<h2>3. Plan C · Pueblo habitual con amenities completas</h2>
+<div class="plan-sub">Casa grande con jardín + piscina + garaje · ustedes VIVEN ahí · ≤25 min de Valladolid</div>
+</div>
+
+<h4>Tesis</h4>
+<p>Vivir en pueblo a ≤25 min de Valladolid en casa grande con todas las amenities (jardín, garaje, preferible piscina). Opción intermedia entre piso ciudad e inversión rural. Aquí ustedes viven, criando al bebé con jardín propio, con acceso a Valladolid cuando lo necesitan.</p>
+
+<h4>Cuándo esta estrategia es la buena</h4>
+<ul>
+<li>Aixa prefiere ambiente más tranquilo/verde que ciudad pura.</li>
+<li>Quieren jardín propio para bebé y pets.</li>
+<li>Trabajo remoto 100% les permite no estar a 5 min del centro.</li>
+<li>Estilo de vida "slow" con coche como default.</li>
+</ul>
+
+<h4>Criterios aplicados</h4>
+<ul>
+<li>≥150 m² · Buen estado · Jardín + garaje OBLIGATORIO · Piscina bonus · ≤25 min a Valladolid · Muni ≥1.000 hab preferible</li>
+</ul>
+
+<h3>3.1 Top 5 candidatos</h3>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#1 · id 108127647</span><span class="price">€199.500</span></div>
+<div class="loc">San Miguel del Pino · pedanía Tordesillas</div>
+<div class="specs"><span>342 m²</span><span>6 hab</span><span>2 baños</span><span>Casa/chalet</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ piscina · ✓ jardín · ✓ garaje · ✓ terraza · ✓ trastero (FULL) · 24 min a Valladolid · ITP rural</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/108127647/" target="_blank">https://www.idealista.com/inmueble/108127647/</a></div>
+<div class="photos"><img src="photos/108127647_0.jpg"><img src="photos/108127647_1.jpg"><img src="photos/108127647_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#2 · id 108923225</span><span class="price">€199.500</span></div>
+<div class="loc">Calle de Onésimo Redondo · San Miguel del Pino</div>
+<div class="specs"><span>343 m²</span><span>7 hab</span><span>2 baños</span><span>Casa</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ piscina · ✓ jardín · ✓ garaje · ✓ terraza · 21 min a Valladolid · ITP 0,01%</div>
+<div class="desc">Overlap con Plan B — si la compran, cubre habitual + potencial renta de Meli los primeros 6 meses.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/108923225/" target="_blank">https://www.idealista.com/inmueble/108923225/</a></div>
+<div class="photos"><img src="photos/108923225_0.jpg"><img src="photos/108923225_1.jpg"><img src="photos/108923225_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#3 · id 101370946</span><span class="price">€124.500</span></div>
+<div class="loc">Extrarradio parcela 8 · La Pedraja de Portillo</div>
+<div class="specs"><span>429 m²</span><span>8 hab</span><span>Casa pueblo</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ jardín · ✓ garaje · ✓ terraza · ✓ trastero · 24 min · ITP 0,01% · (sin piscina pero espacio para construirla)</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/101370946/" target="_blank">https://www.idealista.com/inmueble/101370946/</a></div>
+<div class="photos"><img src="photos/101370946_0.jpg"><img src="photos/101370946_1.jpg"><img src="photos/101370946_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#4 · id 105305935</span><span class="price">€160.000</span></div>
+<div class="loc">Tordesillas (8.773 hab)</div>
+<div class="specs"><span>300 m²</span><span>3 hab</span><span>Casa/chalet</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ piscina · ✓ jardín · ✓ garaje · ✓ terraza (FULL) · 24 min · ITP 4% joven</div>
+<div class="desc">Tordesillas es pueblo grande con todos los servicios reales — colegio, hospital, consultorio, comercios.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/105305935/" target="_blank">https://www.idealista.com/inmueble/105305935/</a></div>
+<div class="photos"><img src="photos/105305935_0.jpg"><img src="photos/105305935_1.jpg"><img src="photos/105305935_2.jpg"></div>
+</div>
+
+<div class="pick">
+<div class="pick-head"><span class="rank">#5 · id 110033612</span><span class="price">€218.000</span></div>
+<div class="loc">Calle San Isidro · Boecillo (4.446 hab)</div>
+<div class="specs"><span>186 m²</span><span>4 hab</span><span>2 baños</span><span>Casa independiente · 1987</span><span class="ok">Buen estado</span></div>
+<div class="flags">✓ garaje · ✓ terraza · ✓ trastero · Parcela 1.611 m² (con espacio para piscina o jardín propio) · 18 min a Valladolid · ITP 4% joven</div>
+<div class="desc">Casa independiente en zona tranquila residencial del municipio de Boecillo (alfoz de Valladolid). Parcela de 1.611 m² con mucho espacio. Reemplazo del Cigales anterior que era finca rústica (pozo+solar, no hipotecable). Boecillo es "pueblo acogedor y hospitalario" a 18 min en coche — el más cercano del Plan C.</div>
+<div class="url"><a href="https://www.idealista.com/inmueble/110033612/" target="_blank">https://www.idealista.com/inmueble/110033612/</a></div>
+<div class="photos"><img src="photos/110033612_0.jpg"><img src="photos/110033612_1.jpg"><img src="photos/110033612_2.jpg"></div>
+</div>
+
+<div class="page-break"></div>
+<h3>3.2 Perfil de pueblos · Plan C</h3>
+
+<div class="barrio">
+<h4>San Miguel del Pino · 21-24 min · pedanía Tordesillas</h4>
+<p>Pequeña localidad a orillas del Duero, <em>"pueblo que conquista a los turistas"</em>. Frente al Parque Alameda, rodeado de zonas verdes, instalaciones deportivas y educativas.</p>
+<div class="attrs">
+<div><strong>Caminabilidad:</strong> <span class="pos">Alta</span></div>
+<div><strong>Seguridad:</strong> <span class="pos">Muy alta</span></div>
+<div><strong>Parques:</strong> Duero + zonas verdes</div>
+<div><strong>Servicios:</strong> básicos; Tordesillas 5 min</div>
+</div>
+</div>
+
+<div class="barrio">
+<h4>La Pedraja de Portillo · 1.186 hab · 24 min</h4>
+<p>Pueblo pequeño en Área Metropolitana de Valladolid. Tranquilidad máxima. Requiere coche para servicios avanzados.</p>
+</div>
+
+<div class="barrio">
+<h4>Tordesillas · 8.773 hab · 24 min</h4>
+<p>El pueblo más poblado del set. Servicios completos, casco histórico peatonal, ribera Duero, turismo cultural fuerte. El mejor balance "pueblo con masa crítica de servicios".</p>
+<div class="attrs">
+<div><strong>Cafés:</strong> <span class="pos">Alta</span> (turismo)</div>
+<div><strong>Hospital:</strong> sí</div>
+<div><strong>Colegio:</strong> sí</div>
+<div><strong>Comercios:</strong> completos</div>
+</div>
+</div>
+
+<div class="barrio">
+<h4>Cigales · 5.454 hab · 20 min</h4>
+<p>Pueblo de DO vinícola. <em>"Todo lo necesario para el día a día: supermercados, tiendas de proximidad, colegios, centro de salud"</em>. El más cercano a Valladolid del Plan C.</p>
+<div class="attrs">
+<div><strong>Servicios:</strong> <span class="pos">Completos</span></div>
+<div><strong>A Valladolid:</strong> <span class="pos">20 min</span></div>
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<h2>4. Comparativa directa de las 3 estrategias</h2>
+
+<table>
+<tr>
+<th>Dimensión</th>
+<th>Plan A · Valladolid centro</th>
+<th>Plan B · Inversión rural</th>
+<th>Plan C · Pueblo habitual</th>
+</tr>
+<tr><td><strong>Uso</strong></td><td>Habitual familia</td><td>Inversión (Meli puente + ST)</td><td>Habitual familia</td></tr>
+<tr><td><strong>Cash total</strong></td><td>€12-35k</td><td>€3-25k</td><td>€5-30k</td></tr>
+<tr><td><strong>Cuota mensual</strong></td><td>~€880/mes</td><td>~€550-750/mes</td><td>~€500-850/mes</td></tr>
+<tr><td><strong>Espacio</strong></td><td>100-115m² piso</td><td>N/A (no viven)</td><td class="pos">250-430m² casa</td></tr>
+<tr><td><strong>Jardín propio</strong></td><td class="neg">No</td><td>N/A</td><td class="pos">Sí</td></tr>
+<tr><td><strong>Piscina</strong></td><td class="neg">No</td><td>N/A</td><td class="pos">4 de 5 candidatos</td></tr>
+<tr><td><strong>Ecosistema Aixa</strong></td><td class="pos">Ciudad (propio)</td><td class="pos">Intacto (Madrid)</td><td class="neutral">Reconstruir en pueblo</td></tr>
+<tr><td><strong>Rutinas de pareja</strong></td><td>Reconstruibles en ciudad</td><td class="pos">Intactas</td><td>Reconstruibles + coche siempre</td></tr>
+<tr><td><strong>Mudanza requerida</strong></td><td>Sí (a Valladolid)</td><td>No</td><td>Sí (a pueblo)</td></tr>
+<tr><td><strong>Resuelve "vivienda familia con bebé"</strong></td><td class="pos">Sí</td><td class="neg">No (siguen Madrid)</td><td class="pos">Sí</td></tr>
+<tr><td><strong>Ingreso pasivo opcional</strong></td><td>Meli contribución gastos</td><td class="pos">Renta formal GT</td><td>Meli contribución gastos</td></tr>
+<tr><td><strong>Reversibilidad</strong></td><td class="pos">Alta (líquido)</td><td>Media</td><td>Media-baja (rural grande)</td></tr>
+<tr><td><strong>Alineación principios</strong></td><td>Alta si Aixa OK</td><td class="pos">Muy alta</td><td>Alta si Aixa quiere verde</td></tr>
+</table>
+
+<h4>Cuándo elegir cada una</h4>
+<ul>
+<li><strong>Plan A</strong> si priorizan vida urbana, cafés y amenities públicas a pie, y Aixa lo endorsa.</li>
+<li><strong>Plan B</strong> si no quieren mudarse, quieren optionality + ingreso pasivo, Madrid les sigue funcionando.</li>
+<li><strong>Plan C</strong> si priorizan espacio, jardín propio + piscina para bebé, están OK con pueblo y coche.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>5. Decisión · mi recomendación ponderada</h2>
+
+<div class="rec-box">
+<h3>Lectura final después de ver las 3</h3>
+<p>El Plan C es el que cambia la ecuación. Antes de v5 había "ciudad vs ingresos pasivos"; ahora hay <strong>"ciudad vs ingresos pasivos vs casa con jardín para criar al bebé"</strong>. Para una familia que quiere bebé en 18 meses, jardín propio + piscina + pueblo con servicios reales es una tesis fuerte que no existía antes.</p>
+
+<p><strong>Mi apuesta ponderada:</strong></p>
+<ol>
+<li><strong>Primera opción:</strong> Plan C · <em>Cigales (#5) o Tordesillas (#4)</em>. Ambos son pueblos medianos con servicios reales, casa con piscina y jardín, ≤24 min de Valladolid. El Plan C resuelve <em>"vivienda familia + jardín bebé + ingreso colchón de Meli"</em> simultáneamente.</li>
+<li><strong>Segunda opción:</strong> Plan A · <em>Pº Zorrilla-Campo Grande (#5) o Circular-Vadillos (#1)</em>. Si Aixa prefiere ciudad y caminabilidad pura.</li>
+<li><strong>Tercera opción:</strong> Plan B · <em>Cubillas o La Pedraja</em>. Si hoy no están listos para decidir habitual pero el timing con Meli urge — el Plan B compra sin mudarse y deja la decisión habitual para 12-18 meses.</li>
+</ol>
+</div>
+
+<h4>Los principios — chequeo por plan</h4>
+<table>
+<tr><th>Principio</th><th>Plan A</th><th>Plan B</th><th>Plan C</th></tr>
+<tr><td><strong>Pareja primero</strong></td><td>Aixa debe endorsar ciudad</td><td class="pos">Sin disruption</td><td>Aixa debe endorsar pueblo</td></tr>
+<tr><td><strong>Rutinas se protegen</strong></td><td>Reconstrucción en ciudad</td><td class="pos">Intactas</td><td>Reconstrucción + coche</td></tr>
+<tr><td><strong>No favores con resentimiento</strong></td><td>Renta Meli en números</td><td class="pos">Renta Meli clara</td><td>Renta Meli clara</td></tr>
+<tr><td><strong>Dar sin expectativa</strong></td><td>Si Meli no paga, no escalar</td><td class="pos">Independiente del piso</td><td>Igual</td></tr>
+<tr><td><strong>Elegir con intención</strong></td><td>¿ciudad por default?</td><td>¿B es no-decidir?</td><td>¿huida o elección?</td></tr>
+<tr><td><strong>Libertad/autonomía</strong></td><td class="pos">Alta</td><td class="pos">Máxima</td><td>Media (compromiso con pueblo)</td></tr>
+<tr><td><strong>Abundancia</strong></td><td>Espacio apenas suficiente</td><td>N/A (siguen Madrid)</td><td class="pos">Espacio abundante</td></tr>
+</table>
+
+<h2>6. Diálogos sugeridos para llegar a consenso</h2>
+<ol>
+<li><strong>Pregunta a Aixa primero (antes de ver nada):</strong> "Si imaginás tu vida en 2028 con bebé de 2 años — ¿qué entorno te da paz? ¿Un piso en Valladolid con Campo Grande al lado, o una casa con jardín en Cigales/Tordesillas a 20 min de Valladolid?"</li>
+<li><strong>Pregunta a Cesar:</strong> "¿Estás dispuesto a que el rhythm sea coche-a-casi-todo? ¿O la fricción de no poder caminar al café te va a frustrar?"</li>
+<li><strong>Visita presencial (esencial):</strong> un weekend en Valladolid combinando <em>2 pisos Plan A + 2 casas Plan C</em>. Aixa decide con el cuerpo.</li>
+<li><strong>Si las dos les cuajan:</strong> gana Plan C si quieren más espacio/jardín; Plan A si quieren más ecosistema social.</li>
+<li><strong>Si ninguna les enamora:</strong> Plan B para arrancar con Cubillas (sin mudarse), re-evaluar habitual en 12-18 meses.</li>
+<li><strong>Regla no negociable:</strong> no firmar con duda residual. Inquietud + contrato = regret.</li>
+</ol>
+
+<h2>7. Próximos pasos concretos</h2>
+<ol>
+<li><strong>Esta semana:</strong> Cesar habla con broker hipotecario — confirma ratio con €36k facturados y tipo real con ICO Aval Joven.</li>
+<li><strong>Semana 1-2:</strong> contactar a idealista los candidatos favoritos de los 3 planes para pedir visitas + ITE + cuota comunidad.</li>
+<li><strong>Weekend visitas:</strong> día 1 Valladolid ciudad (Plan A barrios), día 2 pueblos (Plan C — Cigales + Tordesillas).</li>
+<li><strong>Sunday Reset post-visita:</strong> los 2, sin prisa, con las preguntas del §6.</li>
+<li><strong>Decisión:</strong> si hay sí claro → oferta + due diligence. Si no → alquilar más grande Madrid 12-18 meses y re-evaluar.</li>
+</ol>
+
+<p class="footnote">Howl 🌙 · 2026-04-22 v6 · Reorganización estructural sobre v5 (datos idénticos, orden de secciones corregido) · 15 properties con fotos · 7 barrios/pueblos perfilados · Fuentes: idealista + Routes API + Wikipedia + SERP (Bright Data) · Drive: <a href="https://drive.google.com/drive/folders/1vetR8WB62MQJl6LymniaQW9TlFwi_vY6" target="_blank">Drive folder</a></p>
+
+</body>
+</html>
